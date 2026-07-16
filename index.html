@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Emergency Blood Network — EBN</title>
+<meta name="theme-color" content="#181B2E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#C1121F;
+    --primary-dark:#6E0A16;
+    --accent:#E5383B;
+    --ink:#0F1C3F;
+    --ink-soft:#5B6478;
+    --bg:#F7F8FB;
+    --card:#FFFFFF;
+    --text:#171A2B;
+    --text-soft:#6B7180;
+    --success:#217A55;
+    --warning:#A9720F;
+    --line:#E8EAF1;
+    --gold:#B8902E;
+    --radius:22px;
+    --radius-sm:14px;
+    --shell-bg:#E8EAF0;
+    --shadow-sm:0 1px 2px rgba(15,28,63,.05), 0 1px 1px rgba(15,28,63,.04);
+    --shadow-md:0 14px 30px -10px rgba(15,28,63,.14);
+    --shadow-lg:0 20px 44px -14px rgba(15,28,63,.24);
+    --glass-bg:rgba(15,28,63,.55);
+  }
+  [data-theme="dark"]{
+    --bg:#0E1016;
+    --card:#181A22;
+    --text:#F1EFF4;
+    --text-soft:#9C9CAE;
+    --line:#272A34;
+    --shell-bg:#08090D;
+    --ink:#F1EFF4;
+    --ink-soft:#B7B7C6;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 14px 30px -10px rgba(0,0,0,.5);
+    --shadow-lg:0 20px 44px -14px rgba(0,0,0,.6);
+    --glass-bg:rgba(8,9,13,.6);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'Hind Siliguri','Inter',sans-serif;
+    background:var(--shell-bg);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    transition:background .25s,color .25s;
+  }
+  #app-shell{
+    width:100%;
+    max-width:460px;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 0 48px rgba(15,15,25,.18);
+    overflow:hidden;
+    transition:background .25s;
+  }
+  .num{font-family:'Inter',sans-serif; font-variant-numeric:tabular-nums;}
+  ::-webkit-scrollbar{width:0;height:0;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex;align-items:center;gap:12px;
+    padding:16px 18px 15px;
+    background:linear-gradient(120deg, var(--ink) 0%, var(--primary-dark) 145%);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    color:#fff;
+    position:sticky; top:0; z-index:20;
+    box-shadow:0 6px 20px rgba(10,14,30,.2);
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .topbar .drop-mini{width:22px;height:22px;flex:0 0 auto;}
+  .topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.1px;flex:1;}
+  .topbar .sub{font-size:11px;opacity:.72;font-weight:500; letter-spacing:.2px; display:flex; align-items:center; gap:4px;}
+  .icon-btn{
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14); border-radius:12px;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+    color:#fff; cursor:pointer; position:relative; transition:transform .12s, background .15s;
+  }
+  .icon-btn:active{transform:scale(.9); background:rgba(255,255,255,.2);}
+  .icon-btn .dot{position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:#E8B33D; display:none; box-shadow:0 0 0 2px var(--ink);}
+  .icon-btn .dot.show{display:block; animation:dotPing 1.6s ease-in-out infinite;}
+  @keyframes dotPing{0%,100%{transform:scale(1);}50%{transform:scale(1.35);}}
+  .topbar-avatar{
+    width:38px;height:38px;border-radius:12px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.18);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#fff; flex:0 0 auto; cursor:pointer;
+    overflow:hidden;
+  }
+  .topbar-avatar img{width:100%;height:100%;object-fit:cover;}
+
+  /* ---------- Screen management ---------- */
+  .screen{display:none; flex:1; flex-direction:column; padding-bottom:86px;}
+  .screen.active{display:flex; animation:fadeIn .22s ease;}
+  .scroll{flex:1; overflow-y:auto;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ---------- Blood drop icon (signature element) ---------- */
+  .drop{display:inline-block;}
+  @keyframes dropPulse{
+    0%{transform:scale(1); filter:drop-shadow(0 0 0 rgba(140,19,39,.35));}
+    50%{transform:scale(1.04); filter:drop-shadow(0 0 8px rgba(140,19,39,.3));}
+    100%{transform:scale(1); filter:drop-shadow(0 0 0 rgba(140,19,39,.35));}
+  }
+  .drop.pulse{animation:dropPulse 2.2s ease-in-out infinite;}
+
+  /* ---------- Splash ---------- */
+  #screen-splash{align-items:center; justify-content:center; text-align:center; gap:18px; background:linear-gradient(165deg, var(--ink) 0%, var(--primary-dark) 100%); color:#fff; padding-bottom:0; position:relative; overflow:hidden;}
+  #screen-splash::before{content:""; position:absolute; inset:0; background:radial-gradient(360px 260px at 50% 8%, rgba(255,255,255,.08), transparent 65%);}
+  #screen-splash .drop{width:76px;height:76px; position:relative; z-index:1;}
+  #screen-splash h2{font-size:25px;margin:8px 0 0; font-weight:800; letter-spacing:-.3px; position:relative; z-index:1;}
+  #screen-splash p{margin:2px 0 0; opacity:.75; font-size:13.5px; position:relative; z-index:1;}
+  .pulse-line{width:180px; height:34px; margin-top:6px; opacity:.55; position:relative; z-index:1;}
+  .pulse-line path{stroke-dasharray:220; stroke-dashoffset:220; animation:drawPulse 2.6s ease-in-out infinite;}
+  @keyframes drawPulse{0%{stroke-dashoffset:220;}55%{stroke-dashoffset:0;}100%{stroke-dashoffset:-220;}}
+  #screen-splash .cta{
+    margin-top:22px; background:#fff; color:var(--ink); border:none;
+    padding:15px 42px; border-radius:14px; font-size:15px; font-weight:700;
+    font-family:'Hind Siliguri'; cursor:pointer; box-shadow:var(--shadow-lg); letter-spacing:.2px;
+    position:relative; z-index:1; transition:transform .12s;
+  }
+  #screen-splash .cta:active{transform:scale(.96);}
+  #screen-splash .demo-flag{margin-top:18px; font-size:10.5px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); padding:6px 14px; border-radius:20px; letter-spacing:.3px; position:relative; z-index:1;}
+
+  /* ---------- Generic elements ---------- */
+  .section-pad{padding:16px 18px;}
+  .card{
+    background:var(--card); border-radius:var(--radius); padding:17px;
+    box-shadow:var(--shadow-sm); border:1px solid var(--line);
+    margin-bottom:12px; transition:box-shadow .18s, transform .18s;
+  }
+  .card.bg-A{border-left:3px solid #C1121F;}
+  .card.bg-O{border-left:3px solid #217A55;}
+  .card.bg-B{border-left:3px solid #1B4F8C;}
+  .card.bg-AB{border-left:3px solid #5B2E8C;}
+
+  label{display:block; font-size:12px; font-weight:600; color:var(--text-soft); margin:14px 0 6px; letter-spacing:.15px;}
+  label:first-of-type{margin-top:0;}
+  input[type=text], input[type=tel], input[type=number], input[type=date], select, textarea{
+    width:100%; padding:12px 13px; border-radius:10px; border:1.5px solid var(--line);
+    background:var(--card); font-family:inherit; font-size:14.5px; color:var(--text); outline:none;
+    transition:border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--primary);}
+  select:disabled{background:#F4F2F0; color:#B0AEA9;}
+  .row2{display:flex; gap:10px;}
+  .row2 > div{flex:1;}
+  .row2 > .btn{flex:1;}
+
+  /* ---------- Registration step wizard ---------- */
+  .reg-progress{padding:14px 18px 4px; background:var(--bg);}
+  .reg-progress-track{height:6px; background:var(--line); border-radius:6px; overflow:hidden;}
+  .reg-progress-fill{height:100%; width:33.33%; background:linear-gradient(90deg,var(--primary),var(--accent)); border-radius:6px; transition:width .25s ease;}
+  .reg-progress-label{font-size:11px; color:var(--text-soft); font-weight:700; margin-top:6px; letter-spacing:.2px;}
+  .reg-step{display:none;}
+  .reg-step.active{display:block; animation:fadeIn .22s ease;}
+
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    border:none; border-radius:13px; padding:14px 16px; font-size:14.5px; font-weight:700;
+    font-family:'Hind Siliguri'; cursor:pointer; width:100%; letter-spacing:.1px;
+    transition:transform .1s, box-shadow .15s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:linear-gradient(150deg,var(--primary),var(--primary-dark)); color:#fff; box-shadow:0 8px 18px -6px rgba(193,18,31,.5);}
+  .btn-primary:active{transform:scale(.97) translateY(1px);}
+  .btn-outline{background:var(--card); color:var(--ink); border:1.5px solid var(--line);}
+  .btn-soft{background:#F5EDEC; color:var(--primary);}
+  .btn-sm{padding:9px 12px; font-size:12.5px; border-radius:9px; width:auto;}
+  .btn-success{background:var(--success); color:#fff;}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+
+  /* ---------- Home ---------- */
+  .home-search{margin:16px 18px 4px; position:relative; cursor:pointer;}
+  .home-search input{padding-left:40px; background:var(--card); cursor:pointer; box-shadow:var(--shadow-sm);}
+  .home-search svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--text-soft); pointer-events:none;}
+
+  .emergency-banner{
+    margin:14px 18px 4px; border-radius:var(--radius); padding:16px 18px; display:flex; align-items:center; gap:14px;
+    background:linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%); color:#fff; cursor:pointer;
+    box-shadow:0 14px 28px -10px rgba(193,18,31,.45); position:relative; overflow:hidden;
+  }
+  .emergency-banner::after{content:""; position:absolute; inset:0; background:radial-gradient(120px 90px at 90% -20%, rgba(255,255,255,.18), transparent 70%);}
+  .emergency-banner .eb-ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.16); display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .emergency-banner h4{margin:0 0 2px; font-size:14.5px; font-weight:800;}
+  .emergency-banner p{margin:0; font-size:11.5px; opacity:.85;}
+  .emergency-banner .eb-arrow{margin-right:auto; opacity:.8;}
+
+  .home-actions{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:18px 18px 6px;}
+  .action-card{
+    border-radius:var(--radius); padding:16px 14px; display:flex; flex-direction:column; gap:10px;
+    cursor:pointer; border:1px solid var(--line); text-align:right; width:100%;
+    background:var(--card); box-shadow:var(--shadow-sm); position:relative; overflow:hidden;
+    transition:transform .12s, box-shadow .15s;
+  }
+  .action-card:active{transform:scale(.97); box-shadow:var(--shadow-sm);}
+  .action-card .txt{text-align:right;}
+  .action-card .icon-chip{width:42px;height:42px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; margin-left:auto;}
+  .action-card.need .icon-chip{background:#FBEAEA;}
+  .action-card.give .icon-chip{background:#E9F3EC;}
+  .action-card.nearby .icon-chip{background:#EAEFF8;}
+  .action-card.banks .icon-chip{background:#FBF1E1;}
+  .action-card .drop{width:20px;height:20px;}
+  .action-card h3{margin:0 0 2px; font-size:13.5px; color:var(--ink); font-weight:700;}
+  .action-card p{margin:0; font-size:10.5px; color:var(--text-soft); line-height:1.4;}
+
+  .section-title{display:flex; align-items:center; justify-content:space-between; padding:8px 18px 6px;}
+  .section-title h4{font-size:13.5px; margin:0; color:var(--ink); font-weight:700; letter-spacing:.1px;}
+  .section-title a{font-size:12px; color:var(--primary); text-decoration:none; font-weight:600; cursor:pointer;}
+
+  .req-item{display:flex; gap:12px; align-items:center;}
+  .bg-badge{
+    width:46px;height:46px;border-radius:14px; flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center; font-weight:800; font-size:13.5px;
+    background:linear-gradient(150deg,#FBEAEA,#F5DADB); color:var(--primary);
+  }
+  .req-item .info{flex:1; min-width:0;}
+  .req-item .info h5{margin:0 0 3px; font-size:14.5px; color:var(--ink); font-weight:700; display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+  .req-item .info span{font-size:11.5px; color:var(--text-soft); display:block; margin-top:1px;}
+  .urgency-tag{font-size:10px; font-weight:700; padding:3.5px 9px; border-radius:20px; letter-spacing:.2px;}
+  .urgency-critical{background:#FBEAEA; color:#C1121F;}
+  .urgency-high{background:#FBF1E1; color:#8A5A0C;}
+  .urgency-normal{background:#E9F3EC; color:#217A55;}
+  .status-tag{font-size:10px; font-weight:700; padding:3.5px 9px; border-radius:20px; margin-left:4px; letter-spacing:.2px;}
+  .status-pending{background:#FBF1E1; color:#8A5A0C;}
+  .status-accepted{background:#EAEFF8; color:#1B4F8C;}
+  .status-completed{background:#E9F3EC; color:#217A55;}
+  .status-cancelled{background:#EFEDEA; color:#6B6E82;}
+
+  .empty-state{display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 24px; color:var(--text-soft);}
+  .empty-state .emoji{font-size:38px; margin-bottom:10px; filter:grayscale(.15);}
+  .empty-state .drop{width:40px; height:40px; opacity:.35; margin-bottom:12px;}
+  .empty-state p{font-size:13px; margin:0 0 4px; font-weight:600; color:var(--ink);}
+  .empty-state .sub{font-size:11.5px; color:var(--text-soft); font-weight:500;}
+
+  /* ---------- skeletons ---------- */
+  .skel{background:linear-gradient(90deg,var(--line) 25%,#f2efec 37%,var(--line) 63%); background-size:400% 100%; animation:skel 1.4s ease infinite; border-radius:12px;}
+  @keyframes skel{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
+  .skel-card{height:78px; border-radius:var(--radius); margin-bottom:12px;}
+
+  /* ---------- Bottom nav ---------- */
+  .bottom-nav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:460px; background:var(--card); border-top:1px solid var(--line);
+    display:flex; align-items:flex-end; z-index:30; box-shadow:0 -6px 20px rgba(15,28,63,.06);
+    padding-top:6px;
+  }
+  .nav-btn{
+    flex:1; border:none; background:none; padding:9px 0 10px; display:flex; flex-direction:column;
+    align-items:center; gap:4px; color:#B7BCC8; font-family:'Hind Siliguri'; font-size:10px; cursor:pointer;
+    font-weight:600; letter-spacing:.1px; position:relative; transition:color .15s, transform .12s;
+  }
+  .nav-btn:active{transform:scale(.92);}
+  .nav-btn svg{width:20px;height:20px;}
+  .nav-btn.active{color:var(--primary); font-weight:700;}
+  .nav-btn.active::before{content:""; position:absolute; top:0; width:20px; height:3px; border-radius:0 0 4px 4px; background:var(--primary);}
+  .nav-btn[data-nav="request"]{
+    color:#fff; margin-top:-22px; padding-bottom:12px;
+  }
+  .nav-btn[data-nav="request"] .fab-circle{
+    width:50px;height:50px;border-radius:16px; background:linear-gradient(150deg,var(--primary),var(--primary-dark));
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -6px rgba(193,18,31,.55);
+    border:3px solid var(--card);
+  }
+  .nav-btn[data-nav="request"] svg{width:22px;height:22px;}
+  .nav-btn[data-nav="request"].active::before{display:none;}
+  .nav-btn[data-nav="request"] span{color:var(--ink); font-weight:700;}
+
+  /* ---------- SOS floating button ---------- */
+  .sos-btn{
+    position:fixed; left:50%; transform:translateX(calc(-50% + 178px)); bottom:112px; z-index:40;
+    width:48px;height:48px;border-radius:15px; background:var(--ink); color:#fff; border:none;
+    box-shadow:var(--shadow-lg); font-weight:800; font-size:10px; letter-spacing:.3px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:transform .12s;
+  }
+  .sos-btn:active{transform:translateX(calc(-50% + 178px)) scale(.9);}
+  .sos-btn::before{content:""; position:absolute; inset:-3px; border-radius:17px; border:1.5px solid var(--primary); opacity:.5;}
+
+  /* ---------- Request form ---------- */
+  .urgency-picker{display:flex; gap:8px;}
+  .urg-opt{
+    flex:1; padding:10px 4px; text-align:center; border-radius:10px; border:1.5px solid var(--line);
+    font-size:12px; font-weight:700; cursor:pointer; color:var(--text-soft); background:var(--card);
+  }
+  .urg-opt.sel-normal{background:#E9F3EC; border-color:var(--success); color:var(--success);}
+  .urg-opt.sel-high{background:#FBF1E1; border-color:var(--warning); color:#8A5A0C;}
+  .urg-opt.sel-critical{background:#FBEAEA; border-color:var(--primary); color:var(--primary);}
+  #screen-request.critical-mode .card.request-form-card{
+    border:1.5px solid var(--primary);
+    box-shadow:0 0 0 4px rgba(140,19,39,.08);
+  }
+
+  /* ---------- Donor list / filters ---------- */
+  .search-box{position:relative; margin:0 18px 10px;}
+  .search-box input{padding-left:38px;}
+  .search-box svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-soft);}
+  .filter-bar{display:flex; gap:8px; padding:2px 18px 12px; overflow-x:auto;}
+  .chip{
+    flex:0 0 auto; padding:8px 14px; border-radius:9px; border:1.5px solid var(--line);
+    background:var(--card); font-size:12px; font-weight:600; color:var(--text-soft); cursor:pointer; white-space:nowrap;
+  }
+  .chip.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+  .adv-filter-toggle{padding:2px 18px 8px;}
+  .adv-filter-panel{display:none; padding:0 18px 10px; gap:8px; flex-direction:column;}
+  .adv-filter-panel.show{display:flex;}
+  .donor-card{display:flex; align-items:center; gap:12px;}
+  .avatar{
+    width:48px;height:48px;border-radius:16px; background:linear-gradient(150deg,#FBEAEA,#F5DADB); color:var(--primary);
+    display:flex;align-items:center;justify-content:center; font-weight:800; font-size:15px; flex:0 0 auto;
+    overflow:hidden; position:relative;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;}
+  .donor-card .info{flex:1; min-width:0;}
+  .donor-card .info h5{margin:0 0 2px; font-size:14.5px; color:var(--ink); font-weight:700; display:flex; align-items:center; gap:4px;}
+  .donor-card .info span{font-size:11.5px; color:var(--text-soft); display:block;}
+  .avail-dot{width:7px;height:7px;border-radius:50%;background:var(--success); display:inline-block; margin-left:4px; box-shadow:0 0 0 2px rgba(33,122,85,.15);}
+  .avail-dot.off{background:#C7C4BF; box-shadow:none;}
+  .verified-badge{width:14px;height:14px; color:var(--gold);}
+  .donor-actions{display:flex; gap:6px; flex-wrap:wrap;}
+  .icon-round{
+    width:37px;height:37px; border-radius:12px; border:none; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:transform .12s;
+  }
+  .icon-round:active{transform:scale(.88);}
+  .icon-round.call{background:#E9F3EC; color:var(--success);}
+  .icon-round.wa{background:#E7F5EC; color:#1DA851;}
+  .icon-round.fav{background:#FBF1E1; color:#8A5A0C;}
+  .icon-round.fav.active{background:var(--gold); color:#fff;}
+
+  /* ---------- Notifications ---------- */
+  .notif-card{border-left:3px solid var(--primary);}
+  .notif-card .top-row{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;}
+  .notif-card .dist{font-size:12px; font-weight:700; color:var(--ink);}
+  .notif-actions{display:flex; gap:8px; margin-top:10px;}
+  .notif-actions .btn{padding:10px;}
+
+  /* ---------- Profile ---------- */
+  .profile-head{display:flex; align-items:center; gap:14px; padding:22px 18px 24px; background:linear-gradient(135deg, var(--ink) 0%, var(--primary-dark) 150%); margin:0 0 14px; position:relative; border-radius:0 0 26px 26px;}
+  .profile-head .avatar{width:60px;height:60px; font-size:19px; cursor:pointer; border:2.5px solid rgba(255,255,255,.3); background:rgba(255,255,255,.15); color:#fff;}
+  .profile-head h3{margin:0 0 3px; font-size:17px; color:#fff; font-weight:800; display:flex; align-items:center; gap:5px;}
+  .profile-head span{font-size:12px; color:rgba(255,255,255,.72);}
+  .toggle-row{display:flex; align-items:center; justify-content:space-between;}
+  .switch{position:relative; width:44px; height:25px; flex:0 0 auto;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; background:#D8D5D0; border-radius:20px; cursor:pointer; transition:.2s;}
+  .slider:before{content:""; position:absolute; height:19px; width:19px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s;}
+  input:checked + .slider{background:var(--success);}
+  input:checked + .slider:before{transform:translateX(19px);}
+
+  .stat-grid{display:flex; gap:10px;}
+  .stat-box{flex:1; background:var(--card); border-radius:16px; padding:14px 10px; text-align:center; border:1px solid var(--line); box-shadow:var(--shadow-sm);}
+  .stat-box .n{font-size:20px; font-weight:800; color:var(--ink); font-family:'Inter';}
+  .stat-box .l{font-size:10.5px; color:var(--text-soft); margin-top:3px;}
+
+  .eligibility-banner{border-radius:12px; padding:12px 14px; font-size:12.5px; font-weight:600; display:flex; gap:8px; align-items:center;}
+  .eligibility-banner.ok{background:#E9F3EC; color:var(--success);}
+  .eligibility-banner.wait{background:#FBF1E1; color:#8A5A0C;}
+
+  .tabs{display:flex; gap:6px; padding:4px 18px 12px;}
+  .tab-btn{flex:1; padding:9px; text-align:center; border-radius:9px; border:1.5px solid var(--line); background:var(--card); font-weight:700; font-size:12.5px; color:var(--text-soft); cursor:pointer;}
+  .tab-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+  .more-list{background:var(--card); border-radius:var(--radius); overflow:hidden; margin-bottom:14px; border:1px solid var(--line);}
+  .more-item{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line); cursor:pointer; transition:background .12s;}
+  .more-item:last-child{border-bottom:none;}
+  .more-item:active{background:var(--bg);}
+  .more-item .ic{width:34px;height:34px;border-radius:9px;background:#F5EAEA;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .more-item .lbl{flex:1; font-size:13.5px; font-weight:600; color:var(--ink);}
+  .more-item .chev{color:var(--text-soft);}
+  .badge-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .badge-pill{display:flex; align-items:center; gap:6px; background:#F5EAEA; color:var(--primary); padding:7px 12px; border-radius:9px; font-size:11.5px; font-weight:700;}
+  .badge-pill.locked{background:var(--line); color:var(--text-soft); opacity:.6;}
+
+  .toast{
+    position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; padding:11px 20px; border-radius:12px; font-size:13px;
+    opacity:0; pointer-events:none; transition:.25s; z-index:60; white-space:nowrap; font-weight:600;
+    display:flex; align-items:center; gap:8px; max-width:88%; overflow:hidden; text-overflow:ellipsis;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  .field-error{font-size:11.5px; color:var(--accent); margin-top:4px; display:none;}
+  .helper{font-size:11px; color:var(--text-soft); margin-top:4px;}
+  h2.page-title{font-size:18px; margin:14px 18px 4px;}
+  .back-row{display:flex; align-items:center; gap:10px;}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{position:fixed; inset:0; background:rgba(15,15,25,.55); display:none; align-items:flex-end; justify-content:center; z-index:70;}
+  .modal-overlay.show{display:flex;}
+  .modal-sheet{
+    width:100%; max-width:460px; background:var(--bg); border-radius:22px 22px 0 0; max-height:88vh; overflow-y:auto;
+    padding:20px; animation:slideUp .22s ease; box-shadow:0 -12px 40px rgba(15,15,25,.25);
+  }
+  @keyframes slideUp{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  .modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .modal-head h3{margin:0; font-size:15.5px; color:var(--ink); font-weight:700;}
+  .modal-close{background:var(--line); border:none; width:30px; height:30px; border-radius:9px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text);}
+
+  /* hospital / bloodbank */
+  .place-card{display:flex; gap:12px; align-items:flex-start;}
+  .place-card .ic{width:44px;height:44px;border-radius:12px;background:#F5EAEA;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .place-card .info{flex:1;}
+  .place-card h5{margin:0 0 3px; font-size:14px; color:var(--ink);}
+  .place-card span{font-size:11.5px; color:var(--text-soft); display:block;}
+  .place-actions{display:flex; gap:8px; margin-top:10px;}
+
+  /* stats screen */
+  .stat-hero{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 18px 8px;}
+  .stat-hero .card{margin-bottom:0; text-align:center;}
+  .stat-hero .card .big{font-size:22px; font-weight:800; color:var(--ink); font-family:'Inter';}
+  .stat-hero .card .lbl{font-size:11px; color:var(--text-soft); margin-top:4px;}
+  .progress-ring{width:104px;height:104px; border-radius:50%; margin:6px auto 4px; display:flex; align-items:center; justify-content:center; position:relative;}
+  .progress-ring .center{width:78px;height:78px;border-radius:50%; background:var(--card); display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .progress-ring .center .n{font-size:19px; font-weight:800; color:var(--ink); font-family:'Inter';}
+  .progress-ring .center .l{font-size:9.5px; color:var(--text-soft); margin-top:1px;}
+  .bar-row{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+  .bar-row .lbl{width:38px; font-size:12px; font-weight:700; color:var(--text-soft);}
+  .bar-track{flex:1; height:9px; background:var(--line); border-radius:6px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--primary); border-radius:6px;}
+  .bar-row .val{width:26px; text-align:right; font-size:11.5px; color:var(--text-soft);}
+
+  /* admin */
+  .admin-row{display:flex; align-items:center; gap:10px;}
+  .admin-row .info{flex:1; min-width:0;}
+  .admin-row .info h5{margin:0 0 2px; font-size:14px; color:var(--ink);}
+  .admin-row .info span{font-size:11px; color:var(--text-soft);}
+  .admin-actions{display:flex; gap:6px;}
+
+  .lang-toggle, .theme-toggle-row{display:flex; align-items:center; justify-content:space-between;}
+  .seg{display:flex; background:var(--line); border-radius:10px; padding:3px; gap:3px;}
+  .seg button{flex:1; border:none; background:none; padding:8px 10px; border-radius:8px; font-weight:700; font-size:12.5px; color:var(--text-soft); cursor:pointer; font-family:inherit;}
+  .seg button.active{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
+
+  .qr-wrap{display:flex; flex-direction:column; align-items:center; gap:12px; padding:10px 0;}
+  #qr-canvas-holder{background:#fff; padding:12px; border-radius:12px; border:1px solid var(--line);}
+
+  .offline-banner{background:#FBF1E1; color:#8A5A0C; font-size:11.5px; font-weight:600; text-align:center; padding:7px; display:none;}
+  .offline-banner.show{display:block;}
+
+  .expiry-chip{font-size:10px; color:var(--text-soft); background:var(--line); padding:2px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:3px;}
+</style>
+</head>
+<body>
+<div id="app-shell">
+
+  <div class="offline-banner" id="offline-banner">📡 অফলাইন মোড — শেষ সংরক্ষিত তথ্য দেখানো হচ্ছে</div>
+
+  <!-- ============ SPLASH ============ -->
+  <div class="screen active" id="screen-splash">
+    <svg class="drop pulse" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#fff"/></svg>
+    <h2 data-t="appName">Emergency Blood Network</h2>
+    <p data-t="tagline">রক্ত দিন, জীবন বাঁচান</p>
+    <svg class="pulse-line" viewBox="0 0 180 34" fill="none"><path d="M0 17 H50 L60 4 L72 30 L82 17 H100 L108 8 L116 26 L124 17 H180" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button class="cta" id="splash-cta" data-t="start">শুরু করুন</button>
+    <p style="margin-top:14px; font-size:11.5px; opacity:.6;" data-t="oneAccount">একটাই অ্যাকাউন্ট — ডোনার ও সিকার একসাথে</p>
+    <div class="demo-flag" id="mode-flag">মোড লোড হচ্ছে…</div>
+  </div>
+
+  <!-- ============ PHONE LOGIN / OTP ============ -->
+  <div class="screen" id="screen-login">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('splash')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="loginTitle">মোবাইল যাচাই</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card">
+        <div id="login-step-phone">
+          <label data-t="phoneLabel">মোবাইল নম্বর</label>
+          <input type="tel" id="login-phone" placeholder="01XXXXXXXXX">
+          <p class="helper" data-t="otpHelper">আপনার নম্বরে একটি ৬ ডিজিটের OTP কোড পাঠানো হবে।</p>
+          <div style="height:8px;"></div>
+          <button class="btn btn-primary" id="btn-send-otp" onclick="sendOtp()" data-t="sendOtp">OTP পাঠান</button>
+          <div id="recaptcha-container" style="margin-top:10px;"></div>
+        </div>
+        <div id="login-step-otp" style="display:none;">
+          <label data-t="otpLabel">OTP কোড</label>
+          <input type="text" id="login-otp" placeholder="------" maxlength="6">
+          <div style="height:8px;"></div>
+          <button class="btn btn-primary" onclick="verifyOtp()" data-t="verifyOtp">যাচাই করুন</button>
+          <button class="btn btn-outline" style="margin-top:8px;" onclick="resetOtpStep()" data-t="changeNumber">নম্বর পরিবর্তন করুন</button>
+        </div>
+      </div>
+      <p class="helper" style="text-align:center;" id="demo-otp-hint"></p>
+    </div>
+  </div>
+
+  <!-- ============ REGISTER ============ -->
+  <div class="screen" id="screen-register">
+    <div class="topbar">
+      <button class="icon-btn" onclick="backFromRegister()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="createProfile">প্রোফাইল তৈরি করুন</h1>
+    </div>
+    <div class="reg-progress">
+      <div class="reg-progress-track"><div class="reg-progress-fill" id="reg-progress-fill"></div></div>
+      <div class="reg-progress-label" id="reg-progress-label">ধাপ ১ / ৩</div>
+    </div>
+    <div class="scroll section-pad">
+      <p class="helper" style="margin-bottom:10px;" data-t="regHelper">একটি প্রোফাইল — প্রয়োজনে আপনি রক্ত খুঁজবেন, সময় হলে আপনি নিজেই একজন ডোনার।</p>
+
+      <div class="reg-step active" id="reg-step-1">
+        <label data-t="fullName">পূর্ণ নাম</label>
+        <input type="text" id="reg-name" placeholder="যেমনঃ রাহাত হোসেন">
+        <div class="field-error" id="err-reg-name">নাম আবশ্যক</div>
+
+        <label data-t="mobile">মোবাইল নম্বর (OTP যাচাই)</label>
+        <input type="tel" id="reg-phone" placeholder="01XXXXXXXXX" readonly>
+
+        <div class="row2">
+          <div>
+            <label data-t="bloodGroup">রক্তের গ্রুপ</label>
+            <select id="reg-bg">
+              <option value="">নির্বাচন করুন</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+          </div>
+          <div>
+            <label data-t="gender">লিঙ্গ</label>
+            <select id="reg-gender">
+              <option value="">নির্বাচন করুন</option>
+              <option value="male">পুরুষ</option>
+              <option value="female">মহিলা</option>
+              <option value="other">অন্যান্য</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:6px;"></div>
+        <button class="btn btn-primary" onclick="regNext()" data-t="nextStep">পরবর্তী ধাপ →</button>
+      </div>
+
+      <div class="reg-step" id="reg-step-2">
+        <div class="row2">
+          <div>
+            <label style="margin-top:0;" data-t="dob">জন্মতারিখ</label>
+            <input type="date" id="reg-dob">
+          </div>
+          <div>
+            <label style="margin-top:0;" data-t="weight">ওজন (কেজি)</label>
+            <input type="number" id="reg-weight" placeholder="৫৫">
+          </div>
+        </div>
+
+        <label data-t="lastDonation">শেষ রক্তদানের তারিখ (যদি থাকে)</label>
+        <input type="date" id="reg-lastdonation">
+        <p class="helper" data-t="lastDonationHelper">খালি রাখুন যদি আগে কখনো রক্ত না দিয়ে থাকেন।</p>
+
+        <div style="height:6px;"></div>
+        <div class="row2">
+          <button class="btn btn-outline" onclick="regBack()" data-t="prevStep">← পূর্বের ধাপ</button>
+          <button class="btn btn-primary" onclick="regNext()" data-t="nextStep">পরবর্তী ধাপ →</button>
+        </div>
+      </div>
+
+      <div class="reg-step" id="reg-step-3">
+        <label style="margin-top:0;" data-t="division">বিভাগ (Division)</label>
+        <select id="reg-division" onchange="onDivisionChange('reg')"></select>
+
+        <label data-t="district">জেলা (District)</label>
+        <select id="reg-district" disabled onchange="onDistrictChange('reg')"></select>
+
+        <label data-t="upazila">উপজেলা / থানা</label>
+        <select id="reg-upazila" disabled onchange="onUpazilaOtherCheck('reg')"><option value="">আগে জেলা নির্বাচন করুন</option></select>
+        <input type="text" id="reg-upazila-other" placeholder="উপজেলার নাম লিখুন" style="display:none; margin-top:8px;">
+
+        <label data-t="addressLabel">বিস্তারিত ঠিকানা (গ্রাম/রোড/এলাকা)</label>
+        <textarea id="reg-address" rows="2" placeholder="বাড়ি নং, রোড, এলাকার নাম"></textarea>
+
+        <label class="toggle-row" style="margin-top:16px;">
+          <span style="font-size:13px; font-weight:600;" data-t="useGps">সঠিক দূরত্বের জন্য GPS লোকেশন ব্যবহার করুন</span>
+          <span class="switch"><input type="checkbox" id="reg-gps-consent" checked><span class="slider"></span></span>
+        </label>
+
+        <div style="height:8px;"></div>
+        <div class="row2">
+          <button class="btn btn-outline" onclick="regBack()" data-t="prevStep">← পূর্বের ধাপ</button>
+          <button class="btn btn-primary" onclick="submitRegistration()" data-t="completeProfile">প্রোফাইল সম্পন্ন করুন</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <div class="screen" id="screen-home">
+    <div class="topbar">
+      <div class="topbar-avatar" id="home-avatar" onclick="go('profile')">?</div>
+      <div style="flex:1; min-width:0;">
+        <h1 id="home-greeting">স্বাগতম</h1>
+        <div class="sub"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/></svg> <span id="home-location">—</span></div>
+      </div>
+      <button class="icon-btn" onclick="go('notifications')" title="নোটিফিকেশন">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+        <span class="dot" id="notif-dot"></span>
+      </button>
+    </div>
+    <div class="scroll">
+      <div class="home-search" onclick="go('donors')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" readonly placeholder="ডোনার খুঁজুন — নাম, এলাকা বা গ্রুপ দিয়ে…" style="pointer-events:none;">
+      </div>
+
+      <div class="emergency-banner" onclick="triggerSOS()">
+        <div class="eb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div>
+        <div class="eb-arrow">
+          <h4 data-t="sosBannerTitle">তাৎক্ষণিক SOS পাঠান</h4>
+          <p data-t="sosBannerSub">সব সামঞ্জস্যপূর্ণ ডোনারকে একসাথে জানান</p>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+
+      <div class="home-actions">
+        <button class="action-card need" onclick="go('request')">
+          <div class="icon-chip"><svg class="drop" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#C1121F"/></svg></div>
+          <div class="txt"><h3 data-t="needBlood">আমার রক্ত প্রয়োজন</h3><p data-t="needBloodSub">জরুরি রিকোয়েস্ট ফর্ম — ১ মিনিটেই</p></div>
+        </button>
+        <button class="action-card give" onclick="go('profile')">
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#217A55" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+          <div class="txt"><h3 data-t="wantDonate">আমি রক্ত দিতে চাই</h3><p data-t="wantDonateSub">Availability চালু/বন্ধ করুন</p></div>
+        </button>
+        <button class="action-card nearby" onclick="go('donors')">
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4F8C" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c1-3.6 3.6-5.5 6.5-5.5s5.5 1.9 6.5 5.5"/><circle cx="17" cy="7" r="2.4"/><path d="M15.5 14.2c2.4.2 4.3 2 5 5.3"/></svg></div>
+          <div class="txt"><h3 data-t="nearbyDonorsTitle">নিকটতম ডোনার</h3><p data-t="nearbyDonorsSub">আশেপাশের উপলব্ধ ডোনার দেখুন</p></div>
+        </button>
+        <button class="action-card banks" onclick="go('hospitals')">
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A5A0C" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
+          <div class="txt"><h3 data-t="bloodBanksTitle">ব্লাড ব্যাংক</h3><p data-t="bloodBanksSub">হাসপাতাল ও ব্লাড ব্যাংক খুঁজুন</p></div>
+        </button>
+      </div>
+
+      <div class="section-title"><h4 data-t="recentInArea">এলাকার সাম্প্রতিক রিকোয়েস্ট</h4><a onclick="go('donors')" data-t="seeAll">সব দেখুন</a></div>
+      <div class="section-pad" style="padding-top:2px;" id="home-recent-requests"></div>
+    </div>
+  </div>
+
+  <!-- ============ REQUEST FORM ============ -->
+  <div class="screen" id="screen-request">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 id="request-form-title" data-t="emergencyRequest">ইমার্জেন্সি রিকোয়েস্ট</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card request-form-card">
+        <label style="margin-top:0;" data-t="urgencyLabel">জরুরি মাত্রা (Urgency)</label>
+        <div class="urgency-picker">
+          <div class="urg-opt" data-urg="normal" onclick="setUrgency('normal')" data-t="normal">স্বাভাবিক</div>
+          <div class="urg-opt" data-urg="high" onclick="setUrgency('high')" data-t="high">উচ্চ</div>
+          <div class="urg-opt" data-urg="critical" onclick="setUrgency('critical')" data-t="critical">ক্রিটিকাল</div>
+        </div>
+
+        <label data-t="patientName">রোগীর নাম</label>
+        <input type="text" id="rq-patient" placeholder="রোগীর নাম">
+
+        <div class="row2">
+          <div>
+            <label data-t="bloodGroup">রক্তের গ্রুপ</label>
+            <select id="rq-bg">
+              <option value="">নির্বাচন</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+          </div>
+          <div>
+            <label data-t="unitsNeeded">প্রয়োজনীয় ইউনিট</label>
+            <input type="number" id="rq-units" placeholder="২">
+          </div>
+        </div>
+
+        <label data-t="hospitalName">হাসপাতালের নাম</label>
+        <input type="text" id="rq-hospital" placeholder="যেমনঃ ঢাকা মেডিকেল কলেজ হাসপাতাল">
+
+        <label data-t="divDist">বিভাগ / জেলা</label>
+        <div class="row2">
+          <select id="rq-division" onchange="onDivisionChange('rq')"></select>
+          <select id="rq-district" disabled onchange="onDistrictChange('rq')"></select>
+        </div>
+
+        <label data-t="upazila">উপজেলা / থানা</label>
+        <select id="rq-upazila" disabled><option value="">আগে জেলা নির্বাচন করুন</option></select>
+
+        <label data-t="neededTime">প্রয়োজনের সময়</label>
+        <input type="text" id="rq-time" placeholder="যেমনঃ আজ রাত ৯টা / এখনই">
+
+        <label data-t="contactNumber">কন্টাক্ট নম্বর</label>
+        <input type="tel" id="rq-contact" placeholder="01XXXXXXXXX">
+
+        <label data-t="expiryLabel">রিকোয়েস্ট মেয়াদ (ঘণ্টা)</label>
+        <input type="number" id="rq-expiry-hours" placeholder="২৪" value="24">
+
+        <div style="height:6px;"></div>
+        <button class="btn btn-primary" id="rq-submit-btn" onclick="submitRequest()" data-t="postRequest">রিকোয়েস্ট পোস্ট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DONORS ============ -->
+  <div class="screen" id="screen-donors">
+    <div class="topbar">
+      <svg class="drop" width="22" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#fff"/></svg>
+      <h1 data-t="nearestDonors">নিকটতম ডোনার</h1>
+      <button class="icon-btn" onclick="requestGpsAndRefresh()" title="GPS">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="6"/></svg>
+      </button>
+    </div>
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="donor-search" placeholder="নাম বা এলাকা দিয়ে খুঁজুন…" oninput="renderDonors()">
+    </div>
+    <div class="filter-bar" id="bg-filter-bar"></div>
+    <div class="adv-filter-toggle"><a onclick="toggleAdvFilter()" style="font-size:12px; color:var(--accent); font-weight:600; cursor:pointer;" data-t="advFilters">+ বিস্তারিত ফিল্টার</a></div>
+    <div class="adv-filter-panel" id="adv-filter-panel">
+      <div class="row2">
+        <select id="filter-division" onchange="onFilterDivisionChange()"><option value="">সব বিভাগ</option></select>
+        <select id="filter-district" onchange="renderDonors()"><option value="">সব জেলা</option></select>
+      </div>
+      <div class="row2">
+        <select id="filter-avail" onchange="renderDonors()">
+          <option value="all">সব</option>
+          <option value="available">শুধু উপলব্ধ</option>
+        </select>
+        <select id="filter-distance" onchange="renderDonors()">
+          <option value="0">যেকোনো দূরত্ব</option>
+          <option value="5">৫ কিমি এর মধ্যে</option>
+          <option value="10">১০ কিমি এর মধ্যে</option>
+          <option value="25">২৫ কিমি এর মধ্যে</option>
+        </select>
+      </div>
+    </div>
+    <div class="scroll section-pad" id="donor-list"></div>
+  </div>
+
+  <!-- ============ NOTIFICATIONS ============ -->
+  <div class="screen" id="screen-notifications">
+    <div class="topbar">
+      <svg class="drop" width="22" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#fff"/></svg>
+      <h1 data-t="notifications">নোটিফিকেশন</h1>
+    </div>
+    <div class="tabs">
+      <div class="tab-btn active" id="notif-tab-match" onclick="switchNotifTab('match')" data-t="matching">মিলে যাওয়া</div>
+      <div class="tab-btn" id="notif-tab-history" onclick="switchNotifTab('history')" data-t="history">হিস্ট্রি</div>
+    </div>
+    <div class="scroll section-pad" id="notif-list"></div>
+  </div>
+
+  <!-- ============ PROFILE ============ -->
+  <div class="screen" id="screen-profile">
+    <div class="topbar">
+      <svg class="drop" width="22" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#fff"/></svg>
+      <h1 data-t="myProfile">আমার প্রোফাইল</h1>
+      <button class="icon-btn" onclick="shareProfile()" title="Share">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>
+      </button>
+    </div>
+    <div class="scroll">
+      <div class="profile-head">
+        <div class="avatar" id="pf-avatar" onclick="document.getElementById('pf-photo-input').click()">?</div>
+        <input type="file" id="pf-photo-input" accept="image/*" style="display:none;" onchange="uploadProfilePhoto(event)">
+        <div>
+          <h3 id="pf-name">— <svg class="verified-badge" id="pf-verified-icon" style="display:none;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg></h3>
+          <span id="pf-location">—</span>
+        </div>
+      </div>
+
+      <div class="section-pad" style="padding-top:0;">
+        <div class="card" id="pf-eligibility-card"></div>
+
+        <div class="card">
+          <div class="toggle-row">
+            <div>
+              <div style="font-weight:700; font-size:14.5px;" data-t="availability">Availability</div>
+              <div class="helper" style="margin-top:2px;" data-t="availabilityHelper">চালু থাকলে অন্যরা আপনাকে ডোনার হিসেবে খুঁজে পাবে</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="pf-avail-toggle" onchange="toggleAvailability()">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="stat-grid" style="margin-bottom:14px;">
+          <div class="stat-box"><div class="n num" id="pf-stat-donations">0</div><div class="l" data-t="totalDonations">মোট দান</div></div>
+          <div class="stat-box"><div class="n num" id="pf-stat-requests">0</div><div class="l" data-t="myRequestsLbl">আমার রিকোয়েস্ট</div></div>
+          <div class="stat-box"><div class="n num" id="pf-stat-bg">—</div><div class="l" data-t="bloodGroupLbl">ব্লাড গ্রুপ</div></div>
+        </div>
+
+        <div class="badge-row" id="pf-badges"></div>
+
+        <div class="more-list">
+          <div class="more-item" onclick="openEditProfile()">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></div>
+            <div class="lbl" data-t="editProfile">প্রোফাইল এডিট করুন</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('hospitals')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
+            <div class="lbl" data-t="hospitalsDirectory">হাসপাতাল ও ব্লাড ব্যাংক</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('favorites')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+            <div class="lbl" data-t="favoriteDonors">প্রিয় ডোনার</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('stats')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-7"/></svg></div>
+            <div class="lbl" data-t="statistics">পরিসংখ্যান</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('compat')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a5 5 0 019-3 5 5 0 019 3c0 6.5-8 11-8 11z"/></svg></div>
+            <div class="lbl" data-t="compatChecker">রক্ত সামঞ্জস্য চেকার</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="openQrModal()">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/></svg></div>
+            <div class="lbl" data-t="myQr">আমার QR কোড</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="downloadCertificate()">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="lbl" data-t="certificate">ডোনেশন সার্টিফিকেট (PDF)</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('settings')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></div>
+            <div class="lbl" data-t="settings">সেটিংস (ডার্ক মোড / ভাষা)</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" id="admin-menu-item" style="display:none;" onclick="go('admin')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div>
+            <div class="lbl" data-t="adminDashboard">অ্যাডমিন ড্যাশবোর্ড</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="logoutUser()">
+            <div class="ic" style="background:#FDEBEB;color:#C62828;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></div>
+            <div class="lbl" style="color:#C62828;" data-t="logout">লগ আউট</div>
+            <div class="chev">›</div>
+          </div>
+        </div>
+
+        <div class="tabs" style="padding:0 0 10px;">
+          <div class="tab-btn active" id="tab-btn-req" onclick="switchHistoryTab('req')" data-t="myRequestsLbl">আমার রিকোয়েস্ট</div>
+          <div class="tab-btn" id="tab-btn-don" onclick="switchHistoryTab('don')" data-t="donationHistory">ডোনেশন হিস্ট্রি</div>
+        </div>
+        <div id="history-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HOSPITALS / BLOOD BANKS ============ -->
+  <div class="screen" id="screen-hospitals">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="hospitalsDirectory">হাসপাতাল ও ব্লাড ব্যাংক</h1>
+    </div>
+    <div class="tabs">
+      <div class="tab-btn active" id="place-tab-hosp" onclick="switchPlaceTab('hospital')" data-t="hospitalsTab">হাসপাতাল</div>
+      <div class="tab-btn" id="place-tab-bank" onclick="switchPlaceTab('bloodbank')" data-t="bloodbanksTab">ব্লাড ব্যাংক</div>
+    </div>
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="place-search" placeholder="নাম বা এলাকা লিখুন…" oninput="renderPlaces()">
+    </div>
+    <div class="scroll section-pad" id="place-list"></div>
+  </div>
+
+  <!-- ============ FAVORITES ============ -->
+  <div class="screen" id="screen-favorites">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="favoriteDonors">প্রিয় ডোনার</h1>
+    </div>
+    <div class="scroll section-pad" id="favorites-list"></div>
+  </div>
+
+  <!-- ============ STATS ============ -->
+  <div class="screen" id="screen-stats">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="statistics">পরিসংখ্যান</h1>
+    </div>
+    <div class="scroll section-pad" id="stats-content"></div>
+  </div>
+
+  <!-- ============ COMPATIBILITY CHECKER ============ -->
+  <div class="screen" id="screen-compat">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="compatChecker">রক্ত সামঞ্জস্য চেকার</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card">
+        <label style="margin-top:0;" data-t="selectBg">রক্তের গ্রুপ নির্বাচন করুন</label>
+        <select id="compat-bg" onchange="renderCompat()">
+          <option value="">নির্বাচন করুন</option>
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+          <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+        </select>
+      </div>
+      <div id="compat-result"></div>
+    </div>
+  </div>
+
+  <!-- ============ SETTINGS ============ -->
+  <div class="screen" id="screen-settings">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="settings">সেটিংস</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card">
+        <div class="theme-toggle-row">
+          <span style="font-weight:600; font-size:14px;" data-t="darkMode">ডার্ক মোড</span>
+          <label class="switch"><input type="checkbox" id="dark-toggle" onchange="toggleDarkMode()"><span class="slider"></span></label>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px;" data-t="language">ভাষা / Language</div>
+        <div class="seg">
+          <button id="lang-bn" onclick="setLanguage('bn')">বাংলা</button>
+          <button id="lang-en" onclick="setLanguage('en')">English</button>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px;" data-t="pushNotifs">পুশ নোটিফিকেশন</div>
+        <button class="btn btn-outline" onclick="enablePushNotifications()" data-t="enablePush">নোটিফিকেশন চালু করুন</button>
+      </div>
+      <div class="card">
+        <div style="font-weight:600; font-size:14px; margin-bottom:6px;" data-t="safety">নিরাপত্তা</div>
+        <button class="btn btn-soft" style="margin-bottom:8px;" onclick="openReportModal(null)" data-t="reportIssue">সমস্যা রিপোর্ট করুন</button>
+        <button class="btn btn-outline" onclick="go('blocked')" data-t="blockedUsers">ব্লক করা ব্যবহারকারী</button>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="helper" id="app-mode-label">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BLOCKED USERS ============ -->
+  <div class="screen" id="screen-blocked">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('settings')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="blockedUsers">ব্লক করা ব্যবহারকারী</h1>
+    </div>
+    <div class="scroll section-pad" id="blocked-list"></div>
+  </div>
+
+  <!-- ============ ADMIN ============ -->
+  <div class="screen" id="screen-admin">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="adminDashboard">অ্যাডমিন ড্যাশবোর্ড</h1>
+    </div>
+    <div class="tabs">
+      <div class="tab-btn active" id="admin-tab-overview" onclick="switchAdminTab('overview')" data-t="overview">ওভারভিউ</div>
+      <div class="tab-btn" id="admin-tab-users" onclick="switchAdminTab('users')" data-t="users">ইউজার</div>
+      <div class="tab-btn" id="admin-tab-requests" onclick="switchAdminTab('requests')" data-t="requestsTab">রিকোয়েস্ট</div>
+      <div class="tab-btn" id="admin-tab-reports" onclick="switchAdminTab('reports')" data-t="reportsTab">রিপোর্ট</div>
+    </div>
+    <div class="scroll section-pad" id="admin-content"></div>
+  </div>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <div class="bottom-nav" id="bottom-nav">
+    <button class="nav-btn" data-nav="home" onclick="go('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span data-t="navHome">হোম</span>
+    </button>
+    <button class="nav-btn" data-nav="donors" onclick="go('donors')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c1-3.6 3.6-5.5 6.5-5.5s5.5 1.9 6.5 5.5"/><circle cx="17" cy="7" r="2.4"/><path d="M15.5 14.2c2.4.2 4.3 2 5 5.3"/></svg>
+      <span data-t="navDonors">ডোনার</span>
+    </button>
+    <button class="nav-btn" data-nav="request" onclick="go('request')">
+      <span class="fab-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3"><path d="M12 5v14M5 12h14"/></svg></span>
+      <span data-t="navRequest">রিকোয়েস্ট</span>
+    </button>
+    <button class="nav-btn" data-nav="notifications" onclick="go('notifications')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+      <span data-t="navNotif">নোটিফিকেশন</span>
+    </button>
+    <button class="nav-btn" data-nav="profile" onclick="go('profile')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.4-4.2 4.4-6.4 7.5-6.4S18.1 15.8 19.5 20"/></svg>
+      <span data-t="navProfile">প্রোফাইল</span>
+    </button>
+  </div>
+
+  <button class="sos-btn" onclick="triggerSOS()" title="SOS">SOS</button>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ MODALS ============ -->
+  <div class="modal-overlay" id="modal-edit-request">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="editRequest">রিকোয়েস্ট এডিট করুন</h3><button class="modal-close" onclick="closeModal('modal-edit-request')">✕</button></div>
+      <div id="edit-request-body"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-edit-profile">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="editProfile">প্রোফাইল এডিট করুন</h3><button class="modal-close" onclick="closeModal('modal-edit-profile')">✕</button></div>
+      <div id="edit-profile-body"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-report">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="reportUser">ব্যবহারকারী রিপোর্ট করুন</h3><button class="modal-close" onclick="closeModal('modal-report')">✕</button></div>
+      <label data-t="reportReason">কারণ লিখুন</label>
+      <textarea id="report-reason" rows="3" placeholder="সমস্যার বিবরণ দিন…"></textarea>
+      <div style="height:8px;"></div>
+      <button class="btn btn-primary" onclick="submitReport()" data-t="submitReport">রিপোর্ট পাঠান</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-qr">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="myQr">আমার QR কোড</h3><button class="modal-close" onclick="closeModal('modal-qr')">✕</button></div>
+      <div class="qr-wrap">
+        <div id="qr-canvas-holder"></div>
+        <p class="helper" data-t="qrHelper">এই QR স্ক্যান করে যে কেউ দ্রুত আপনার প্রোফাইল দেখতে পারবে।</p>
+        <button class="btn btn-outline" onclick="shareProfile()" data-t="share">শেয়ার করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-sos">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="sosTitle">SOS ইমার্জেন্সি</h3><button class="modal-close" onclick="closeModal('modal-sos')">✕</button></div>
+      <p class="helper" data-t="sosHelper" style="font-size:13px; margin-bottom:12px;">এটি আপনার এলাকার সব সামঞ্জস্যপূর্ণ ডোনারদের কাছে একটি জরুরি এলার্ট হিসেবে পাঠানো হবে এবং শেয়ার করা যাবে।</p>
+      <button class="btn btn-primary" style="margin-bottom:8px;" onclick="confirmSOS()" data-t="sendSOS">🚨 SOS এলার্ট পাঠান</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-sos')" data-t="cancel">বাতিল করুন</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- QR code generator (loaded from CDN — requires internet) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- jsPDF for donation certificates (loaded from CDN — requires internet) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+/* =====================================================================
+   EBN — Emergency Blood Network — app.js
+   Production build with Firebase Auth / Firestore / Storage / FCM.
+
+   DUAL MODE:
+   - If firebaseConfig below still has placeholder values, the app runs in
+     DEMO MODE using local in-memory data (same behaviour as the original
+     prototype) so it's fully usable without any setup.
+   - Once you paste your real Firebase project config, the exact same code
+     paths switch to LIVE MODE and talk to Firebase Auth (phone OTP),
+     Firestore, Storage and Cloud Messaging. No other code changes needed.
+
+   See SETUP-README.md for step-by-step Firebase project setup,
+   firestore.rules deployment, and Cloud Function deployment for
+   cross-user push notifications.
+===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. FIREBASE CONFIG  — replace with your project's config
+--------------------------------------------------------------------- */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const VAPID_KEY = "YOUR_FCM_VAPID_KEY"; // Firebase Console > Project settings > Cloud Messaging
+
+const FIREBASE_ENABLED = firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf("YOUR_") !== 0;
+
+let fb = { app:null, auth:null, db:null, storage:null, messaging:null };
+let fbFns = {}; // holds dynamically-imported Firestore/Auth function refs
+
+async function initFirebase(){
+  if(!FIREBASE_ENABLED) return false;
+  try{
+    const appMod = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+    const authMod = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js");
+    const fsMod = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+    const stMod = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js");
+    let msgMod = null;
+    try{ msgMod = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js"); }catch(e){ /* messaging may fail w/o https or sw */ }
+
+    fb.app = appMod.initializeApp(firebaseConfig);
+    fb.auth = authMod.getAuth(fb.app);
+    fb.db = fsMod.getFirestore(fb.app);
+    fb.storage = stMod.getStorage(fb.app);
+    if(msgMod){ try{ fb.messaging = msgMod.getMessaging(fb.app); }catch(e){} }
+
+    fbFns = {
+      RecaptchaVerifier: authMod.RecaptchaVerifier,
+      signInWithPhoneNumber: authMod.signInWithPhoneNumber,
+      onAuthStateChanged: authMod.onAuthStateChanged,
+      signOut: authMod.signOut,
+      doc: fsMod.doc, setDoc: fsMod.setDoc, getDoc: fsMod.getDoc, updateDoc: fsMod.updateDoc,
+      deleteDoc: fsMod.deleteDoc, collection: fsMod.collection, addDoc: fsMod.addDoc,
+      query: fsMod.query, where: fsMod.where, onSnapshot: fsMod.onSnapshot, orderBy: fsMod.orderBy,
+      serverTimestamp: fsMod.serverTimestamp, arrayUnion: fsMod.arrayUnion, arrayRemove: fsMod.arrayRemove,
+      increment: fsMod.increment, getDocs: fsMod.getDocs, limit: fsMod.limit,
+      ref: stMod.ref, uploadBytes: stMod.uploadBytes, getDownloadURL: stMod.getDownloadURL,
+      getToken: msgMod ? msgMod.getToken : null, onMessage: msgMod ? msgMod.onMessage : null
+    };
+    return true;
+  }catch(e){
+    console.error("Firebase init failed, falling back to demo mode", e);
+    return false;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. TRANSLATIONS (bn / en) — applied to elements tagged data-t
+--------------------------------------------------------------------- */
+const I18N = {
+  bn:{ appName:"Emergency Blood Network", tagline:"রক্ত দিন, জীবন বাঁচান", start:"শুরু করুন",
+    oneAccount:"একটাই অ্যাকাউন্ট — ডোনার ও সিকার একসাথে", loginTitle:"মোবাইল যাচাই",
+    phoneLabel:"মোবাইল নম্বর", otpHelper:"আপনার নম্বরে একটি ৬ ডিজিটের OTP কোড পাঠানো হবে।",
+    sendOtp:"OTP পাঠান", otpLabel:"OTP কোড", verifyOtp:"যাচাই করুন", changeNumber:"নম্বর পরিবর্তন করুন",
+    createProfile:"প্রোফাইল তৈরি করুন", regHelper:"একটি প্রোফাইল — প্রয়োজনে আপনি রক্ত খুঁজবেন, সময় হলে আপনি নিজেই একজন ডোনার।",
+    fullName:"পূর্ণ নাম", mobile:"মোবাইল নম্বর (OTP যাচাই)", bloodGroup:"রক্তের গ্রুপ", gender:"লিঙ্গ",
+    dob:"জন্মতারিখ", weight:"ওজন (কেজি)", division:"বিভাগ (Division)", district:"জেলা (District)",
+    upazila:"উপজেলা / থানা", addressLabel:"বিস্তারিত ঠিকানা", lastDonation:"শেষ রক্তদানের তারিখ (যদি থাকে)",
+    lastDonationHelper:"খালি রাখুন যদি আগে কখনো রক্ত না দিয়ে থাকেন।", useGps:"সঠিক দূরত্বের জন্য GPS লোকেশন ব্যবহার করুন",
+    completeProfile:"প্রোফাইল সম্পন্ন করুন", nextStep:"পরবর্তী ধাপ →", prevStep:"← পূর্বের ধাপ", recentInArea:"এলাকার সাম্প্রতিক রিকোয়েস্ট", seeAll:"সব দেখুন",
+    needBlood:"আমার রক্ত প্রয়োজন", needBloodSub:"জরুরি রিকোয়েস্ট ফর্ম — ১ মিনিটেই",
+    wantDonate:"আমি রক্ত দিতে চাই", wantDonateSub:"Availability চালু/বন্ধ করুন",
+    sosBannerTitle:"তাৎক্ষণিক SOS পাঠান", sosBannerSub:"সব সামঞ্জস্যপূর্ণ ডোনারকে একসাথে জানান",
+    nearbyDonorsTitle:"নিকটতম ডোনার", nearbyDonorsSub:"আশেপাশের উপলব্ধ ডোনার দেখুন",
+    bloodBanksTitle:"ব্লাড ব্যাংক", bloodBanksSub:"হাসপাতাল ও ব্লাড ব্যাংক খুঁজুন",
+    emergencyRequest:"ইমার্জেন্সি রিকোয়েস্ট", urgencyLabel:"জরুরি মাত্রা (Urgency)", normal:"স্বাভাবিক", high:"উচ্চ", critical:"ক্রিটিকাল",
+    patientName:"রোগীর নাম", unitsNeeded:"প্রয়োজনীয় ইউনিট", hospitalName:"হাসপাতালের নাম", divDist:"বিভাগ / জেলা",
+    neededTime:"প্রয়োজনের সময়", contactNumber:"কন্টাক্ট নম্বর", expiryLabel:"রিকোয়েস্ট মেয়াদ (ঘণ্টা)",
+    postRequest:"রিকোয়েস্ট পোস্ট করুন", nearestDonors:"নিকটতম ডোনার", advFilters:"+ বিস্তারিত ফিল্টার",
+    notifications:"নোটিফিকেশন", matching:"মিলে যাওয়া", history:"হিস্ট্রি", myProfile:"আমার প্রোফাইল",
+    availability:"Availability", availabilityHelper:"চালু থাকলে অন্যরা আপনাকে ডোনার হিসেবে খুঁজে পাবে",
+    totalDonations:"মোট দান", myRequestsLbl:"আমার রিকোয়েস্ট", bloodGroupLbl:"ব্লাড গ্রুপ",
+    editProfile:"প্রোফাইল এডিট করুন", hospitalsDirectory:"হাসপাতাল ও ব্লাড ব্যাংক", favoriteDonors:"প্রিয় ডোনার",
+    statistics:"পরিসংখ্যান", compatChecker:"রক্ত সামঞ্জস্য চেকার", myQr:"আমার QR কোড",
+    certificate:"ডোনেশন সার্টিফিকেট (PDF)", settings:"সেটিংস (ডার্ক মোড / ভাষা)", adminDashboard:"অ্যাডমিন ড্যাশবোর্ড",
+    logout:"লগ আউট", donationHistory:"ডোনেশন হিস্ট্রি", hospitalsTab:"হাসপাতাল", bloodbanksTab:"ব্লাড ব্যাংক",
+    darkMode:"ডার্ক মোড", language:"ভাষা / Language", pushNotifs:"পুশ নোটিফিকেশন", enablePush:"নোটিফিকেশন চালু করুন",
+    safety:"নিরাপত্তা", reportIssue:"সমস্যা রিপোর্ট করুন", blockedUsers:"ব্লক করা ব্যবহারকারী",
+    overview:"ওভারভিউ", users:"ইউজার", requestsTab:"রিকোয়েস্ট", reportsTab:"রিপোর্ট",
+    navHome:"হোম", navDonors:"ডোনার", navRequest:"রিকোয়েস্ট", navNotif:"নোটিফিকেশন", navProfile:"প্রোফাইল",
+    editRequest:"রিকোয়েস্ট এডিট করুন", reportUser:"ব্যবহারকারী রিপোর্ট করুন", reportReason:"কারণ লিখুন",
+    submitReport:"রিপোর্ট পাঠান", qrHelper:"এই QR স্ক্যান করে যে কেউ দ্রুত আপনার প্রোফাইল দেখতে পারবে।",
+    share:"শেয়ার করুন", sosTitle:"SOS ইমার্জেন্সি", sosHelper:"এটি আপনার এলাকার সব সামঞ্জস্যপূর্ণ ডোনারদের কাছে একটি জরুরি এলার্ট হিসেবে পাঠানো হবে এবং শেয়ার করা যাবে।",
+    sendSOS:"🚨 SOS এলার্ট পাঠান", cancel:"বাতিল করুন", selectBg:"রক্তের গ্রুপ নির্বাচন করুন"
+  },
+  en:{ appName:"Emergency Blood Network", tagline:"Give blood, save a life", start:"Get Started",
+    oneAccount:"One account — seeker & donor together", loginTitle:"Verify Mobile Number",
+    phoneLabel:"Mobile Number", otpHelper:"A 6-digit OTP code will be sent to your number.",
+    sendOtp:"Send OTP", otpLabel:"OTP Code", verifyOtp:"Verify", changeNumber:"Change Number",
+    createProfile:"Create Your Profile", regHelper:"One profile — search for blood when needed, become a donor when you're able.",
+    fullName:"Full Name", mobile:"Mobile Number (OTP verified)", bloodGroup:"Blood Group", gender:"Gender",
+    dob:"Date of Birth", weight:"Weight (kg)", division:"Division", district:"District",
+    upazila:"Upazila / Thana", addressLabel:"Detailed Address", lastDonation:"Last Donation Date (if any)",
+    lastDonationHelper:"Leave empty if you've never donated before.", useGps:"Use GPS location for accurate distance",
+    completeProfile:"Complete Profile", nextStep:"Next Step →", prevStep:"← Previous Step", recentInArea:"Recent Requests Nearby", seeAll:"See All",
+    needBlood:"I Need Blood", needBloodSub:"Emergency request form — 1 minute",
+    wantDonate:"I Want to Donate", wantDonateSub:"Turn availability on/off",
+    sosBannerTitle:"Send Instant SOS", sosBannerSub:"Alert all compatible donors at once",
+    nearbyDonorsTitle:"Nearest Donors", nearbyDonorsSub:"See available donors near you",
+    bloodBanksTitle:"Blood Banks", bloodBanksSub:"Find hospitals & blood banks",
+    emergencyRequest:"Emergency Request", urgencyLabel:"Urgency", normal:"Normal", high:"High", critical:"Critical",
+    patientName:"Patient Name", unitsNeeded:"Units Needed", hospitalName:"Hospital Name", divDist:"Division / District",
+    neededTime:"Time Needed", contactNumber:"Contact Number", expiryLabel:"Request Expiry (hours)",
+    postRequest:"Post Request", nearestDonors:"Nearest Donors", advFilters:"+ Advanced Filters",
+    notifications:"Notifications", matching:"Matching", history:"History", myProfile:"My Profile",
+    availability:"Availability", availabilityHelper:"When on, others can find you as a donor",
+    totalDonations:"Total Donations", myRequestsLbl:"My Requests", bloodGroupLbl:"Blood Group",
+    editProfile:"Edit Profile", hospitalsDirectory:"Hospitals & Blood Banks", favoriteDonors:"Favorite Donors",
+    statistics:"Statistics", compatChecker:"Blood Compatibility Checker", myQr:"My QR Code",
+    certificate:"Donation Certificate (PDF)", settings:"Settings (Dark Mode / Language)", adminDashboard:"Admin Dashboard",
+    logout:"Log Out", donationHistory:"Donation History", hospitalsTab:"Hospitals", bloodbanksTab:"Blood Banks",
+    darkMode:"Dark Mode", language:"Language", pushNotifs:"Push Notifications", enablePush:"Enable Notifications",
+    safety:"Safety", reportIssue:"Report an Issue", blockedUsers:"Blocked Users",
+    overview:"Overview", users:"Users", requestsTab:"Requests", reportsTab:"Reports",
+    navHome:"Home", navDonors:"Donors", navRequest:"Request", navNotif:"Alerts", navProfile:"Profile",
+    editRequest:"Edit Request", reportUser:"Report User", reportReason:"Reason",
+    submitReport:"Submit Report", qrHelper:"Anyone can scan this QR to quickly view your profile.",
+    share:"Share", sosTitle:"SOS Emergency", sosHelper:"This will be sent as an urgent alert to all compatible nearby donors and can be shared.",
+    sendSOS:"🚨 Send SOS Alert", cancel:"Cancel", selectBg:"Select Blood Group"
+  }
+};
+let currentLang = localStorage.getItem('ebn_lang') || 'bn';
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.bn[key]||key); }
+function applyTranslations(){
+  document.documentElement.lang = currentLang;
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const key = el.getAttribute('data-t');
+    el.textContent = t(key);
+  });
+  document.getElementById('lang-bn')?.classList.toggle('active', currentLang==='bn');
+  document.getElementById('lang-en')?.classList.toggle('active', currentLang==='en');
+}
+function setLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem('ebn_lang', lang);
+  applyTranslations();
+  refreshCurrentScreen();
+}
+
+/* ---------------------------------------------------------------------
+   3. Geo data (8 divisions -> 64 districts). Upazila stays free text.
+--------------------------------------------------------------------- */
+const GEO = {
+  "ঢাকা": ["ঢাকা","ফরিদপুর","টাঙ্গাইল","গাজীপুর","নারায়ণগঞ্জ","কিশোরগঞ্জ","নরসিংদী","মুন্সিগঞ্জ","মানিকগঞ্জ","গোপালগঞ্জ","শরীয়তপুর","মাদারীপুর","রাজবাড়ী"],
+  "চট্টগ্রাম": ["চট্টগ্রাম","কুমিল্লা","নোয়াখালী","রাঙ্গামাটি","বান্দরবান","খাগড়াছড়ি","ব্রাহ্মণবাড়িয়া","কক্সবাজার","চাঁদপুর","লক্ষ্মীপুর","ফেনী"],
+  "রাজশাহী": ["রাজশাহী","বগুড়া","পাবনা","জয়পুরহাট","সিরাজগঞ্জ","নওগাঁ","নাটোর","চাঁপাইনবাবগঞ্জ"],
+  "খুলনা": ["যশোর","খুলনা","কুষ্টিয়া","সাতক্ষীরা","ঝিনাইদহ","বাগেরহাট","চুয়াডাঙ্গা","মাগুরা","নড়াইল","মেহেরপুর"],
+  "বরিশাল": ["বরিশাল","পটুয়াখালী","ভোলা","পিরোজপুর","বরগুনা","ঝালকাঠি"],
+  "সিলেট": ["সিলেট","সুনামগঞ্জ","হবিগঞ্জ","মৌলভীবাজার"],
+  "রংপুর": ["রংপুর","নীলফামারী","দিনাজপুর","ঠাকুরগাঁও","গাইবান্ধা","কুড়িগ্রাম","লালমনিরহাট","পঞ্চগড়"],
+  "ময়মনসিংহ": ["ময়মনসিংহ","জামালপুর","নেত্রকোণা","শেরপুর"]
+};
+const DIV_COORDS = {
+  "ঢাকা":[23.8103,90.4125], "চট্টগ্রাম":[22.3569,91.7832], "রাজশাহী":[24.3745,88.6042],
+  "খুলনা":[22.8456,89.5403], "বরিশাল":[22.7010,90.3535], "সিলেট":[24.8949,91.8687],
+  "রংপুর":[25.7439,89.2752], "ময়মনসিংহ":[24.7471,90.4203]
+};
+/* Upazilas keyed by the exact Bengali district names used in GEO above.
+   Source: official/administrative upazila lists (~495 upazilas across 64
+   districts). Names kept in English/Romanized form here intentionally —
+   see SETUP-README.md "Known limitations" for why, and how to swap in a
+   verified Bengali-script dataset later. A handful of very new upazilas
+   (created 2026) are not yet included; add them the same way. */
+const UPAZILA = {
+  "ঢাকা":["Dhamrai","Dohar","Keraniganj","Nawabganj","Savar"],
+  "ফরিদপুর":["Alfadanga","Bhanga","Boalmari","Charbhadrasan","Faridpur Sadar","Madhukhali","Nagarkanda","Sadarpur"],
+  "টাঙ্গাইল":["Basail","Bhuapur","Dhanbari","Delduar","Ghatail","Gopalpur","Kalihati","Madhupur","Mirzapur","Nagarpur","Sakhipur","Tangail Sadar"],
+  "গাজীপুর":["Gazipur Sadar","Kaliakair","Kaliganj","Kapasia","Sreepur"],
+  "নারায়ণগঞ্জ":["Araihazar","Sonargaon","Bandar","Narayanganj Sadar","Rupganj"],
+  "কিশোরগঞ্জ":["Astagram","Bajitpur","Bhairab","Hossainpur","Itna","Karimganj","Katiadi","Kishoreganj Sadar","Kuliarchar","Mithamain","Nikli","Pakundia","Tarail"],
+  "নরসিংদী":["Belabo","Monohardi","Narsingdi Sadar","Palash","Raipura","Shibpur"],
+  "মুন্সিগঞ্জ":["Gazaria","Lohajang","Munshiganj Sadar","Sirajdikhan","Sreenagar","Tongibari"],
+  "মানিকগঞ্জ":["Daulatpur","Ghior","Harirampur","Manikganj Sadar","Saturia","Shivalaya","Singair"],
+  "গোপালগঞ্জ":["Gopalganj Sadar","Kashiani","Kotalipara","Muksudpur","Tungipara"],
+  "শরীয়তপুর":["Bhedarganj","Damudya","Gosairhat","Naria","Shariatpur Sadar","Zanjira"],
+  "মাদারীপুর":["Kalkini","Madaripur Sadar","Rajoir","Shibchar"],
+  "রাজবাড়ী":["Baliakandi","Goalandaghat","Pangsha","Rajbari Sadar"],
+  "ময়মনসিংহ":["Bhaluka","Dhobaura","Phulbari","Gaffargaon","Gauripur","Haluaghat","Ishwarganj","Mymensingh Sadar","Muktagachha","Nandail","Phulpur","Trishal"],
+  "জামালপুর":["Baksiganj","Dewanganj","Islampur","Jamalpur Sadar","Madarganj","Melandaha","Sarishabari"],
+  "নেত্রকোণা":["Atpara","Barhatta","Durgapur","Khaliajuri","Kalmakanda","Kendua","Madan","Mohanganj","Netrokona Sadar","Purbadhala"],
+  "শেরপুর":["Jhenaigati","Nakla","Nalitabari","Sherpur Sadar","Sreebardi"],
+  "চট্টগ্রাম":["Anwara","Banshkhali","Boalkhali","Chandanaish","Fatikchhari","Hathazari","Lohagara","Mirsharai","Patiya","Rangunia","Raozan","Sandwip","Satkania","Sitakunda"],
+  "কুমিল্লা":["Barura","Brahmanpara","Burichong","Chandina","Chauddagram","Daudkandi","Debidwar","Homna","Comilla Sadar","Comilla Sadar South","Laksam","Muradnagar","Nangalkot","Titas","Meghna","Monoharganj"],
+  "নোয়াখালী":["Begumganj","Chatkhil","Companiganj","Hatiya","Senbagh","Noakhali Sadar","Subarnachar"],
+  "রাঙ্গামাটি":["Bagaichhari","Barkal","Kawkhali","Belaichhari","Kaptai","Juraichhari","Langadu","Rajasthali","Rangamati Sadar"],
+  "বান্দরবান":["Ali Kadam","Bandarban Sadar","Lama","Naikhongchhari","Rowangchhari","Ruma","Thanchi"],
+  "খাগড়াছড়ি":["Dighinala","Khagrachhari Sadar","Lakshmichhari","Mahalchhari","Manikchhari","Matiranga","Panchhari","Ramgarh"],
+  "ব্রাহ্মণবাড়িয়া":["Akhaura","Bancharampur","Brahmanbaria Sadar","Kasba","Nabinagar","Nasirnagar","Sarail","Ashuganj"],
+  "কক্সবাজার":["Chakaria","Cox's Bazar Sadar","Kutubdia","Maheshkhali","Ramu","Teknaf","Ukhia","Pekua"],
+  "চাঁদপুর":["Chandpur Sadar","Faridganj","Haimchar","Haziganj","Kachua","Matlab Uttar","Matlab Dakkhin","Shahrasti"],
+  "লক্ষ্মীপুর":["Lakshmipur Sadar","Raipur","Ramganj","Ramgati"],
+  "ফেনী":["Chhagalnaiya","Daganbhuiyan","Feni Sadar","Parshuram","Sonagazi","Fulgazi"],
+  "সিলেট":["Balaganj","Beanibazar","Biswanath","Companiganj","Fenchuganj","Golapganj","Gowainghat","Jaintiapur","Kanaighat","Sylhet Sadar","Zakiganj","South Surma"],
+  "সুনামগঞ্জ":["Bishwamvarpur","Chhatak","Derai","Dharampasha","Dowarabazar","Jagannathpur","Jamalganj","Sullah","Sunamganj Sadar","Tahirpur"],
+  "হবিগঞ্জ":["Ajmiriganj","Bahubal","Baniyachong","Chunarughat","Habiganj Sadar","Lakhai","Madhabpur","Nabiganj"],
+  "মৌলভীবাজার":["Barlekha","Kamalganj","Kulaura","Maulvibazar Sadar","Rajnagar","Sreemangal","Juri"],
+  "রাজশাহী":["Bagha","Bagmara","Charghat","Durgapur","Godagari","Mohanpur","Paba","Puthia","Tanore"],
+  "বগুড়া":["Adamdighi","Bogra Sadar","Dhunat","Dupchanchia","Gabtali","Kahaloo","Nandigram","Sariakandi","Shajahanpur","Sherpur","Shibganj","Sonatala"],
+  "পাবনা":["Atgharia","Bera","Bhangura","Chatmohar","Faridpur","Ishwardi","Pabna Sadar","Santhia","Sujanagar"],
+  "জয়পুরহাট":["Akkelpur","Joypurhat Sadar","Kalai","Khetlal","Panchbibi"],
+  "সিরাজগঞ্জ":["Belkuchi","Chauhali","Kamarkhanda","Kazipur","Raiganj","Shahjadpur","Sirajganj Sadar","Tarash","Ullahpara"],
+  "নওগাঁ":["Atrai","Badalgachhi","Dhamoirhat","Manda","Mahadevpur","Naogaon Sadar","Niamatpur","Patnitala","Porsha","Raninagar","Sapahar"],
+  "নাটোর":["Bagatipara","Baraigram","Gurudaspur","Lalpur","Natore Sadar","Singra"],
+  "চাঁপাইনবাবগঞ্জ":["Bholahat","Gomastapur","Nachole","Nawabganj Sadar","Shibganj"],
+  "যশোর":["Abhaynagar","Bagherpara","Chaugachha","Jhikargachha","Keshabpur","Jessore Sadar","Manirampur","Sharsha"],
+  "খুলনা":["Batiaghata","Dacope","Dumuria","Dighalia","Koyra","Paikgachha","Phultala","Rupsa","Terokhada"],
+  "কুষ্টিয়া":["Bheramara","Daulatpur","Khoksa","Kumarkhali","Kushtia Sadar","Mirpur"],
+  "সাতক্ষীরা":["Assasuni","Debhata","Kalaroa","Kaliganj","Satkhira Sadar","Shyamnagar","Tala"],
+  "ঝিনাইদহ":["Harinakunda","Jhenaidah Sadar","Kaliganj","Kotchandpur","Maheshpur","Shailkupa"],
+  "বাগেরহাট":["Bagerhat Sadar","Chitalmari","Fakirhat","Kachua","Mollahat","Mongla","Morrelganj","Rampal","Sarankhola"],
+  "চুয়াডাঙ্গা":["Alamdanga","Chuadanga Sadar","Damurhuda","Jibannagar"],
+  "মাগুরা":["Magura Sadar","Mohammadpur","Shalikha","Sreepur"],
+  "নড়াইল":["Kalia","Lohagara","Narail Sadar"],
+  "মেহেরপুর":["Gangni","Meherpur Sadar","Mujibnagar"],
+  "বরিশাল":["Agailjhara","Babuganj","Bakerganj","Banaripara","Gaurnadi","Hizla","Barisal Sadar","Mehendiganj","Muladi","Wazirpur"],
+  "পটুয়াখালী":["Bauphal","Dasmina","Galachipa","Kalapara","Mirzaganj","Patuakhali Sadar","Dumki"],
+  "ভোলা":["Bhola Sadar","Burhanuddin","Char Fasson","Daulatkhan","Lalmohan","Manpura","Tazumuddin"],
+  "পিরোজপুর":["Bhandaria","Kawkhali","Mathbaria","Nazirpur","Pirojpur Sadar","Nesarabad","Zianagar"],
+  "বরগুনা":["Amtali","Bamna","Barguna Sadar","Betagi","Patharghata"],
+  "ঝালকাঠি":["Jhalokati Sadar","Kathalia","Nalchity","Rajapur"],
+  "রংপুর":["Badarganj","Gangachhara","Kaunia","Rangpur Sadar","Mithapukur","Pirgachha","Pirganj","Taraganj"],
+  "নীলফামারী":["Dimla","Domar","Jaldhaka","Kishoreganj","Nilphamari Sadar","Saidpur"],
+  "দিনাজপুর":["Birampur","Birganj","Biral","Bochaganj","Chirirbandar","Phulbari","Ghoraghat","Hakimpur","Kaharole","Khansama","Dinajpur Sadar","Nawabganj","Parbatipur"],
+  "ঠাকুরগাঁও":["Baliadangi","Haripur","Pirganj","Ranisankail","Thakurgaon Sadar"],
+  "গাইবান্ধা":["Phulchhari","Gaibandha Sadar","Gobindaganj","Palashbari","Sadullapur","Sughatta","Sundarganj"],
+  "কুড়িগ্রাম":["Bhurungamari","Char Rajibpur","Chilmari","Phulbari","Kurigram Sadar","Nageshwari","Rajarhat","Raomari","Ulipur"],
+  "লালমনিরহাট":["Aditmari","Hatibandha","Kaliganj","Lalmonirhat Sadar","Patgram"],
+  "পঞ্চগড়":["Atwari","Boda","Debiganj","Panchagarh Sadar","Tetulia"]
+};
+const BLOOD_GROUPS = ["A+","A-","B+","B-","AB+","AB-","O+","O-"];
+const COMPATIBLE_DONORS = { // who CAN donate TO this patient group
+  "A+":["A+","A-","O+","O-"], "A-":["A-","O-"],
+  "B+":["B+","B-","O+","O-"], "B-":["B-","O-"],
+  "AB+":["A+","A-","B+","B-","AB+","AB-","O+","O-"], "AB-":["A-","B-","AB-","O-"],
+  "O+":["O+","O-"], "O-":["O-"]
+};
+const COMPATIBLE_RECIPIENTS = { // who this group CAN donate TO
+  "O-":["O-","O+","A-","A+","B-","B+","AB-","AB+"], "O+":["O+","A+","B+","AB+"],
+  "A-":["A-","A+","AB-","AB+"], "A+":["A+","AB+"],
+  "B-":["B-","B+","AB-","AB+"], "B+":["B+","AB+"],
+  "AB-":["AB-","AB+"], "AB+":["AB+"]
+};
+
+function haversine(lat1,lon1,lat2,lon2){
+  const R=6371, toRad=d=>d*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+  const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function daysAgo(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
+function fmtDate(iso){ if(!iso) return "—"; const d=new Date(iso); return d.toLocaleDateString(currentLang==='bn'?'bn-BD':'en-GB',{year:'numeric',month:'short',day:'numeric'}); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function debounce(fn, ms){ let h; return (...a)=>{ clearTimeout(h); h=setTimeout(()=>fn(...a), ms); }; }
+
+/* ---------------------------------------------------------------------
+   4. Demo seed data (used only in DEMO MODE, or as offline cache fallback)
+--------------------------------------------------------------------- */
+let donors = [
+  {uid:"d1", name:"রাহাত হোসেন", phone:"01711000001", bg:"O-", division:"ঢাকা", district:"ঢাকা", available:true, lastDonation:daysAgo(200), verified:true, photoURL:null},
+  {uid:"d2", name:"সাদিয়া আক্তার", phone:"01711000002", bg:"A+", division:"ঢাকা", district:"গাজীপুর", available:true, lastDonation:daysAgo(40), verified:false, photoURL:null},
+  {uid:"d3", name:"ইমরান খান", phone:"01711000003", bg:"B+", division:"ঢাকা", district:"নারায়ণগঞ্জ", available:true, lastDonation:daysAgo(150), verified:true, photoURL:null},
+  {uid:"d4", name:"তানজিলা রহমান", phone:"01711000004", bg:"AB+", division:"চট্টগ্রাম", district:"চট্টগ্রাম", available:true, lastDonation:daysAgo(300), verified:false, photoURL:null},
+  {uid:"d5", name:"ফারহান আলম", phone:"01711000005", bg:"O+", division:"চট্টগ্রাম", district:"কুমিল্লা", available:false, lastDonation:daysAgo(10), verified:false, photoURL:null},
+  {uid:"d6", name:"নুসরাত জাহান", phone:"01711000006", bg:"B-", division:"রাজশাহী", district:"রাজশাহী", available:true, lastDonation:null, verified:true, photoURL:null},
+  {uid:"d7", name:"মাহমুদুল হাসান", phone:"01711000007", bg:"A-", division:"খুলনা", district:"খুলনা", available:true, lastDonation:daysAgo(95), verified:false, photoURL:null},
+  {uid:"d8", name:"রুবিনা ইয়াসমিন", phone:"01711000008", bg:"O+", division:"সিলেট", district:"সিলেট", available:true, lastDonation:daysAgo(250), verified:true, photoURL:null},
+  {uid:"d9", name:"কামরুল ইসলাম", phone:"01711000009", bg:"AB-", division:"রংপুর", district:"রংপুর", available:true, lastDonation:daysAgo(60), verified:false, photoURL:null},
+  {uid:"d10", name:"শারমিন সুলতানা", phone:"01711000010", bg:"O-", division:"ময়মনসিংহ", district:"ময়মনসিংহ", available:true, lastDonation:daysAgo(400), verified:true, photoURL:null},
+  {uid:"d11", name:"জাহিদুল করিম", phone:"01711000011", bg:"B+", division:"ঢাকা", district:"মানিকগঞ্জ", available:true, lastDonation:daysAgo(120), verified:false, photoURL:null},
+  {uid:"d12", name:"আফসানা মিমি", phone:"01711000012", bg:"A+", division:"ঢাকা", district:"ঢাকা", available:false, lastDonation:daysAgo(5), verified:false, photoURL:null}
+];
+let requests = [
+  {id:"1", patient:"আব্দুল করিম", bg:"B+", units:2, hospital:"ঢাকা মেডিকেল কলেজ হাসপাতাল", division:"ঢাকা", district:"ঢাকা", time:"আজ রাত ৯টা", urgency:"critical", contact:"01911223344", createdAgoMin:12, status:"pending", requesterUid:"seed", expiresAt: Date.now()+1000*60*60*20},
+  {id:"2", patient:"রোজিনা বেগম", bg:"O+", units:1, hospital:"চট্টগ্রাম মেডিকেল কলেজ", division:"চট্টগ্রাম", district:"চট্টগ্রাম", time:"আগামীকাল সকাল", urgency:"high", contact:"01911223355", createdAgoMin:80, status:"pending", requesterUid:"seed", expiresAt: Date.now()+1000*60*60*22},
+  {id:"3", patient:"সজীব আহমেদ", bg:"A-", units:1, hospital:"স্কয়ার হাসপাতাল", division:"ঢাকা", district:"গাজীপুর", time:"এখনই", urgency:"normal", contact:"01911223366", createdAgoMin:200, status:"pending", requesterUid:"seed", expiresAt: Date.now()+1000*60*60*24}
+];
+let nextReqId = 4;
+const HOSPITALS = [
+  {name:"ঢাকা মেডিকেল কলেজ হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228613532", type:"hospital"},
+  {name:"স্কয়ার হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228159457", type:"hospital"},
+  {name:"চট্টগ্রাম মেডিকেল কলেজ হাসপাতাল", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"031619400", type:"hospital"},
+  {name:"রাজশাহী মেডিকেল কলেজ হাসপাতাল", division:"রাজশাহী", district:"রাজশাহী", phone:"0721772150", type:"hospital"},
+  {name:"সিলেট ওসমানী মেডিকেল কলেজ হাসপাতাল", division:"সিলেট", district:"সিলেট", phone:"0821713491", type:"hospital"},
+  {name:"খুলনা মেডিকেল কলেজ হাসপাতাল", division:"খুলনা", district:"খুলনা", phone:"041760073", type:"hospital"}
+];
+const BLOODBANKS = [
+  {name:"সন্ধানী ব্লাড ব্যাংক — ঢাকা", division:"ঢাকা", district:"ঢাকা", phone:"01711223300", type:"bloodbank"},
+  {name:"রেড ক্রিসেন্ট ব্লাড ব্যাংক", division:"ঢাকা", district:"ঢাকা", phone:"01711223301", type:"bloodbank"},
+  {name:"কোয়ান্টাম ব্লাড ব্যাংক — চট্টগ্রাম", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"01711223302", type:"bloodbank"},
+  {name:"বাঁধন ব্লাড ব্যাংক — রাজশাহী", division:"রাজশাহী", district:"রাজশাহী", phone:"01711223303", type:"bloodbank"}
+];
+
+let user = null;
+let myRequests = [];
+let myDonations = [
+  {hospital:"ঢাকা মেডিকেল কলেজ হাসপাতাল", date:daysAgo(200), units:1},
+  {hospital:"স্কয়ার হাসপাতাল", date:daysAgo(400), units:1}
+];
+let notifHistory = [];
+let allUsers = []; // for admin
+let allReports = [];
+
+let currentScreen = "splash";
+let donorFilterBg = "all";
+let historyTab = "req";
+let notifTab = "match";
+let placeTab = "hospital";
+let adminTab = "overview";
+let selectedUrgency = "normal";
+let userGeo = null; // {lat,lng} from real GPS if granted
+let editingRequestId = null;
+let confirmingPhone = null;
+let confirmationResult = null;
+let unsubscribers = [];
+
+/* ---------------------------------------------------------------------
+   5. Navigation
+--------------------------------------------------------------------- */
+function go(screen){
+  if(!['splash','login','register'].includes(screen) && !user){ screen = user ? screen : 'splash'; }
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById('screen-'+screen);
+  if(!target) return;
+  target.classList.add('active');
+  const showNav = !['splash','login','register'].includes(screen);
+  document.getElementById('bottom-nav').style.display = showNav ? 'flex' : 'none';
+  document.querySelector('.sos-btn').style.display = showNav ? 'flex' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===screen));
+  currentScreen = screen;
+  refreshCurrentScreen();
+  window.scrollTo(0,0);
+}
+function refreshCurrentScreen(){
+  const screen = currentScreen;
+  if(screen==='home') renderHome();
+  if(screen==='donors') renderDonorsScreenInit();
+  if(screen==='notifications') renderNotifications();
+  if(screen==='profile') renderProfile();
+  if(screen==='hospitals') renderPlaces();
+  if(screen==='favorites') renderFavorites();
+  if(screen==='stats') renderStats();
+  if(screen==='compat') renderCompat();
+  if(screen==='settings') renderSettings();
+  if(screen==='blocked') renderBlocked();
+  if(screen==='admin') renderAdmin();
+  if(screen==='request'){ selectedUrgency='normal'; editingRequestId=null; document.getElementById('screen-request').classList.remove('critical-mode'); refreshUrgencyUI(); populateDivisionSelect('rq'); document.getElementById('request-form-title').textContent=t('emergencyRequest'); document.getElementById('rq-submit-btn').textContent=t('postRequest'); }
+  if(screen==='register'){ regShowStep(1); }
+}
+
+/* ---------------------------------------------------------------------
+   6. Toast / small utils
+--------------------------------------------------------------------- */
+let toastTimer;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2400);
+}
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+/* ---------------------------------------------------------------------
+   7. Cascading dropdowns
+--------------------------------------------------------------------- */
+function populateDivisionSelect(prefix){
+  const sel = document.getElementById(prefix+'-division');
+  if(!sel) return;
+  sel.dataset.filled = "";
+  sel.innerHTML = `<option value="">${currentLang==='bn'?'বিভাগ নির্বাচন করুন':'Select Division'}</option>` +
+    Object.keys(GEO).map(d=>`<option value="${d}">${d}</option>`).join('');
+  sel.dataset.filled = "1";
+}
+function onDivisionChange(prefix){
+  const division = document.getElementById(prefix+'-division').value;
+  const distSel = document.getElementById(prefix+'-district');
+  distSel.innerHTML = `<option value="">${currentLang==='bn'?'জেলা নির্বাচন করুন':'Select District'}</option>`;
+  distSel.disabled = !division;
+  if(division){
+    GEO[division].forEach(d=>{
+      const o=document.createElement('option'); o.value=d; o.textContent=d; distSel.appendChild(o);
+    });
+  }
+  if(prefix==='reg'){
+    const upaz = document.getElementById('reg-upazila');
+    upaz.value=''; upaz.disabled = true;
+  }
+}
+function onDistrictChange(prefix){
+  if(prefix==='reg'){
+    const district = document.getElementById('reg-district').value;
+    const upaz = document.getElementById('reg-upazila');
+    upaz.innerHTML = `<option value="">${currentLang==='bn'?'উপজেলা নির্বাচন করুন':'Select Upazila'}</option>`;
+    upaz.disabled = !district;
+    const list = UPAZILA[district];
+    if(district && list){
+      list.forEach(u=>{ const o=document.createElement('option'); o.value=u; o.textContent=u; upaz.appendChild(o); });
+    } else if(district){
+      // No dataset entry for this district yet — fall back to a free-text option
+      const o=document.createElement('option'); o.value='__other__'; o.textContent = currentLang==='bn'?'তালিকায় নেই — লিখুন':'Not listed — type manually'; upaz.appendChild(o);
+    }
+  }
+  if(prefix==='rq'){
+    const district = document.getElementById('rq-district').value;
+    const upaz = document.getElementById('rq-upazila');
+    if(!upaz) return;
+    upaz.innerHTML = `<option value="">${currentLang==='bn'?'উপজেলা নির্বাচন করুন':'Select Upazila'}</option>`;
+    upaz.disabled = !district;
+    const list = UPAZILA[district];
+    if(district && list){
+      list.forEach(u=>{ const o=document.createElement('option'); o.value=u; o.textContent=u; upaz.appendChild(o); });
+    }
+  }
+}
+function readUpazilaValue(prefix){
+  const sel = document.getElementById(prefix+'-upazila');
+  if(!sel) return '';
+  if(sel.value === '__other__'){
+    const other = document.getElementById(prefix+'-upazila-other');
+    return other ? other.value.trim() : '';
+  }
+  return sel.value;
+}
+function onUpazilaOtherCheck(prefix){
+  const upaz = document.getElementById(prefix+'-upazila');
+  const other = document.getElementById(prefix+'-upazila-other');
+  if(!other) return;
+  const showOther = upaz.value === '__other__';
+  other.style.display = showOther ? 'block' : 'none';
+  if(showOther) other.focus();
+}
+function onFilterDivisionChange(){
+  const division = document.getElementById('filter-division').value;
+  const distSel = document.getElementById('filter-district');
+  distSel.innerHTML = '<option value="">সব জেলা</option>';
+  if(division){ GEO[division].forEach(d=>{ const o=document.createElement('option'); o.value=d; o.textContent=d; distSel.appendChild(o); }); }
+  renderDonors();
+}
+function toggleAdvFilter(){ document.getElementById('adv-filter-panel').classList.toggle('show'); }
+
+/* ---------------------------------------------------------------------
+   8. AUTH — phone OTP (live) / instant demo login (demo mode)
+--------------------------------------------------------------------- */
+document.getElementById('splash-cta').addEventListener('click', ()=>{
+  if(user){ go('home'); return; }
+  go('login');
+});
+
+function initRecaptcha(){
+  if(!FIREBASE_ENABLED) return;
+  if(window._recaptchaVerifier) return;
+  window._recaptchaVerifier = new fbFns.RecaptchaVerifier(fb.auth, 'recaptcha-container', { size:'invisible' });
+}
+
+async function sendOtp(){
+  const phoneRaw = document.getElementById('login-phone').value.trim();
+  if(!/^01[0-9]{9}$/.test(phoneRaw)){ toast('⚠️ সঠিক মোবাইল নম্বর দিন'); return; }
+  const phone = '+88'+phoneRaw;
+  confirmingPhone = phoneRaw;
+
+  if(!FIREBASE_ENABLED){
+    // DEMO MODE: simulate OTP flow, no real SMS sent
+    document.getElementById('login-step-phone').style.display='none';
+    document.getElementById('login-step-otp').style.display='block';
+    document.getElementById('demo-otp-hint').textContent = '🧪 ডেমো মোড: যেকোনো ৬-ডিজিট কোড দিন (যেমন 123456)';
+    return;
+  }
+  try{
+    document.getElementById('btn-send-otp').disabled = true;
+    initRecaptcha();
+    confirmationResult = await fbFns.signInWithPhoneNumber(fb.auth, phone, window._recaptchaVerifier);
+    document.getElementById('login-step-phone').style.display='none';
+    document.getElementById('login-step-otp').style.display='block';
+    toast('✅ OTP পাঠানো হয়েছে');
+  }catch(e){
+    console.error(e);
+    toast('⚠️ OTP পাঠাতে ব্যর্থ: '+(e.message||'নেটওয়ার্ক সমস্যা'));
+  }finally{
+    document.getElementById('btn-send-otp').disabled = false;
+  }
+}
+
+async function verifyOtp(){
+  const code = document.getElementById('login-otp').value.trim();
+  if(code.length<6){ toast('⚠️ ৬ ডিজিটের কোড দিন'); return; }
+
+  if(!FIREBASE_ENABLED){
+    // DEMO MODE: accept any 6-digit code
+    await completeLogin({ uid:'demo-'+confirmingPhone, phoneNumber:'+88'+confirmingPhone });
+    return;
+  }
+  try{
+    const cred = await confirmationResult.confirm(code);
+    await completeLogin(cred.user);
+  }catch(e){
+    console.error(e);
+    toast('⚠️ ভুল OTP কোড');
+  }
+}
+let regStep = 1;
+function regShowStep(n){
+  regStep = Math.max(1, Math.min(3, n));
+  document.querySelectorAll('.reg-step').forEach(el=>el.classList.remove('active'));
+  const stepEl = document.getElementById('reg-step-'+regStep);
+  if(stepEl) stepEl.classList.add('active');
+  const fill = document.getElementById('reg-progress-fill');
+  if(fill) fill.style.width = (regStep/3*100)+'%';
+  const label = document.getElementById('reg-progress-label');
+  if(label){
+    const bnDigits = ['০','১','২','৩'];
+    label.textContent = currentLang==='bn' ? `ধাপ ${bnDigits[regStep]} / ৩` : `Step ${regStep} / 3`;
+  }
+  const scrollEl = document.querySelector('#screen-register .scroll');
+  if(scrollEl) scrollEl.scrollTop = 0;
+}
+function regNext(){
+  if(regStep===1){
+    const name = document.getElementById('reg-name').value.trim();
+    const bg = document.getElementById('reg-bg').value;
+    const gender = document.getElementById('reg-gender').value;
+    if(!name || name.length<2){ toast('⚠️ সঠিক নাম দিন'); return; }
+    if(!bg){ toast('⚠️ রক্তের গ্রুপ নির্বাচন করুন'); return; }
+    if(!gender){ toast('⚠️ লিঙ্গ নির্বাচন করুন'); return; }
+  }
+  regShowStep(regStep+1);
+}
+function regBack(){ regShowStep(regStep-1); }
+
+function resetOtpStep(){
+  document.getElementById('login-step-phone').style.display='block';
+  document.getElementById('login-step-otp').style.display='none';
+  document.getElementById('login-otp').value='';
+}
+function backFromRegister(){
+  if(!confirm(currentLang==='bn'?'আপনি কি প্রোফাইল তৈরি বাতিল করতে চান? আপনার দেওয়া তথ্য মুছে যাবে।':'Cancel profile creation? Your entered details will be lost.')) return;
+  user = null;
+  confirmingPhone = null;
+  confirmationResult = null;
+  resetOtpStep();
+  go('splash');
+}
+
+async function completeLogin(fbUser){
+  // Check for an existing profile in Firestore/localStorage; else go to registration
+  const existing = await loadUserProfile(fbUser.uid);
+  if(existing){
+    user = existing;
+    toast('✅ স্বাগতম, '+user.name);
+    subscribeLiveData();
+    go('home');
+  } else {
+    user = { uid: fbUser.uid, phone: fbUser.phoneNumber || ('+88'+confirmingPhone) };
+    document.getElementById('reg-phone').value = user.phone;
+    go('register');
+  }
+}
+
+async function loadUserProfile(uid){
+  if(FIREBASE_ENABLED){
+    try{
+      const snap = await fbFns.getDoc(fbFns.doc(fb.db,'users',uid));
+      if(snap.exists()) return Object.assign({uid}, snap.data());
+      return null;
+    }catch(e){ console.error(e); return null; }
+  }
+  const raw = localStorage.getItem('ebn_demo_user_'+uid);
+  return raw ? JSON.parse(raw) : null;
+}
+async function saveUserProfile(u){
+  if(FIREBASE_ENABLED){
+    try{ await fbFns.setDoc(fbFns.doc(fb.db,'users',u.uid), u, {merge:true}); }
+    catch(e){ console.error(e); toast('⚠️ প্রোফাইল সংরক্ষণে সমস্যা'); }
+  } else {
+    localStorage.setItem('ebn_demo_user_'+u.uid, JSON.stringify(u));
+    localStorage.setItem('ebn_demo_last_uid', u.uid);
+  }
+}
+async function logoutUser(){
+  if(FIREBASE_ENABLED && fb.auth){ try{ await fbFns.signOut(fb.auth); }catch(e){} }
+  unsubscribers.forEach(u=>u()); unsubscribers=[];
+  user = null;
+  toast('👋 লগ আউট হয়েছে');
+  go('splash');
+}
+
+/* ---------------------------------------------------------------------
+   9. Registration
+--------------------------------------------------------------------- */
+function submitRegistration(){
+  const name = document.getElementById('reg-name').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const bg = document.getElementById('reg-bg').value;
+  const gender = document.getElementById('reg-gender').value;
+  const division = document.getElementById('reg-division').value;
+  const district = document.getElementById('reg-district').value;
+
+  if(!name || !phone || !bg || !gender || !division || !district){
+    toast('⚠️ সব আবশ্যক তথ্য পূরণ করুন');
+    return;
+  }
+  if(name.length < 2){ toast('⚠️ সঠিক নাম দিন'); return; }
+
+  const gpsConsent = document.getElementById('reg-gps-consent').checked;
+  const finish = (geo)=>{
+    user = Object.assign({}, user, {
+      name, phone, bg, gender,
+      dob: document.getElementById('reg-dob').value,
+      weight: document.getElementById('reg-weight').value,
+      division, district,
+      upazila: readUpazilaValue('reg'),
+      address: document.getElementById('reg-address').value.trim(),
+      lastDonation: document.getElementById('reg-lastdonation').value || null,
+      available: true,
+      totalDonations: myDonations.length,
+      verified: false,
+      isAdmin: false,
+      favorites: [],
+      blockedUsers: [],
+      geo: geo || null,
+      createdAt: Date.now(),
+      suspended: false,
+      reportCount: 0
+    });
+    saveUserProfile(user);
+    toast('✅ প্রোফাইল তৈরি হয়েছে');
+    subscribeLiveData();
+    registerPushToken();
+    go('home');
+  };
+
+  if(gpsConsent && navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos=>finish({lat:pos.coords.latitude, lng:pos.coords.longitude}),
+      ()=>finish(null),
+      {timeout:6000}
+    );
+  } else {
+    finish(null);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   10. Live GPS refresh (donors screen)
+--------------------------------------------------------------------- */
+function requestGpsAndRefresh(){
+  if(!navigator.geolocation){ toast('⚠️ এই ডিভাইসে GPS নেই'); return; }
+  toast('📍 লোকেশন খোঁজা হচ্ছে…');
+  navigator.geolocation.getCurrentPosition(
+    pos=>{ userGeo = {lat:pos.coords.latitude, lng:pos.coords.longitude}; toast('✅ লোকেশন আপডেট হয়েছে'); renderDonors(); },
+    err=>{ toast('⚠️ লোকেশন পাওয়া যায়নি, বিভাগ ভিত্তিক দূরত্ব দেখানো হচ্ছে'); },
+    {enableHighAccuracy:true, timeout:8000}
+  );
+}
+function mapsDirectionsUrl(lat,lng){
+  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+}
+
+/* ---------------------------------------------------------------------
+   11. Eligibility
+--------------------------------------------------------------------- */
+function getEligibility(){
+  if(!user.lastDonation) return {eligible:true, daysLeft:0};
+  const requiredDays = user.gender==='female' ? 120 : 90;
+  const diffDays = Math.floor((Date.now() - new Date(user.lastDonation).getTime())/86400000);
+  const daysLeft = requiredDays - diffDays;
+  return daysLeft <= 0 ? {eligible:true, daysLeft:0} : {eligible:false, daysLeft};
+}
+function scheduleDonationReminder(){
+  // Local reminder fallback (works without FCM) using Notification API if permitted
+  if(!('Notification' in window) || Notification.permission!=='granted') return;
+  const elig = getEligibility();
+  if(elig.eligible) return;
+  // Not scheduling an actual timed OS notification here (would need a service worker alarm);
+  // this simply informs the user of when they'll next be eligible via toast on load.
+}
+
+/* ---------------------------------------------------------------------
+   12. Home
+--------------------------------------------------------------------- */
+function renderHome(){
+  document.getElementById('home-greeting').textContent = (currentLang==='bn'?'স্বাগতম, ':'Welcome, ') + user.name.split(' ')[0];
+  document.getElementById('home-location').textContent = user.district + ', ' + user.division;
+  document.getElementById('notif-dot').classList.toggle('show', getMatchingRequests().length>0);
+  const homeAvatar = document.getElementById('home-avatar');
+  if(homeAvatar) homeAvatar.innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : esc(user.name.charAt(0));
+
+  const nearby = requests
+    .filter(r => r.division === user.division && r.status==='pending' && !isExpired(r))
+    .sort((a,b)=>urgencyRank(b.urgency)-urgencyRank(a.urgency) || (a.createdAgoMin||0)-(b.createdAgoMin||0));
+  const box = document.getElementById('home-recent-requests');
+  if(nearby.length===0){
+    box.innerHTML = emptyStateHtml(
+      currentLang==='bn'?'আপনার এলাকায় এখন কোনো সক্রিয় রিকোয়েস্ট নেই':'No active requests in your area right now',
+      currentLang==='bn'?'সবাই নিরাপদ — ভালো খবর!':'All clear — that\'s good news!'
+    );
+    return;
+  }
+  box.innerHTML = nearby.slice(0,10).map(r=>requestCardHtml(r)).join('');
+}
+function urgencyRank(u){ return u==='critical'?3:u==='high'?2:1; }
+function isExpired(r){ return r.expiresAt && Date.now() > r.expiresAt; }
+function emptyStateHtml(msg, sub){
+  return `<div class="empty-state">
+    <div class="emoji">🩸</div>
+    <p>${msg}</p>
+    ${sub? `<div class="sub">${sub}</div>` : ''}
+  </div>`;
+}
+function skeletonCards(n){ return Array.from({length:n}).map(()=>'<div class="skel skel-card"></div>').join(''); }
+function urgencyTagHtml(u){
+  const map = {
+    critical:[currentLang==='bn'?'ক্রিটিকাল':'Critical','urgency-critical'],
+    high:[currentLang==='bn'?'উচ্চ':'High','urgency-high'],
+    normal:[currentLang==='bn'?'স্বাভাবিক':'Normal','urgency-normal']
+  };
+  const [label, cls] = map[u]||map.normal;
+  return `<span class="urgency-tag ${cls}">${label}</span>`;
+}
+function statusTagHtml(s){
+  const map = {
+    pending:[currentLang==='bn'?'পেন্ডিং':'Pending','status-pending'],
+    accepted:[currentLang==='bn'?'গৃহীত':'Accepted','status-accepted'],
+    completed:[currentLang==='bn'?'সম্পন্ন':'Completed','status-completed'],
+    cancelled:[currentLang==='bn'?'বাতিল':'Cancelled','status-cancelled']
+  };
+  const [label,cls] = map[s]||map.pending;
+  return `<span class="status-tag ${cls}">${label}</span>`;
+}
+function expiryChipHtml(r){
+  if(!r.expiresAt) return '';
+  const msLeft = r.expiresAt - Date.now();
+  if(msLeft<=0) return `<span class="expiry-chip">⏱ ${currentLang==='bn'?'মেয়াদ শেষ':'Expired'}</span>`;
+  const hrs = Math.floor(msLeft/3600000);
+  return `<span class="expiry-chip">⏱ ${hrs}${currentLang==='bn'?' ঘণ্টা বাকি':'h left'}</span>`;
+}
+function requestCardHtml(r){
+  return `<div class="card">
+    <div class="req-item">
+      <div class="bg-badge">${r.bg}</div>
+      <div class="info">
+        <h5>${esc(r.patient)} ${urgencyTagHtml(r.urgency)}</h5>
+        <span>🏥 ${esc(r.hospital)} · ${r.upazila?esc(r.upazila)+', ':''}${esc(r.district)}</span>
+        <span>💉 ${r.units} ${currentLang==='bn'?'ইউনিট প্রয়োজন':'units needed'} &nbsp;·&nbsp; ⏰ ${esc(r.time)} ${expiryChipHtml(r)}</span>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+      <a href="tel:${r.contact}" class="btn btn-success btn-sm" style="flex:1;">📞 ${currentLang==='bn'?'কল করুন':'Call'}</a>
+      <a href="https://wa.me/88${r.contact}" target="_blank" class="btn btn-outline btn-sm" style="flex:1;">WhatsApp</a>
+      <button class="btn btn-soft btn-sm" style="flex:1;" onclick="shareRequest('${r.id}')">↗ ${currentLang==='bn'?'শেয়ার':'Share'}</button>
+    </div>
+  </div>`;
+}
+function shareRequest(id){
+  const r = requests.find(x=>x.id===id); if(!r) return;
+  const text = `🩸 জরুরি রক্ত প্রয়োজন: ${r.bg}\nরোগীঃ ${r.patient}\nহাসপাতালঃ ${r.hospital}, ${r.district}\nসময়ঃ ${r.time}\nযোগাযোগঃ ${r.contact}`;
+  if(navigator.share){ navigator.share({title:'EBN — জরুরি রক্ত অনুরোধ', text}).catch(()=>{}); }
+  else { window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank'); }
+}
+
+/* ---------------------------------------------------------------------
+   13. Request submission / edit / delete / status
+--------------------------------------------------------------------- */
+function setUrgency(u){
+  selectedUrgency = u;
+  refreshUrgencyUI();
+  document.getElementById('screen-request').classList.toggle('critical-mode', u==='critical');
+}
+function refreshUrgencyUI(){
+  document.querySelectorAll('.urg-opt').forEach(el=>{
+    el.classList.remove('sel-normal','sel-high','sel-critical');
+    if(el.dataset.urg===selectedUrgency) el.classList.add('sel-'+selectedUrgency);
+  });
+}
+function validatePhoneBD(p){ return /^01[0-9]{9}$/.test(p); }
+
+async function submitRequest(){
+  const patient = document.getElementById('rq-patient').value.trim();
+  const bg = document.getElementById('rq-bg').value;
+  const units = parseInt(document.getElementById('rq-units').value || '1', 10);
+  const hospital = document.getElementById('rq-hospital').value.trim();
+  const division = document.getElementById('rq-division').value;
+  const district = document.getElementById('rq-district').value;
+  const upazila = document.getElementById('rq-upazila') ? document.getElementById('rq-upazila').value : '';
+  const time = document.getElementById('rq-time').value.trim();
+  const contact = document.getElementById('rq-contact').value.trim();
+  const expiryHours = parseInt(document.getElementById('rq-expiry-hours').value || '24', 10);
+
+  if(!patient || !bg || !hospital || !division || !district || !contact){
+    toast('⚠️ সব আবশ্যক তথ্য পূরণ করুন'); return;
+  }
+  if(!validatePhoneBD(contact)){ toast('⚠️ সঠিক মোবাইল নম্বর দিন'); return; }
+  if(units<1 || units>20){ toast('⚠️ ইউনিট সংখ্যা সঠিক নয়'); return; }
+
+  // duplicate-request protection: same user, same patient+hospital, still pending, within last 10 min
+  const dupe = myRequests.find(r=> r.patient===patient && r.hospital===hospital && r.status==='pending' && (Date.now()-(r.createdAt||0))<10*60*1000);
+  if(dupe){ toast('⚠️ একই রিকোয়েস্ট ইতিমধ্যে পোস্ট করা হয়েছে'); return; }
+
+  if(editingRequestId){
+    const r = requests.find(x=>x.id===editingRequestId);
+    if(r){
+      Object.assign(r, {patient,bg,units,hospital,division,district,time:time||'এখনই',urgency:selectedUrgency,contact});
+      await persistRequestUpdate(r);
+      toast('✅ রিকোয়েস্ট আপডেট হয়েছে');
+    }
+    editingRequestId = null;
+  } else {
+    const r = {
+      id: FIREBASE_ENABLED ? null : String(nextReqId++),
+      patient, bg, units, hospital, division, district, upazila,
+      time: time||'এখনই', urgency:selectedUrgency, contact,
+      createdAgoMin:0, createdAt: Date.now(), status:'pending',
+      requesterUid: user.uid, expiresAt: Date.now() + expiryHours*3600*1000,
+      lat: (userGeo && userGeo.lat) || null, lng: (userGeo && userGeo.lng) || null
+    };
+    await persistNewRequest(r);
+    toast('✅ রিকোয়েস্ট পোস্ট হয়েছে');
+    notifyCompatibleDonors(r);
+  }
+  ['rq-patient','rq-units','rq-hospital','rq-time','rq-contact'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('rq-bg').value='';
+  document.getElementById('rq-expiry-hours').value='24';
+  if(document.getElementById('rq-upazila')){ document.getElementById('rq-upazila').innerHTML='<option value="">আগে জেলা নির্বাচন করুন</option>'; document.getElementById('rq-upazila').disabled=true; }
+  go('home');
+}
+
+async function persistNewRequest(r){
+  if(FIREBASE_ENABLED){
+    try{
+      const docRef = await fbFns.addDoc(fbFns.collection(fb.db,'requests'), r);
+      r.id = docRef.id;
+    }catch(e){ console.error(e); toast('⚠️ সংরক্ষণে সমস্যা, অফলাইন সংরক্ষিত হলো'); }
+  }
+  requests.unshift(r);
+  myRequests.unshift(r);
+  cacheOffline();
+}
+async function persistRequestUpdate(r){
+  if(FIREBASE_ENABLED && r.id){
+    try{ await fbFns.updateDoc(fbFns.doc(fb.db,'requests',r.id), r); }catch(e){ console.error(e); }
+  }
+  cacheOffline();
+}
+async function deleteRequest(id){
+  if(!confirm(currentLang==='bn'?'আপনি কি নিশ্চিত রিকোয়েস্টটি মুছে ফেলতে চান?':'Delete this request?')) return;
+  if(FIREBASE_ENABLED){
+    try{ await fbFns.deleteDoc(fbFns.doc(fb.db,'requests',id)); }catch(e){ console.error(e); }
+  }
+  requests = requests.filter(r=>r.id!==id);
+  myRequests = myRequests.filter(r=>r.id!==id);
+  toast('🗑️ রিকোয়েস্ট মুছে ফেলা হয়েছে');
+  renderHistoryTab();
+}
+async function setRequestStatus(id, status){
+  const r = requests.find(x=>x.id===id) || myRequests.find(x=>x.id===id);
+  if(!r) return;
+  r.status = status;
+  if(status==='completed'){
+    myDonations.unshift({hospital:r.hospital, date:new Date().toISOString().slice(0,10), units:r.units});
+    user.totalDonations = (user.totalDonations||0)+1;
+    await saveUserProfile(user);
+  }
+  await persistRequestUpdate(r);
+  toast('✅ স্ট্যাটাস আপডেট হয়েছে');
+  renderHistoryTab();
+}
+function openEditRequest(id){
+  const r = requests.find(x=>x.id===id) || myRequests.find(x=>x.id===id);
+  if(!r) return;
+  editingRequestId = id;
+  const body = document.getElementById('edit-request-body');
+  body.innerHTML = `
+    <label>${currentLang==='bn'?'রোগীর নাম':'Patient Name'}</label>
+    <input type="text" id="er-patient" value="${esc(r.patient)}">
+    <label>${currentLang==='bn'?'হাসপাতাল':'Hospital'}</label>
+    <input type="text" id="er-hospital" value="${esc(r.hospital)}">
+    <label>${currentLang==='bn'?'প্রয়োজনীয় ইউনিট':'Units'}</label>
+    <input type="number" id="er-units" value="${r.units}">
+    <label>${currentLang==='bn'?'স্ট্যাটাস':'Status'}</label>
+    <select id="er-status">
+      <option value="pending" ${r.status==='pending'?'selected':''}>${currentLang==='bn'?'পেন্ডিং':'Pending'}</option>
+      <option value="accepted" ${r.status==='accepted'?'selected':''}>${currentLang==='bn'?'গৃহীত':'Accepted'}</option>
+      <option value="completed" ${r.status==='completed'?'selected':''}>${currentLang==='bn'?'সম্পন্ন':'Completed'}</option>
+      <option value="cancelled" ${r.status==='cancelled'?'selected':''}>${currentLang==='bn'?'বাতিল':'Cancelled'}</option>
+    </select>
+    <div style="height:8px;"></div>
+    <button class="btn btn-primary" onclick="saveEditRequest('${id}')">${currentLang==='bn'?'সংরক্ষণ করুন':'Save'}</button>
+    <button class="btn btn-outline" style="margin-top:8px;" onclick="closeModal('modal-edit-request'); deleteRequest('${id}')">${currentLang==='bn'?'মুছে ফেলুন':'Delete'}</button>
+  `;
+  openModal('modal-edit-request');
+}
+async function saveEditRequest(id){
+  const r = requests.find(x=>x.id===id) || myRequests.find(x=>x.id===id);
+  if(!r) return;
+  r.patient = document.getElementById('er-patient').value.trim();
+  r.hospital = document.getElementById('er-hospital').value.trim();
+  r.units = parseInt(document.getElementById('er-units').value||'1',10);
+  r.status = document.getElementById('er-status').value;
+  await persistRequestUpdate(r);
+  toast('✅ আপডেট হয়েছে');
+  closeModal('modal-edit-request');
+  renderHistoryTab();
+}
+
+/* ---------------------------------------------------------------------
+   14. Donor list — search + filters + real GPS distance
+--------------------------------------------------------------------- */
+function renderDonorsScreenInit(){
+  const dfSel = document.getElementById('filter-division');
+  if(dfSel && !dfSel.dataset.filled){
+    dfSel.innerHTML = '<option value="">সব বিভাগ</option>' + Object.keys(GEO).map(d=>`<option value="${d}">${d}</option>`).join('');
+    dfSel.dataset.filled = "1";
+  }
+  renderDonors();
+}
+const renderDonorsDebounced = debounce(renderDonors, 200);
+function renderDonors(){
+  const bar = document.getElementById('bg-filter-bar');
+  if(!bar.dataset.filled){
+    bar.innerHTML = ['all',...BLOOD_GROUPS].map(bgv =>
+      `<div class="chip ${bgv==='all'?'active':''}" data-bg="${bgv}" onclick="setDonorFilter('${bgv}')">${bgv==='all'?(currentLang==='bn'?'সব গ্রুপ':'All'):bgv}</div>`
+    ).join('');
+    bar.dataset.filled = "1";
+  }
+  const [ulat,ulng] = userGeo ? [userGeo.lat,userGeo.lng] : (DIV_COORDS[user.division] || DIV_COORDS["ঢাকা"]);
+  const searchQ = (document.getElementById('donor-search')?.value||'').trim().toLowerCase();
+  const fDivision = document.getElementById('filter-division')?.value || '';
+  const fDistrict = document.getElementById('filter-district')?.value || '';
+  const fAvail = document.getElementById('filter-avail')?.value || 'all';
+  const fDistance = parseFloat(document.getElementById('filter-distance')?.value || '0');
+
+  let list = donors
+    .filter(d=>!(user.blockedUsers||[]).includes(d.uid))
+    .map(d=>{
+      const [dlat,dlng] = (d.geo) ? [d.geo.lat,d.geo.lng] : (DIV_COORDS[d.division] || [ulat,ulng]);
+      const jitter = (d.district===user.district)? 1.5 : 0;
+      const dist = Math.max(0.4, haversine(ulat,ulng,dlat,dlng) + jitter*0.5);
+      return Object.assign({}, d, {distance: dist});
+    }).sort((a,b)=>a.distance-b.distance);
+
+  if(donorFilterBg !== 'all') list = list.filter(d=>d.bg===donorFilterBg);
+  if(searchQ) list = list.filter(d=> d.name.toLowerCase().includes(searchQ) || d.district.toLowerCase().includes(searchQ) || d.division.toLowerCase().includes(searchQ));
+  if(fDivision) list = list.filter(d=>d.division===fDivision);
+  if(fDistrict) list = list.filter(d=>d.district===fDistrict);
+  if(fAvail==='available') list = list.filter(d=>d.available);
+  if(fDistance>0) list = list.filter(d=>d.distance<=fDistance);
+
+  const box = document.getElementById('donor-list');
+  if(list.length===0){
+    box.innerHTML = emptyStateHtml(
+      currentLang==='bn'?'এই ফিল্টারে কোনো ডোনার পাওয়া যায়নি':'No donors match this filter',
+      currentLang==='bn'?'অন্য জেলা বা ব্লাড গ্রুপ চেষ্টা করুন':'Try another district or blood group'
+    );
+    return;
+  }
+  const favs = user.favorites||[];
+  box.innerHTML = list.map(d=>`
+    <div class="card">
+      <div class="donor-card">
+        <div class="avatar">${d.photoURL?`<img src="${d.photoURL}">`:d.name.charAt(0)}</div>
+        <div class="info">
+          <h5>${esc(d.name)} ${d.verified?'<svg class="verified-badge" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>':''}</h5>
+          <span>🩸 <b>${d.bg}</b> · ${esc(d.district)}, ${esc(d.division)} · 📍 ${d.distance.toFixed(1)} কিমি</span>
+          <span>${d.available? (currentLang==='bn'?'উপলব্ধ':'Available') : (currentLang==='bn'?'অনুপলব্ধ':'Unavailable')} <span class="avail-dot ${d.available?'':'off'}"></span></span>
+        </div>
+        <div class="donor-actions">
+          <button class="icon-round fav ${favs.includes(d.uid)?'active':''}" title="Favorite" onclick="toggleFavorite('${d.uid}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="${favs.includes(d.uid)?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+          </button>
+          <a href="tel:${d.phone}" class="icon-round call" title="কল করুন">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006.2 6.2l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
+          </a>
+          <a href="https://wa.me/88${d.phone}" target="_blank" class="icon-round wa" title="WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.3c-.2.6-1.4 1.2-1.9 1.2-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3s.8-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .5 0 .7.6.3.6.9 2.1 1 2.2.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.5-.5.6-.2.2-.4.4-.2.8.2.4 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 3 1.9.4.2.6.1.8-.1.2-.2.9-1 1.1-1.3.2-.3.4-.3.7-.2.3.1 1.8.9 2.1 1 .3.2.5.2.6.4.1.2.1.9-.1 1.5z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <a href="${mapsDirectionsUrl((d.geo&&d.geo.lat)||dlatFallback(d),(d.geo&&d.geo.lng)||dlngFallback(d))}" target="_blank" class="btn btn-outline btn-sm" style="flex:1;">🗺️ ${currentLang==='bn'?'রুট দেখুন':'Directions'}</a>
+        <button class="btn btn-soft btn-sm" style="flex:1;" onclick="openReportModal('${d.uid}')">🚩 ${currentLang==='bn'?'রিপোর্ট':'Report'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+function dlatFallback(d){ return (DIV_COORDS[d.division]||DIV_COORDS["ঢাকা"])[0]; }
+function dlngFallback(d){ return (DIV_COORDS[d.division]||DIV_COORDS["ঢাকা"])[1]; }
+function setDonorFilter(bgv){
+  donorFilterBg = bgv;
+  document.querySelectorAll('#bg-filter-bar .chip').forEach(c=>c.classList.toggle('active', c.dataset.bg===bgv));
+  renderDonors();
+}
+document.addEventListener('input', e=>{ if(e.target && e.target.id==='donor-search') renderDonorsDebounced(); });
+
+async function toggleFavorite(uid){
+  user.favorites = user.favorites || [];
+  const idx = user.favorites.indexOf(uid);
+  if(idx>=0) user.favorites.splice(idx,1); else user.favorites.push(uid);
+  await saveUserProfile(user);
+  toast(idx>=0 ? '💔 প্রিয় তালিকা থেকে সরানো হয়েছে' : '⭐ প্রিয় তালিকায় যোগ করা হয়েছে');
+  renderDonors();
+}
+function renderFavorites(){
+  const favs = user.favorites||[];
+  const list = donors.filter(d=>favs.includes(d.uid));
+  const box = document.getElementById('favorites-list');
+  if(list.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কোনো প্রিয় ডোনার নেই':'No favorite donors yet'); return; }
+  box.innerHTML = list.map(d=>`
+    <div class="card">
+      <div class="donor-card">
+        <div class="avatar">${d.photoURL?`<img src="${d.photoURL}">`:d.name.charAt(0)}</div>
+        <div class="info"><h5>${esc(d.name)}</h5><span><b>${d.bg}</b> · ${esc(d.district)}, ${esc(d.division)}</span></div>
+        <div class="donor-actions">
+          <a href="tel:${d.phone}" class="icon-round call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006.2 6.2l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg></a>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------------------------------------------------------------------
+   15. Notifications (matching + history) + FCM registration
+--------------------------------------------------------------------- */
+function getMatchingRequests(){
+  return requests.filter(r =>
+    r.status==='pending' && !isExpired(r) &&
+    COMPATIBLE_DONORS[r.bg] && COMPATIBLE_DONORS[r.bg].includes(user.bg) &&
+    r.division===user.division && r.requesterUid!==user.uid
+  );
+}
+function switchNotifTab(tab){
+  notifTab = tab;
+  document.getElementById('notif-tab-match').classList.toggle('active', tab==='match');
+  document.getElementById('notif-tab-history').classList.toggle('active', tab==='history');
+  renderNotifications();
+}
+function renderNotifications(){
+  const box = document.getElementById('notif-list');
+  if(notifTab==='match'){
+    const matched = getMatchingRequests();
+    if(matched.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'আপনার জন্য মিলে যাওয়া কোনো রিকোয়েস্ট নেই':'No matching requests for you'); return; }
+    box.innerHTML = matched.map(r=>`
+      <div class="card notif-card">
+        <div class="top-row">
+          <div>
+            <div class="dist">${r.bg} ${currentLang==='bn'?'প্রয়োজন':'needed'} — ${esc(r.district)}</div>
+            <div style="font-size:12.5px; color:var(--text-soft); margin-top:2px;">${esc(r.hospital)}</div>
+          </div>
+          ${urgencyTagHtml(r.urgency)}
+        </div>
+        <div style="font-size:12.5px; color:var(--text-soft);">${currentLang==='bn'?'রোগীঃ':'Patient:'} ${esc(r.patient)} · ${r.units} ${currentLang==='bn'?'ইউনিট':'units'} · ${esc(r.time)} ${expiryChipHtml(r)}</div>
+        <div class="notif-actions">
+          <button class="btn btn-success btn-sm" style="flex:1;" onclick="respondNotif('${r.id}', true)">Accept</button>
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="respondNotif('${r.id}', false)">Decline</button>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    if(notifHistory.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কোনো হিস্ট্রি নেই':'No history yet'); return; }
+    box.innerHTML = notifHistory.map(n=>`
+      <div class="card">
+        <div style="font-size:13px; font-weight:600;">${esc(n.text)}</div>
+        <div class="helper">${fmtDate(n.date)}</div>
+      </div>`).join('');
+  }
+}
+async function respondNotif(id, accepted){
+  const r = requests.find(x=>x.id===id);
+  notifHistory.unshift({text: accepted? `আপনি ${r?r.patient:''} এর জন্য রিকোয়েস্ট গ্রহণ করেছেন` : `আপনি একটি রিকোয়েস্ট প্রত্যাখ্যান করেছেন`, date: new Date().toISOString()});
+  if(r && accepted){
+    r.status = 'accepted';
+    r.acceptedBy = user.uid;
+    await persistRequestUpdate(r);
+  } else if(r){
+    // decline just removes it from this donor's view locally; request stays open for others
+  }
+  toast(accepted ? '✅ আপনি রিকোয়েস্টটি গ্রহণ করেছেন' : 'রিকোয়েস্ট প্রত্যাখ্যান করা হয়েছে');
+  renderNotifications();
+}
+
+async function registerPushToken(){
+  if(!FIREBASE_ENABLED || !fb.messaging) return;
+  try{
+    const perm = await Notification.requestPermission();
+    if(perm!=='granted') return;
+    const swReg = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+    const token = await fbFns.getToken(fb.messaging, {vapidKey:VAPID_KEY, serviceWorkerRegistration:swReg});
+    if(token){
+      user.fcmToken = token;
+      await saveUserProfile(user);
+    }
+    fbFns.onMessage(fb.messaging, payload=>{
+      toast('🔔 '+(payload.notification?.title||'নতুন নোটিফিকেশন'));
+      renderNotifications();
+    });
+  }catch(e){ console.error('FCM registration failed', e); }
+}
+function enablePushNotifications(){
+  if(!('Notification' in window)){ toast('⚠️ এই ব্রাউজারে নোটিফিকেশন সমর্থিত নয়'); return; }
+  if(!FIREBASE_ENABLED){ toast('🧪 ডেমো মোডে পুশ নোটিফিকেশন সিমুলেটেড — লাইভ মোডে প্রকৃত FCM চালু হবে'); Notification.requestPermission(); return; }
+  registerPushToken().then(()=>toast('✅ নোটিফিকেশন চালু হয়েছে'));
+}
+function notifyCompatibleDonors(r){
+  // Client can only mark the request as broadcast-ready; the actual cross-device push
+  // requires the Cloud Function in functions-send-notification.js (see SETUP-README.md),
+  // which listens on new /requests docs and sends FCM messages to matched donors' tokens.
+  console.log('Broadcast requested for', r.id, '— handled server-side via Cloud Function in live mode.');
+}
+
+/* ---------------------------------------------------------------------
+   16. Profile
+--------------------------------------------------------------------- */
+function renderProfile(){
+  document.getElementById('pf-avatar').innerHTML = user.photoURL ? `<img src="${user.photoURL}">` : user.name.charAt(0);
+  document.getElementById('pf-name').innerHTML = esc(user.name) + (user.verified? ' <svg class="verified-badge" style="display:inline-block;width:14px;height:14px;vertical-align:middle;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>' : '');
+  document.getElementById('pf-location').textContent = user.district+', '+user.division+' · '+user.bg;
+  document.getElementById('pf-avail-toggle').checked = !!user.available;
+  document.getElementById('pf-stat-donations').textContent = user.totalDonations||0;
+  document.getElementById('pf-stat-requests').textContent = myRequests.length;
+  document.getElementById('pf-stat-bg').textContent = user.bg;
+  document.getElementById('admin-menu-item').style.display = user.isAdmin ? 'flex' : 'none';
+
+  const elig = getEligibility();
+  const card = document.getElementById('pf-eligibility-card');
+  if(elig.eligible){
+    card.innerHTML = `<div class="eligibility-banner ok">✅ ${currentLang==='bn'?'আপনি এখন রক্ত দেওয়ার জন্য উপযুক্ত (Eligible)':'You are eligible to donate now'}</div>`;
+  } else {
+    card.innerHTML = `<div class="eligibility-banner wait">⏳ ${currentLang==='bn'?`আরও ${elig.daysLeft} দিন অপেক্ষা করুন (শেষ দান: ${fmtDate(user.lastDonation)})`:`Wait ${elig.daysLeft} more days (last donation: ${fmtDate(user.lastDonation)})`}</div>`;
+  }
+  renderBadges();
+  renderHistoryTab();
+}
+function renderBadges(){
+  const n = user.totalDonations||0;
+  const badges = [
+    {min:1, label: currentLang==='bn'?'🩸 প্রথম দান':'🩸 First Donation'},
+    {min:3, label: currentLang==='bn'?'🥉 ব্রোঞ্জ ডোনার':'🥉 Bronze Donor'},
+    {min:5, label: currentLang==='bn'?'🥈 সিলভার ডোনার':'🥈 Silver Donor'},
+    {min:10, label: currentLang==='bn'?'🥇 গোল্ড ডোনার':'🥇 Gold Donor'},
+    {min:25, label: currentLang==='bn'?'🏆 লাইফসেভার':'🏆 Lifesaver'}
+  ];
+  document.getElementById('pf-badges').innerHTML = badges.map(b=>
+    `<div class="badge-pill ${n>=b.min?'':'locked'}">${b.label}</div>`
+  ).join('');
+}
+function toggleAvailability(){
+  user.available = document.getElementById('pf-avail-toggle').checked;
+  saveUserProfile(user);
+  toast(user.available ? '🟢 আপনি এখন উপলব্ধ' : '⚪ আপনি এখন অনুপলব্ধ');
+}
+function switchHistoryTab(tab){
+  historyTab = tab;
+  document.getElementById('tab-btn-req').classList.toggle('active', tab==='req');
+  document.getElementById('tab-btn-don').classList.toggle('active', tab==='don');
+  renderHistoryTab();
+}
+function renderHistoryTab(){
+  const box = document.getElementById('history-content');
+  if(!box) return;
+  if(historyTab==='req'){
+    if(myRequests.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'আপনি এখনো কোনো রিকোয়েস্ট করেননি':'You have not made any requests yet'); return; }
+    box.innerHTML = myRequests.map(r=>`
+      <div class="card">
+        <div class="req-item">
+          <div class="bg-badge">${r.bg}</div>
+          <div class="info">
+            <h5>${esc(r.patient)} ${urgencyTagHtml(r.urgency)}${statusTagHtml(r.status||'pending')}</h5>
+            <span>${esc(r.hospital)} · ${esc(r.district)}</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openEditRequest('${r.id}')">✏️ ${currentLang==='bn'?'এডিট':'Edit'}</button>
+          <button class="btn btn-success btn-sm" style="flex:1;" onclick="setRequestStatus('${r.id}','completed')">✅ ${currentLang==='bn'?'সম্পন্ন':'Done'}</button>
+          <button class="btn btn-soft btn-sm" style="flex:1;" onclick="deleteRequest('${r.id}')">🗑️</button>
+        </div>
+      </div>`).join('');
+  } else {
+    if(myDonations.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'আপনার কোনো ডোনেশন হিস্ট্রি নেই':'No donation history yet'); return; }
+    box.innerHTML = myDonations.map(d=>`
+      <div class="card bg-O">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700; font-size:14px;">${esc(d.hospital)}</div>
+            <div class="helper" style="margin-top:2px;">${fmtDate(d.date)}</div>
+          </div>
+          <div class="urgency-tag urgency-normal">${d.units} ${currentLang==='bn'?'ইউনিট':'units'}</div>
+        </div>
+      </div>`).join('');
+  }
+}
+
+/* ---------- edit profile / photo upload ---------- */
+function openEditProfile(){
+  const body = document.getElementById('edit-profile-body');
+  body.innerHTML = `
+    <label>${currentLang==='bn'?'পূর্ণ নাম':'Full Name'}</label>
+    <input type="text" id="ep-name" value="${esc(user.name)}">
+    <label>${currentLang==='bn'?'বিস্তারিত ঠিকানা':'Address'}</label>
+    <textarea id="ep-address" rows="2">${esc(user.address||'')}</textarea>
+    <label>${currentLang==='bn'?'শেষ রক্তদানের তারিখ':'Last Donation Date'}</label>
+    <input type="date" id="ep-lastdonation" value="${user.lastDonation||''}">
+    <div style="height:8px;"></div>
+    <button class="btn btn-primary" onclick="saveEditProfile()">${currentLang==='bn'?'সংরক্ষণ করুন':'Save'}</button>
+  `;
+  openModal('modal-edit-profile');
+}
+async function saveEditProfile(){
+  user.name = document.getElementById('ep-name').value.trim() || user.name;
+  user.address = document.getElementById('ep-address').value.trim();
+  user.lastDonation = document.getElementById('ep-lastdonation').value || null;
+  await saveUserProfile(user);
+  toast('✅ প্রোফাইল আপডেট হয়েছে');
+  closeModal('modal-edit-profile');
+  renderProfile();
+}
+async function uploadProfilePhoto(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){ toast('⚠️ ছবির সাইজ ৫MB এর কম হতে হবে'); return; }
+  if(FIREBASE_ENABLED){
+    try{
+      const r = fbFns.ref(fb.storage, `profile-photos/${user.uid}.jpg`);
+      await fbFns.uploadBytes(r, file);
+      user.photoURL = await fbFns.getDownloadURL(r);
+      await saveUserProfile(user);
+      toast('✅ ছবি আপলোড হয়েছে');
+      renderProfile();
+    }catch(e){ console.error(e); toast('⚠️ ছবি আপলোডে সমস্যা'); }
+  } else {
+    const reader = new FileReader();
+    reader.onload = async ()=>{ user.photoURL = reader.result; await saveUserProfile(user); toast('✅ ছবি সংরক্ষিত হয়েছে (ডেমো)'); renderProfile(); };
+    reader.readAsDataURL(file);
+  }
+}
+
+/* ---------- share profile / QR ---------- */
+function shareProfile(){
+  const url = `https://ebn.app/donor/${user.uid}`; // placeholder deep-link; wire to real hosting domain
+  const text = `${user.name} — ${user.bg} — EBN প্রোফাইল দেখুন: ${url}`;
+  if(navigator.share){ navigator.share({title:'EBN Profile', text, url}).catch(()=>{}); }
+  else { navigator.clipboard?.writeText(text); toast('🔗 লিংক কপি হয়েছে'); }
+}
+function openQrModal(){
+  openModal('modal-qr');
+  const holder = document.getElementById('qr-canvas-holder');
+  holder.innerHTML = '';
+  const url = `https://ebn.app/donor/${user.uid}`;
+  if(window.QRCode){
+    new QRCode(holder, {text:url, width:180, height:180});
+  } else {
+    holder.innerHTML = `<div class="helper">QR লাইব্রেরি লোড হয়নি (ইন্টারনেট প্রয়োজন)</div>`;
+  }
+}
+
+/* ---------- PDF certificate ---------- */
+function downloadCertificate(){
+  if(!window.jspdf){ toast('⚠️ PDF লাইব্রেরি লোড হয়নি (ইন্টারনেট প্রয়োজন)'); return; }
+  if((user.totalDonations||0)<1){ toast('⚠️ সার্টিফিকেট পেতে অন্তত ১টি ডোনেশন প্রয়োজন'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'landscape'});
+  doc.setFillColor(183,28,28); doc.rect(0,0,297,210,'F');
+  doc.setFillColor(255,255,255); doc.rect(10,10,277,190,'F');
+  doc.setTextColor(183,28,28); doc.setFontSize(26); doc.text('Blood Donation Certificate', 148, 50, {align:'center'});
+  doc.setFontSize(14); doc.setTextColor(50,50,50);
+  doc.text('This certifies that', 148, 75, {align:'center'});
+  doc.setFontSize(22); doc.setTextColor(183,28,28); doc.text(user.name, 148, 95, {align:'center'});
+  doc.setFontSize(13); doc.setTextColor(50,50,50);
+  doc.text(`Blood Group: ${user.bg}   |   Total Donations: ${user.totalDonations||0}`, 148, 115, {align:'center'});
+  doc.text(`Issued by Emergency Blood Network (EBN) — ${new Date().toLocaleDateString()}`, 148, 135, {align:'center'});
+  doc.text('Thank you for saving lives.', 148, 155, {align:'center'});
+  doc.save(`EBN-Certificate-${user.name.replace(/\s+/g,'_')}.pdf`);
+  toast('✅ সার্টিফিকেট ডাউনলোড হয়েছে');
+}
+
+/* ---------------------------------------------------------------------
+   17. Hospitals / Blood Banks directory
+--------------------------------------------------------------------- */
+function switchPlaceTab(tab){
+  placeTab = tab;
+  document.getElementById('place-tab-hosp').classList.toggle('active', tab==='hospital');
+  document.getElementById('place-tab-bank').classList.toggle('active', tab==='bloodbank');
+  renderPlaces();
+}
+function renderPlaces(){
+  const src = placeTab==='hospital' ? HOSPITALS : BLOODBANKS;
+  const q = (document.getElementById('place-search').value||'').trim().toLowerCase();
+  let list = src;
+  if(q) list = list.filter(p=>p.name.toLowerCase().includes(q) || p.district.toLowerCase().includes(q) || p.division.toLowerCase().includes(q));
+  const box = document.getElementById('place-list');
+  if(list.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কিছু পাওয়া যায়নি':'Nothing found'); return; }
+  box.innerHTML = list.map(p=>{
+    const [lat,lng] = DIV_COORDS[p.division]||DIV_COORDS["ঢাকা"];
+    return `<div class="card">
+      <div class="place-card">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
+        <div class="info">
+          <h5>${esc(p.name)}</h5>
+          <span>${esc(p.district)}, ${esc(p.division)}</span>
+        </div>
+      </div>
+      <div class="place-actions">
+        <a href="tel:${p.phone}" class="btn btn-success btn-sm" style="flex:1;">📞 ${currentLang==='bn'?'কল করুন':'Call'}</a>
+        <a href="${mapsDirectionsUrl(lat,lng)}" target="_blank" class="btn btn-outline btn-sm" style="flex:1;">🗺️ Maps</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------------------------------------------------------------------
+   18. Statistics dashboard
+--------------------------------------------------------------------- */
+function renderStats(){
+  const total = donors.length;
+  const avail = donors.filter(d=>d.available).length;
+  const availPct = total ? Math.round(avail/total*100) : 0;
+  const box = document.getElementById('stats-content');
+  const byBg = {};
+  BLOOD_GROUPS.forEach(bg=>byBg[bg]=donors.filter(d=>d.bg===bg).length);
+  const maxBg = Math.max(1,...Object.values(byBg));
+  box.innerHTML = `
+    <div class="card" style="text-align:center;">
+      <div class="progress-ring" style="background:conic-gradient(var(--success) ${availPct*3.6}deg, var(--line) 0deg);">
+        <div class="center"><div class="n">${availPct}%</div><div class="l">${currentLang==='bn'?'উপলব্ধ':'Available'}</div></div>
+      </div>
+      <div class="helper">${avail} / ${total} ${currentLang==='bn'?'ডোনার এখন উপলব্ধ':'donors available now'}</div>
+    </div>
+    <div class="stat-hero">
+      <div class="card"><div class="big">${total}</div><div class="lbl">${currentLang==='bn'?'মোট ডোনার':'Total Donors'}</div></div>
+      <div class="card"><div class="big">${avail}</div><div class="lbl">${currentLang==='bn'?'উপলব্ধ ডোনার':'Available Now'}</div></div>
+      <div class="card"><div class="big">${requests.filter(r=>r.status==='pending').length}</div><div class="lbl">${currentLang==='bn'?'সক্রিয় রিকোয়েস্ট':'Active Requests'}</div></div>
+      <div class="card"><div class="big">${requests.filter(r=>r.status==='completed').length}</div><div class="lbl">${currentLang==='bn'?'সম্পন্ন অনুরোধ':'Fulfilled'}</div></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; margin-bottom:10px; font-size:14px;">${currentLang==='bn'?'রক্তের গ্রুপ অনুযায়ী ডোনার':'Donors by Blood Group'}</div>
+      ${BLOOD_GROUPS.map(bg=>`<div class="bar-row"><div class="lbl">${bg}</div><div class="bar-track"><div class="bar-fill" style="width:${(byBg[bg]/maxBg*100).toFixed(0)}%"></div></div><div class="val">${byBg[bg]}</div></div>`).join('')}
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------------------
+   19. Blood compatibility checker
+--------------------------------------------------------------------- */
+function renderCompat(){
+  const bg = document.getElementById('compat-bg')?.value;
+  const box = document.getElementById('compat-result');
+  if(!bg){ box.innerHTML=''; return; }
+  const canReceiveFrom = COMPATIBLE_DONORS[bg]||[];
+  const canDonateTo = COMPATIBLE_RECIPIENTS[bg]||[];
+  box.innerHTML = `
+    <div class="card">
+      <div style="font-weight:700; margin-bottom:8px;">${bg} ${currentLang==='bn'?'যাদের কাছ থেকে রক্ত নিতে পারবে':'can receive from'}</div>
+      <div class="badge-row">${canReceiveFrom.map(x=>`<div class="badge-pill">${x}</div>`).join('')}</div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; margin-bottom:8px;">${bg} ${currentLang==='bn'?'যাদের কাছে রক্ত দিতে পারবে':'can donate to'}</div>
+      <div class="badge-row">${canDonateTo.map(x=>`<div class="badge-pill">${x}</div>`).join('')}</div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------------------
+   20. Settings (dark mode / language / push)
+--------------------------------------------------------------------- */
+function renderSettings(){
+  document.getElementById('dark-toggle').checked = document.documentElement.getAttribute('data-theme')==='dark';
+  document.getElementById('app-mode-label').textContent = FIREBASE_ENABLED ? '🟢 Live Mode (Firebase connected)' : '🧪 Demo Mode (no backend configured)';
+}
+function toggleDarkMode(){
+  const isDark = document.getElementById('dark-toggle').checked;
+  document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
+  localStorage.setItem('ebn_theme', isDark?'dark':'light');
+}
+function initTheme(){
+  const saved = localStorage.getItem('ebn_theme');
+  if(saved==='dark') document.documentElement.setAttribute('data-theme','dark');
+}
+
+/* ---------------------------------------------------------------------
+   21. Safety: report / block
+--------------------------------------------------------------------- */
+let reportingTargetUid = null;
+function openReportModal(targetUid){
+  reportingTargetUid = targetUid;
+  document.getElementById('report-reason').value='';
+  openModal('modal-report');
+}
+async function submitReport(){
+  const reason = document.getElementById('report-reason').value.trim();
+  if(!reason){ toast('⚠️ কারণ লিখুন'); return; }
+  const rep = {reporterUid:user.uid, targetUid:reportingTargetUid, reason, createdAt:Date.now()};
+  if(FIREBASE_ENABLED){
+    try{ await fbFns.addDoc(fbFns.collection(fb.db,'reports'), rep); }catch(e){ console.error(e); }
+  }
+  allReports.unshift(rep);
+  if(reportingTargetUid){
+    if(!confirm(currentLang==='bn'?'এই ব্যবহারকারীকেও কি ব্লক করতে চান?':'Also block this user?')===false){
+      // no-op, user chose not to block; report already filed
+    }
+  }
+  toast('✅ রিপোর্ট পাঠানো হয়েছে');
+  closeModal('modal-report');
+}
+async function blockUser(uid){
+  user.blockedUsers = user.blockedUsers||[];
+  if(!user.blockedUsers.includes(uid)) user.blockedUsers.push(uid);
+  await saveUserProfile(user);
+  toast('🚫 ব্যবহারকারী ব্লক করা হয়েছে');
+  renderDonors();
+}
+async function unblockUser(uid){
+  user.blockedUsers = (user.blockedUsers||[]).filter(u=>u!==uid);
+  await saveUserProfile(user);
+  renderBlocked();
+}
+function renderBlocked(){
+  const list = donors.filter(d=>(user.blockedUsers||[]).includes(d.uid));
+  const box = document.getElementById('blocked-list');
+  if(list.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কোনো ব্লক করা ব্যবহারকারী নেই':'No blocked users'); return; }
+  box.innerHTML = list.map(d=>`
+    <div class="card">
+      <div class="donor-card">
+        <div class="avatar">${d.name.charAt(0)}</div>
+        <div class="info"><h5>${esc(d.name)}</h5><span>${esc(d.district)}, ${esc(d.division)}</span></div>
+        <button class="btn btn-outline btn-sm" onclick="unblockUser('${d.uid}')">${currentLang==='bn'?'আনব্লক':'Unblock'}</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------------------------------------------------------------------
+   22. Admin dashboard
+--------------------------------------------------------------------- */
+function switchAdminTab(tab){
+  adminTab = tab;
+  ['overview','users','requests','reports'].forEach(k=>document.getElementById('admin-tab-'+k).classList.toggle('active', k===tab));
+  renderAdmin();
+}
+function renderAdmin(){
+  if(!user.isAdmin){
+    document.getElementById('admin-content').innerHTML = emptyStateHtml(currentLang==='bn'?'আপনার অ্যাডমিন অনুমতি নেই':'You do not have admin access');
+    return;
+  }
+  const box = document.getElementById('admin-content');
+  if(adminTab==='overview'){
+    box.innerHTML = `
+      <div class="stat-hero">
+        <div class="card"><div class="big">${donors.length}</div><div class="lbl">${currentLang==='bn'?'মোট ডোনার':'Total Donors'}</div></div>
+        <div class="card"><div class="big">${requests.length}</div><div class="lbl">${currentLang==='bn'?'মোট রিকোয়েস্ট':'Total Requests'}</div></div>
+        <div class="card"><div class="big">${requests.filter(r=>r.status==='pending').length}</div><div class="lbl">${currentLang==='bn'?'সক্রিয়':'Pending'}</div></div>
+        <div class="card"><div class="big">${allReports.length}</div><div class="lbl">${currentLang==='bn'?'রিপোর্ট':'Reports'}</div></div>
+      </div>`;
+  } else if(adminTab==='users'){
+    box.innerHTML = donors.map(d=>`
+      <div class="card admin-row">
+        <div class="avatar">${d.name.charAt(0)}</div>
+        <div class="info"><h5>${esc(d.name)}</h5><span>${d.bg} · ${esc(d.district)} ${d.verified?'· ✅ Verified':''}</span></div>
+        <div class="admin-actions">
+          <button class="btn btn-soft btn-sm" onclick="adminVerifyDonor('${d.uid}')">${currentLang==='bn'?'ভেরিফাই':'Verify'}</button>
+          <button class="btn btn-outline btn-sm" onclick="adminSuspendDonor('${d.uid}')">${currentLang==='bn'?'সাসপেন্ড':'Suspend'}</button>
+        </div>
+      </div>`).join('') || emptyStateHtml('—');
+  } else if(adminTab==='requests'){
+    box.innerHTML = requests.map(r=>`
+      <div class="card admin-row">
+        <div class="bg-badge">${r.bg}</div>
+        <div class="info"><h5>${esc(r.patient)} ${statusTagHtml(r.status||'pending')}</h5><span>${esc(r.hospital)} · ${esc(r.district)}</span></div>
+        <div class="admin-actions">
+          <button class="btn btn-outline btn-sm" onclick="deleteRequest('${r.id}'); renderAdmin();">${currentLang==='bn'?'মুছুন':'Remove'}</button>
+        </div>
+      </div>`).join('') || emptyStateHtml('—');
+  } else if(adminTab==='reports'){
+    box.innerHTML = allReports.map(r=>`
+      <div class="card">
+        <div style="font-size:13px; font-weight:600;">${currentLang==='bn'?'রিপোর্টার':'Reporter'}: ${esc(r.reporterUid)}</div>
+        <div class="helper">${currentLang==='bn'?'টার্গেট':'Target'}: ${esc(r.targetUid||'—')}</div>
+        <div style="font-size:13px; margin-top:6px;">${esc(r.reason)}</div>
+      </div>`).join('') || emptyStateHtml(currentLang==='bn'?'কোনো রিপোর্ট নেই':'No reports');
+  }
+}
+function adminVerifyDonor(uid){
+  const d = donors.find(x=>x.uid===uid); if(!d) return;
+  d.verified = true;
+  if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {verified:true}).catch(console.error); }
+  toast('✅ ভেরিফাই করা হয়েছে'); renderAdmin();
+}
+function adminSuspendDonor(uid){
+  const d = donors.find(x=>x.uid===uid); if(!d) return;
+  d.available = false; d.suspended = true;
+  if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {suspended:true, available:false}).catch(console.error); }
+  toast('🚫 সাসপেন্ড করা হয়েছে'); renderAdmin();
+}
+
+/* ---------------------------------------------------------------------
+   23. SOS
+--------------------------------------------------------------------- */
+function triggerSOS(){ openModal('modal-sos'); }
+async function confirmSOS(){
+  const r = {
+    id: FIREBASE_ENABLED ? null : String(nextReqId++),
+    patient: user.name, bg: user.bg, units: 1, hospital: currentLang==='bn'?'নিকটস্থ হাসপাতাল (SOS)':'Nearest hospital (SOS)',
+    division: user.division, district: user.district, time:'এখনই', urgency:'critical',
+    contact: (user.phone||'').replace('+88',''), createdAgoMin:0, createdAt: Date.now(),
+    status:'pending', requesterUid:user.uid, expiresAt: Date.now()+2*3600*1000, sos:true
+  };
+  await persistNewRequest(r);
+  closeModal('modal-sos');
+  toast('🚨 SOS এলার্ট পাঠানো হয়েছে');
+  const text = `🚨 SOS: জরুরি রক্ত প্রয়োজন (${user.bg}) — ${user.district}, ${user.division}। যোগাযোগঃ ${r.contact}`;
+  if(navigator.share){ navigator.share({title:'SOS — EBN', text}).catch(()=>{}); }
+  go('home');
+}
+
+/* ---------------------------------------------------------------------
+   24. Firestore live subscriptions (LIVE MODE only)
+--------------------------------------------------------------------- */
+function subscribeLiveData(){
+  if(!FIREBASE_ENABLED) return;
+  unsubscribers.forEach(u=>u()); unsubscribers=[];
+  try{
+    const usersUnsub = fbFns.onSnapshot(fbFns.collection(fb.db,'users'), snap=>{
+      donors = snap.docs.map(d=>Object.assign({uid:d.id}, d.data()));
+      cacheOffline();
+      if(currentScreen==='donors') renderDonors();
+      if(currentScreen==='admin') renderAdmin();
+    }, err=>console.error('users sub error', err));
+    const reqUnsub = fbFns.onSnapshot(fbFns.query(fbFns.collection(fb.db,'requests'), fbFns.orderBy('createdAt','desc')), snap=>{
+      requests = snap.docs.map(d=>Object.assign({id:d.id}, d.data()));
+      myRequests = requests.filter(r=>r.requesterUid===user.uid);
+      cacheOffline();
+      if(['home','notifications','profile'].includes(currentScreen)) refreshCurrentScreen();
+    }, err=>console.error('requests sub error', err));
+    unsubscribers.push(usersUnsub, reqUnsub);
+  }catch(e){ console.error(e); }
+}
+
+/* ---------------------------------------------------------------------
+   25. Offline caching
+--------------------------------------------------------------------- */
+function cacheOffline(){
+  try{
+    localStorage.setItem('ebn_cache_donors', JSON.stringify(donors));
+    localStorage.setItem('ebn_cache_requests', JSON.stringify(requests));
+  }catch(e){}
+}
+function loadOfflineCache(){
+  try{
+    const d = localStorage.getItem('ebn_cache_donors');
+    const r = localStorage.getItem('ebn_cache_requests');
+    if(d) donors = JSON.parse(d);
+    if(r) requests = JSON.parse(r);
+  }catch(e){}
+}
+function updateOnlineStatus(){
+  const banner = document.getElementById('offline-banner');
+  if(!navigator.onLine){ loadOfflineCache(); banner.classList.add('show'); }
+  else banner.classList.remove('show');
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+/* ---------------------------------------------------------------------
+   26. Boot sequence
+--------------------------------------------------------------------- */
+async function boot(){
+  initTheme();
+  applyTranslations();
+  populateDivisionSelect('reg');
+  updateOnlineStatus();
+
+  const live = await initFirebase();
+  document.getElementById('mode-flag').textContent = live ? '🟢 Live Mode' : '🧪 Demo Mode — connect Firebase in app.js to go live';
+
+  if(live){
+    fbFns.onAuthStateChanged(fb.auth, async (fbUser)=>{
+      if(fbUser){
+        const profile = await loadUserProfile(fbUser.uid);
+        if(profile){ user = profile; subscribeLiveData(); registerPushToken(); go('home'); }
+      }
+    });
+  } else {
+    // DEMO MODE: restore last demo session if present
+    const lastUid = localStorage.getItem('ebn_demo_last_uid');
+    if(lastUid){
+      const profile = await loadUserProfile(lastUid);
+      if(profile){ user = profile; }
+    }
+  }
+  window.addEventListener('error', e=>console.error('Global error:', e.error||e.message));
+}
+boot();
+
+</script>
+</body>
+</html>
