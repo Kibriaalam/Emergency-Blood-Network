@@ -4,45 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Emergency Blood Network — EBN</title>
-<meta name="theme-color" content="#181B2E">
+<meta name="theme-color" content="#1B0F12">
+<meta name="description" content="Emergency Blood Network — জরুরি মুহূর্তে রক্তদাতা খুঁজুন বাংলাদেশ জুড়ে।">
+<meta property="og:title" content="Emergency Blood Network — EBN">
+<meta property="og:description" content="রক্ত দিন, জীবন বাঁচান — জরুরি রক্তদাতা নেটওয়ার্ক">
+<meta property="og:type" content="website">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'%3E%3Cpath d='M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z' fill='%238E2430'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'%3E%3Crect width='100' height='130' fill='%231C1310'/%3E%3Cpath d='M50 14C50 14 22 56 22 82C22 100 34 114 50 114C66 114 78 100 78 82C78 56 50 14 50 14Z' fill='%23AD8A3D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --primary:#C1121F;
-    --primary-dark:#6E0A16;
-    --accent:#E5383B;
-    --ink:#0F1C3F;
-    --ink-soft:#5B6478;
-    --bg:#F7F8FB;
-    --card:#FFFFFF;
-    --text:#171A2B;
-    --text-soft:#6B7180;
-    --success:#217A55;
-    --warning:#A9720F;
-    --line:#E8EAF1;
-    --gold:#B8902E;
+    /* ---- Premium palette: deep garnet + antique gold + warm parchment ---- */
+    --primary:#8E2430;        /* garnet — brand red, deeper & less siren-like */
+    --primary-dark:#3E0E17;   /* espresso-garnet for gradients */
+    --accent:#B23A2E;         /* warm ember — secondary red accent */
+    --ink:#1C1310;            /* warm near-black, not cool navy */
+    --ink-soft:#6B5B4E;
+    --bg:#F7F1E6;             /* parchment background */
+    --card:#FFFDF8;           /* warm ivory card surface */
+    --text:#241A15;
+    --text-soft:#7A6B5C;
+    --success:#2F5D4E;        /* deep pine — calmer than emerald */
+    --warning:#96661C;
+    --line:#E8DDC8;           /* warm hairline instead of cool gray */
+    --gold:#AD8A3D;           /* antique gold — trust / verified / premium accents */
+    --gold-soft:#F1E6C6;
     --radius:22px;
     --radius-sm:14px;
-    --shell-bg:#E8EAF0;
-    --shadow-sm:0 1px 2px rgba(15,28,63,.05), 0 1px 1px rgba(15,28,63,.04);
-    --shadow-md:0 14px 30px -10px rgba(15,28,63,.14);
-    --shadow-lg:0 20px 44px -14px rgba(15,28,63,.24);
-    --glass-bg:rgba(15,28,63,.55);
+    --shell-bg:#EAE1CE;
+    --shadow-sm:0 1px 2px rgba(36,20,10,.06), 0 1px 1px rgba(36,20,10,.05);
+    --shadow-md:0 14px 30px -10px rgba(36,20,10,.16);
+    --shadow-lg:0 20px 44px -14px rgba(36,20,10,.28);
+    --glass-bg:rgba(28,19,16,.55);
+    --font-display:'Fraunces','Tiro Bangla',serif;
+    --font-bn-display:'Tiro Bangla',serif;
   }
   [data-theme="dark"]{
-    --bg:#0E1016;
-    --card:#181A22;
-    --text:#F1EFF4;
-    --text-soft:#9C9CAE;
-    --line:#272A34;
-    --shell-bg:#08090D;
-    --ink:#F1EFF4;
-    --ink-soft:#B7B7C6;
-    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
-    --shadow-md:0 14px 30px -10px rgba(0,0,0,.5);
-    --shadow-lg:0 20px 44px -14px rgba(0,0,0,.6);
-    --glass-bg:rgba(8,9,13,.6);
+    --bg:#15100C;
+    --card:#231A14;
+    --text:#F3E9DA;
+    --text-soft:#B8A791;
+    --line:#3A2C20;
+    --shell-bg:#0D0A08;
+    --ink:#F3E9DA;
+    --ink-soft:#C9B8A3;
+    --gold-soft:#3A2E17;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.35);
+    --shadow-md:0 14px 30px -10px rgba(0,0,0,.55);
+    --shadow-lg:0 20px 44px -14px rgba(0,0,0,.65);
+    --glass-bg:rgba(10,7,5,.6);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;height:100%;}
@@ -59,43 +72,46 @@
     width:100%;
     max-width:460px;
     min-height:100vh;
-    background:var(--bg);
+    background:
+      radial-gradient(520px 300px at 100% -8%, rgba(173,138,61,.07), transparent 60%),
+      var(--bg);
     position:relative;
     display:flex;
     flex-direction:column;
-    box-shadow:0 0 48px rgba(15,15,25,.18);
+    box-shadow:0 0 60px rgba(20,12,8,.22);
     overflow:hidden;
     transition:background .25s;
   }
   .num{font-family:'Inter',sans-serif; font-variant-numeric:tabular-nums;}
   ::-webkit-scrollbar{width:0;height:0;}
+  h1,h2,h3,.brand-serif{font-family:var(--font-display);}
 
   /* ---------- Top bar ---------- */
   .topbar{
     display:flex;align-items:center;gap:12px;
     padding:16px 18px 15px;
-    background:linear-gradient(120deg, var(--ink) 0%, var(--primary-dark) 145%);
+    background:linear-gradient(150deg, var(--ink) 0%, var(--primary-dark) 120%);
     backdrop-filter:blur(18px) saturate(140%);
     -webkit-backdrop-filter:blur(18px) saturate(140%);
     color:#fff;
     position:sticky; top:0; z-index:20;
-    box-shadow:0 6px 20px rgba(10,14,30,.2);
-    border-bottom:1px solid rgba(255,255,255,.06);
+    box-shadow:0 6px 20px rgba(15,8,5,.25);
+    border-bottom:1px solid rgba(173,138,61,.35);
   }
   .topbar .drop-mini{width:22px;height:22px;flex:0 0 auto;}
-  .topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.1px;flex:1;}
+  .topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.1px;flex:1; font-family:'Hind Siliguri',sans-serif;}
   .topbar .sub{font-size:11px;opacity:.72;font-weight:500; letter-spacing:.2px; display:flex; align-items:center; gap:4px;}
   .icon-btn{
-    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14); border-radius:12px;
+    background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.14); border-radius:12px;
     width:36px;height:36px;display:flex;align-items:center;justify-content:center;
     color:#fff; cursor:pointer; position:relative; transition:transform .12s, background .15s;
   }
   .icon-btn:active{transform:scale(.9); background:rgba(255,255,255,.2);}
-  .icon-btn .dot{position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:#E8B33D; display:none; box-shadow:0 0 0 2px var(--ink);}
+  .icon-btn .dot{position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:var(--gold); display:none; box-shadow:0 0 0 2px var(--ink);}
   .icon-btn .dot.show{display:block; animation:dotPing 1.6s ease-in-out infinite;}
   @keyframes dotPing{0%,100%{transform:scale(1);}50%{transform:scale(1.35);}}
   .topbar-avatar{
-    width:38px;height:38px;border-radius:12px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.18);
+    width:38px;height:38px;border-radius:12px; background:rgba(255,255,255,.12); border:1px solid rgba(173,138,61,.4);
     display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:#fff; flex:0 0 auto; cursor:pointer;
     overflow:hidden;
   }
@@ -118,21 +134,24 @@
 
   /* ---------- Splash ---------- */
   #screen-splash{align-items:center; justify-content:center; text-align:center; gap:18px; background:linear-gradient(165deg, var(--ink) 0%, var(--primary-dark) 100%); color:#fff; padding-bottom:0; position:relative; overflow:hidden;}
-  #screen-splash::before{content:""; position:absolute; inset:0; background:radial-gradient(360px 260px at 50% 8%, rgba(255,255,255,.08), transparent 65%);}
-  #screen-splash .drop{width:76px;height:76px; position:relative; z-index:1;}
-  #screen-splash h2{font-size:25px;margin:8px 0 0; font-weight:800; letter-spacing:-.3px; position:relative; z-index:1;}
-  #screen-splash p{margin:2px 0 0; opacity:.75; font-size:13.5px; position:relative; z-index:1;}
-  .pulse-line{width:180px; height:34px; margin-top:6px; opacity:.55; position:relative; z-index:1;}
+  #screen-splash::before{content:""; position:absolute; inset:0; background:radial-gradient(360px 260px at 50% 8%, rgba(173,138,61,.16), transparent 65%);}
+  .seal{width:96px; height:96px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; z-index:1;
+    border:1.5px solid rgba(173,138,61,.55); box-shadow:0 0 0 6px rgba(173,138,61,.08), 0 12px 30px -8px rgba(0,0,0,.5);}
+  .seal::before{content:""; position:absolute; inset:7px; border-radius:50%; border:1px solid rgba(173,138,61,.3);}
+  #screen-splash .drop{width:40px;height:40px; position:relative; z-index:1;}
+  #screen-splash h2{font-family:var(--font-bn-display); font-size:27px;margin:10px 0 0; font-weight:400; letter-spacing:.2px; position:relative; z-index:1;}
+  #screen-splash p{margin:2px 0 0; opacity:.8; font-size:13.5px; position:relative; z-index:1; letter-spacing:.2px;}
+  .pulse-line{width:180px; height:34px; margin-top:6px; opacity:.5; position:relative; z-index:1;}
   .pulse-line path{stroke-dasharray:220; stroke-dashoffset:220; animation:drawPulse 2.6s ease-in-out infinite;}
   @keyframes drawPulse{0%{stroke-dashoffset:220;}55%{stroke-dashoffset:0;}100%{stroke-dashoffset:-220;}}
   #screen-splash .cta{
-    margin-top:22px; background:#fff; color:var(--ink); border:none;
+    margin-top:22px; background:var(--gold); color:var(--ink); border:none;
     padding:15px 42px; border-radius:14px; font-size:15px; font-weight:700;
-    font-family:'Hind Siliguri'; cursor:pointer; box-shadow:var(--shadow-lg); letter-spacing:.2px;
+    font-family:'Hind Siliguri'; cursor:pointer; box-shadow:0 16px 30px -10px rgba(173,138,61,.5); letter-spacing:.2px;
     position:relative; z-index:1; transition:transform .12s;
   }
   #screen-splash .cta:active{transform:scale(.96);}
-  #screen-splash .demo-flag{margin-top:18px; font-size:10.5px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); padding:6px 14px; border-radius:20px; letter-spacing:.3px; position:relative; z-index:1;}
+  #screen-splash .demo-flag{margin-top:18px; font-size:10.5px; background:rgba(173,138,61,.1); border:1px solid rgba(173,138,61,.3); padding:6px 14px; border-radius:20px; letter-spacing:.3px; position:relative; z-index:1;}
 
   /* ---------- Generic elements ---------- */
   .section-pad{padding:16px 18px;}
@@ -141,10 +160,10 @@
     box-shadow:var(--shadow-sm); border:1px solid var(--line);
     margin-bottom:12px; transition:box-shadow .18s, transform .18s;
   }
-  .card.bg-A{border-left:3px solid #C1121F;}
-  .card.bg-O{border-left:3px solid #217A55;}
-  .card.bg-B{border-left:3px solid #1B4F8C;}
-  .card.bg-AB{border-left:3px solid #5B2E8C;}
+  .card.bg-A{border-left:3px solid var(--primary);}
+  .card.bg-O{border-left:3px solid var(--success);}
+  .card.bg-B{border-left:3px solid #3A5A8C;}
+  .card.bg-AB{border-left:3px solid #6B4C8C;}
 
   label{display:block; font-size:12px; font-weight:600; color:var(--text-soft); margin:14px 0 6px; letter-spacing:.15px;}
   label:first-of-type{margin-top:0;}
@@ -174,10 +193,10 @@
     transition:transform .1s, box-shadow .15s;
   }
   .btn:active{transform:scale(.97);}
-  .btn-primary{background:linear-gradient(150deg,var(--primary),var(--primary-dark)); color:#fff; box-shadow:0 8px 18px -6px rgba(193,18,31,.5);}
+  .btn-primary{background:linear-gradient(150deg,var(--primary),var(--primary-dark)); color:#fff; box-shadow:0 8px 18px -6px rgba(142,36,48,.5);}
   .btn-primary:active{transform:scale(.97) translateY(1px);}
   .btn-outline{background:var(--card); color:var(--ink); border:1.5px solid var(--line);}
-  .btn-soft{background:#F5EDEC; color:var(--primary);}
+  .btn-soft{background:var(--gold-soft); color:#8A6C1F;}
   .btn-sm{padding:9px 12px; font-size:12.5px; border-radius:9px; width:auto;}
   .btn-success{background:var(--success); color:#fff;}
   .btn:disabled{opacity:.5; cursor:not-allowed;}
@@ -190,10 +209,11 @@
   .emergency-banner{
     margin:14px 18px 4px; border-radius:var(--radius); padding:16px 18px; display:flex; align-items:center; gap:14px;
     background:linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%); color:#fff; cursor:pointer;
-    box-shadow:0 14px 28px -10px rgba(193,18,31,.45); position:relative; overflow:hidden;
+    box-shadow:0 14px 28px -10px rgba(142,36,48,.45); position:relative; overflow:hidden;
+    border:1px solid rgba(173,138,61,.35);
   }
-  .emergency-banner::after{content:""; position:absolute; inset:0; background:radial-gradient(120px 90px at 90% -20%, rgba(255,255,255,.18), transparent 70%);}
-  .emergency-banner .eb-ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.16); display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .emergency-banner::after{content:""; position:absolute; inset:0; background:radial-gradient(120px 90px at 90% -20%, rgba(173,138,61,.22), transparent 70%);}
+  .emergency-banner .eb-ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14); border:1px solid rgba(173,138,61,.4); display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
   .emergency-banner h4{margin:0 0 2px; font-size:14.5px; font-weight:800;}
   .emergency-banner p{margin:0; font-size:11.5px; opacity:.85;}
   .emergency-banner .eb-arrow{margin-right:auto; opacity:.8;}
@@ -208,36 +228,36 @@
   .action-card:active{transform:scale(.97); box-shadow:var(--shadow-sm);}
   .action-card .txt{text-align:right;}
   .action-card .icon-chip{width:42px;height:42px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; margin-left:auto;}
-  .action-card.need .icon-chip{background:#FBEAEA;}
-  .action-card.give .icon-chip{background:#E9F3EC;}
-  .action-card.nearby .icon-chip{background:#EAEFF8;}
-  .action-card.banks .icon-chip{background:#FBF1E1;}
+  .action-card.need .icon-chip{background:#F6E3E1;}
+  .action-card.give .icon-chip{background:#E2ECE5;}
+  .action-card.nearby .icon-chip{background:#E7E1D2;}
+  .action-card.banks .icon-chip{background:var(--gold-soft);}
   .action-card .drop{width:20px;height:20px;}
   .action-card h3{margin:0 0 2px; font-size:13.5px; color:var(--ink); font-weight:700;}
   .action-card p{margin:0; font-size:10.5px; color:var(--text-soft); line-height:1.4;}
 
   .section-title{display:flex; align-items:center; justify-content:space-between; padding:8px 18px 6px;}
-  .section-title h4{font-size:13.5px; margin:0; color:var(--ink); font-weight:700; letter-spacing:.1px;}
+  .section-title h4{font-size:13.5px; margin:0; color:var(--ink); font-weight:700; letter-spacing:.1px; font-family:'Hind Siliguri';}
   .section-title a{font-size:12px; color:var(--primary); text-decoration:none; font-weight:600; cursor:pointer;}
 
   .req-item{display:flex; gap:12px; align-items:center;}
   .bg-badge{
     width:46px;height:46px;border-radius:14px; flex:0 0 auto;
     display:flex;align-items:center;justify-content:center; font-weight:800; font-size:13.5px;
-    background:linear-gradient(150deg,#FBEAEA,#F5DADB); color:var(--primary);
+    background:linear-gradient(150deg,#F6E3E1,#EFD0CC); color:var(--primary);
   }
   .req-item .info{flex:1; min-width:0;}
   .req-item .info h5{margin:0 0 3px; font-size:14.5px; color:var(--ink); font-weight:700; display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
   .req-item .info span{font-size:11.5px; color:var(--text-soft); display:block; margin-top:1px;}
   .urgency-tag{font-size:10px; font-weight:700; padding:3.5px 9px; border-radius:20px; letter-spacing:.2px;}
-  .urgency-critical{background:#FBEAEA; color:#C1121F;}
-  .urgency-high{background:#FBF1E1; color:#8A5A0C;}
-  .urgency-normal{background:#E9F3EC; color:#217A55;}
+  .urgency-critical{background:#F6E3E1; color:var(--primary);}
+  .urgency-high{background:var(--gold-soft); color:#8A6C1F;}
+  .urgency-normal{background:#E2ECE5; color:var(--success);}
   .status-tag{font-size:10px; font-weight:700; padding:3.5px 9px; border-radius:20px; margin-left:4px; letter-spacing:.2px;}
-  .status-pending{background:#FBF1E1; color:#8A5A0C;}
-  .status-accepted{background:#EAEFF8; color:#1B4F8C;}
-  .status-completed{background:#E9F3EC; color:#217A55;}
-  .status-cancelled{background:#EFEDEA; color:#6B6E82;}
+  .status-pending{background:var(--gold-soft); color:#8A6C1F;}
+  .status-accepted{background:#E4E2EE; color:#3A3A8C;}
+  .status-completed{background:#E2ECE5; color:var(--success);}
+  .status-cancelled{background:var(--line); color:var(--text-soft);}
 
   .empty-state{display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 24px; color:var(--text-soft);}
   .empty-state .emoji{font-size:38px; margin-bottom:10px; filter:grayscale(.15);}
@@ -246,7 +266,7 @@
   .empty-state .sub{font-size:11.5px; color:var(--text-soft); font-weight:500;}
 
   /* ---------- skeletons ---------- */
-  .skel{background:linear-gradient(90deg,var(--line) 25%,#f2efec 37%,var(--line) 63%); background-size:400% 100%; animation:skel 1.4s ease infinite; border-radius:12px;}
+  .skel{background:linear-gradient(90deg,var(--line) 25%,#f2ecd9 37%,var(--line) 63%); background-size:400% 100%; animation:skel 1.4s ease infinite; border-radius:12px;}
   @keyframes skel{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
   .skel-card{height:78px; border-radius:var(--radius); margin-bottom:12px;}
 
@@ -254,25 +274,25 @@
   .bottom-nav{
     position:fixed; bottom:0; left:50%; transform:translateX(-50%);
     width:100%; max-width:460px; background:var(--card); border-top:1px solid var(--line);
-    display:flex; align-items:flex-end; z-index:30; box-shadow:0 -6px 20px rgba(15,28,63,.06);
+    display:flex; align-items:flex-end; z-index:30; box-shadow:0 -6px 20px rgba(28,19,16,.06);
     padding-top:6px;
   }
   .nav-btn{
     flex:1; border:none; background:none; padding:9px 0 10px; display:flex; flex-direction:column;
-    align-items:center; gap:4px; color:#B7BCC8; font-family:'Hind Siliguri'; font-size:10px; cursor:pointer;
+    align-items:center; gap:4px; color:#B8A996; font-family:'Hind Siliguri'; font-size:10px; cursor:pointer;
     font-weight:600; letter-spacing:.1px; position:relative; transition:color .15s, transform .12s;
   }
   .nav-btn:active{transform:scale(.92);}
   .nav-btn svg{width:20px;height:20px;}
   .nav-btn.active{color:var(--primary); font-weight:700;}
-  .nav-btn.active::before{content:""; position:absolute; top:0; width:20px; height:3px; border-radius:0 0 4px 4px; background:var(--primary);}
+  .nav-btn.active::before{content:""; position:absolute; top:0; width:20px; height:3px; border-radius:0 0 4px 4px; background:var(--gold);}
   .nav-btn[data-nav="request"]{
     color:#fff; margin-top:-22px; padding-bottom:12px;
   }
   .nav-btn[data-nav="request"] .fab-circle{
-    width:50px;height:50px;border-radius:16px; background:linear-gradient(150deg,var(--primary),var(--primary-dark));
-    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -6px rgba(193,18,31,.55);
-    border:3px solid var(--card);
+    width:50px;height:50px;border-radius:50%; background:linear-gradient(150deg,var(--primary),var(--primary-dark));
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -6px rgba(142,36,48,.55), 0 0 0 3px var(--gold-soft);
+    border:2.5px solid var(--gold);
   }
   .nav-btn[data-nav="request"] svg{width:22px;height:22px;}
   .nav-btn[data-nav="request"].active::before{display:none;}
@@ -286,7 +306,7 @@
     cursor:pointer; transition:transform .12s;
   }
   .sos-btn:active{transform:translateX(calc(-50% + 178px)) scale(.9);}
-  .sos-btn::before{content:""; position:absolute; inset:-3px; border-radius:17px; border:1.5px solid var(--primary); opacity:.5;}
+  .sos-btn::before{content:""; position:absolute; inset:-3px; border-radius:17px; border:1.5px solid var(--gold); opacity:.6;}
 
   /* ---------- Request form ---------- */
   .urgency-picker{display:flex; gap:8px;}
@@ -294,12 +314,12 @@
     flex:1; padding:10px 4px; text-align:center; border-radius:10px; border:1.5px solid var(--line);
     font-size:12px; font-weight:700; cursor:pointer; color:var(--text-soft); background:var(--card);
   }
-  .urg-opt.sel-normal{background:#E9F3EC; border-color:var(--success); color:var(--success);}
-  .urg-opt.sel-high{background:#FBF1E1; border-color:var(--warning); color:#8A5A0C;}
-  .urg-opt.sel-critical{background:#FBEAEA; border-color:var(--primary); color:var(--primary);}
+  .urg-opt.sel-normal{background:#E2ECE5; border-color:var(--success); color:var(--success);}
+  .urg-opt.sel-high{background:var(--gold-soft); border-color:var(--warning); color:#8A6C1F;}
+  .urg-opt.sel-critical{background:#F6E3E1; border-color:var(--primary); color:var(--primary);}
   #screen-request.critical-mode .card.request-form-card{
     border:1.5px solid var(--primary);
-    box-shadow:0 0 0 4px rgba(140,19,39,.08);
+    box-shadow:0 0 0 4px rgba(142,36,48,.08);
   }
 
   /* ---------- Donor list / filters ---------- */
@@ -317,7 +337,7 @@
   .adv-filter-panel.show{display:flex;}
   .donor-card{display:flex; align-items:center; gap:12px;}
   .avatar{
-    width:48px;height:48px;border-radius:16px; background:linear-gradient(150deg,#FBEAEA,#F5DADB); color:var(--primary);
+    width:48px;height:48px;border-radius:16px; background:linear-gradient(150deg,#F6E3E1,#EFD0CC); color:var(--primary);
     display:flex;align-items:center;justify-content:center; font-weight:800; font-size:15px; flex:0 0 auto;
     overflow:hidden; position:relative;
   }
@@ -325,8 +345,8 @@
   .donor-card .info{flex:1; min-width:0;}
   .donor-card .info h5{margin:0 0 2px; font-size:14.5px; color:var(--ink); font-weight:700; display:flex; align-items:center; gap:4px;}
   .donor-card .info span{font-size:11.5px; color:var(--text-soft); display:block;}
-  .avail-dot{width:7px;height:7px;border-radius:50%;background:var(--success); display:inline-block; margin-left:4px; box-shadow:0 0 0 2px rgba(33,122,85,.15);}
-  .avail-dot.off{background:#C7C4BF; box-shadow:none;}
+  .avail-dot{width:7px;height:7px;border-radius:50%;background:var(--success); display:inline-block; margin-left:4px; box-shadow:0 0 0 2px rgba(47,93,78,.15);}
+  .avail-dot.off{background:#C9BDA9; box-shadow:none;}
   .verified-badge{width:14px;height:14px; color:var(--gold);}
   .donor-actions{display:flex; gap:6px; flex-wrap:wrap;}
   .icon-round{
@@ -334,9 +354,9 @@
     cursor:pointer; transition:transform .12s;
   }
   .icon-round:active{transform:scale(.88);}
-  .icon-round.call{background:#E9F3EC; color:var(--success);}
-  .icon-round.wa{background:#E7F5EC; color:#1DA851;}
-  .icon-round.fav{background:#FBF1E1; color:#8A5A0C;}
+  .icon-round.call{background:#E2ECE5; color:var(--success);}
+  .icon-round.wa{background:#DCEBE0; color:#1DA851;}
+  .icon-round.fav{background:var(--gold-soft); color:#8A6C1F;}
   .icon-round.fav.active{background:var(--gold); color:#fff;}
 
   /* ---------- Notifications ---------- */
@@ -347,14 +367,14 @@
   .notif-actions .btn{padding:10px;}
 
   /* ---------- Profile ---------- */
-  .profile-head{display:flex; align-items:center; gap:14px; padding:22px 18px 24px; background:linear-gradient(135deg, var(--ink) 0%, var(--primary-dark) 150%); margin:0 0 14px; position:relative; border-radius:0 0 26px 26px;}
-  .profile-head .avatar{width:60px;height:60px; font-size:19px; cursor:pointer; border:2.5px solid rgba(255,255,255,.3); background:rgba(255,255,255,.15); color:#fff;}
-  .profile-head h3{margin:0 0 3px; font-size:17px; color:#fff; font-weight:800; display:flex; align-items:center; gap:5px;}
+  .profile-head{display:flex; align-items:center; gap:14px; padding:22px 18px 24px; background:linear-gradient(135deg, var(--ink) 0%, var(--primary-dark) 150%); margin:0 0 14px; position:relative; border-radius:0 0 26px 26px; border-bottom:1px solid rgba(173,138,61,.35);}
+  .profile-head .avatar{width:60px;height:60px; font-size:19px; cursor:pointer; border:2.5px solid rgba(173,138,61,.5); background:rgba(255,255,255,.12); color:#fff;}
+  .profile-head h3{margin:0 0 3px; font-size:17px; color:#fff; font-weight:800; display:flex; align-items:center; gap:5px; font-family:'Hind Siliguri';}
   .profile-head span{font-size:12px; color:rgba(255,255,255,.72);}
   .toggle-row{display:flex; align-items:center; justify-content:space-between;}
   .switch{position:relative; width:44px; height:25px; flex:0 0 auto;}
   .switch input{opacity:0; width:0; height:0;}
-  .slider{position:absolute; inset:0; background:#D8D5D0; border-radius:20px; cursor:pointer; transition:.2s;}
+  .slider{position:absolute; inset:0; background:#DDD2BC; border-radius:20px; cursor:pointer; transition:.2s;}
   .slider:before{content:""; position:absolute; height:19px; width:19px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s;}
   input:checked + .slider{background:var(--success);}
   input:checked + .slider:before{transform:translateX(19px);}
@@ -365,22 +385,24 @@
   .stat-box .l{font-size:10.5px; color:var(--text-soft); margin-top:3px;}
 
   .eligibility-banner{border-radius:12px; padding:12px 14px; font-size:12.5px; font-weight:600; display:flex; gap:8px; align-items:center;}
-  .eligibility-banner.ok{background:#E9F3EC; color:var(--success);}
-  .eligibility-banner.wait{background:#FBF1E1; color:#8A5A0C;}
+  .eligibility-banner.ok{background:#E2ECE5; color:var(--success);}
+  .eligibility-banner.wait{background:var(--gold-soft); color:#8A6C1F;}
 
   .tabs{display:flex; gap:6px; padding:4px 18px 12px;}
   .tab-btn{flex:1; padding:9px; text-align:center; border-radius:9px; border:1.5px solid var(--line); background:var(--card); font-weight:700; font-size:12.5px; color:var(--text-soft); cursor:pointer;}
   .tab-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
 
-  .more-list{background:var(--card); border-radius:var(--radius); overflow:hidden; margin-bottom:14px; border:1px solid var(--line);}
+  .menu-eyebrow{font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--text-soft); margin:18px 4px 8px; opacity:.75;}
+  .menu-eyebrow:first-of-type{margin-top:0;}
+  .more-list{background:var(--card); border-radius:var(--radius); overflow:hidden; margin-bottom:6px; border:1px solid var(--line);}
   .more-item{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line); cursor:pointer; transition:background .12s;}
   .more-item:last-child{border-bottom:none;}
   .more-item:active{background:var(--bg);}
-  .more-item .ic{width:34px;height:34px;border-radius:9px;background:#F5EAEA;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .more-item .ic{width:34px;height:34px;border-radius:9px;background:#F1E4E0;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
   .more-item .lbl{flex:1; font-size:13.5px; font-weight:600; color:var(--ink);}
   .more-item .chev{color:var(--text-soft);}
   .badge-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
-  .badge-pill{display:flex; align-items:center; gap:6px; background:#F5EAEA; color:var(--primary); padding:7px 12px; border-radius:9px; font-size:11.5px; font-weight:700;}
+  .badge-pill{display:flex; align-items:center; gap:6px; background:var(--gold-soft); color:#8A6C1F; padding:7px 12px; border-radius:9px; font-size:11.5px; font-weight:700;}
   .badge-pill.locked{background:var(--line); color:var(--text-soft); opacity:.6;}
 
   .toast{
@@ -397,20 +419,20 @@
   .back-row{display:flex; align-items:center; gap:10px;}
 
   /* ---------- Modal ---------- */
-  .modal-overlay{position:fixed; inset:0; background:rgba(15,15,25,.55); display:none; align-items:flex-end; justify-content:center; z-index:70;}
+  .modal-overlay{position:fixed; inset:0; background:rgba(20,12,8,.55); display:none; align-items:flex-end; justify-content:center; z-index:70;}
   .modal-overlay.show{display:flex;}
   .modal-sheet{
     width:100%; max-width:460px; background:var(--bg); border-radius:22px 22px 0 0; max-height:88vh; overflow-y:auto;
-    padding:20px; animation:slideUp .22s ease; box-shadow:0 -12px 40px rgba(15,15,25,.25);
+    padding:20px; animation:slideUp .22s ease; box-shadow:0 -12px 40px rgba(20,12,8,.25); border-top:1px solid var(--gold);
   }
   @keyframes slideUp{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
   .modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
-  .modal-head h3{margin:0; font-size:15.5px; color:var(--ink); font-weight:700;}
+  .modal-head h3{margin:0; font-size:15.5px; color:var(--ink); font-weight:700; font-family:'Hind Siliguri';}
   .modal-close{background:var(--line); border:none; width:30px; height:30px; border-radius:9px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text);}
 
   /* hospital / bloodbank */
   .place-card{display:flex; gap:12px; align-items:flex-start;}
-  .place-card .ic{width:44px;height:44px;border-radius:12px;background:#F5EAEA;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
+  .place-card .ic{width:44px;height:44px;border-radius:12px;background:#F1E4E0;color:var(--primary);display:flex;align-items:center;justify-content:center; flex:0 0 auto;}
   .place-card .info{flex:1;}
   .place-card h5{margin:0 0 3px; font-size:14px; color:var(--ink);}
   .place-card span{font-size:11.5px; color:var(--text-soft); display:block;}
@@ -444,25 +466,163 @@
   .seg button.active{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
 
   .qr-wrap{display:flex; flex-direction:column; align-items:center; gap:12px; padding:10px 0;}
-  #qr-canvas-holder{background:#fff; padding:12px; border-radius:12px; border:1px solid var(--line);}
+  #qr-canvas-holder{background:#fff; padding:12px; border-radius:12px; border:1px solid var(--gold);}
 
-  .offline-banner{background:#FBF1E1; color:#8A5A0C; font-size:11.5px; font-weight:600; text-align:center; padding:7px; display:none;}
+  .offline-banner{background:var(--gold-soft); color:#8A6C1F; font-size:11.5px; font-weight:600; text-align:center; padding:7px; display:none;}
   .offline-banner.show{display:block;}
 
   .expiry-chip{font-size:10px; color:var(--text-soft); background:var(--line); padding:2px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:3px;}
+
+  /* ---------- Chat ---------- */
+  .chat-wrap{display:flex; flex-direction:column; height:60vh;}
+  .chat-log{flex:1; overflow-y:auto; padding:8px 2px; display:flex; flex-direction:column; gap:8px;}
+  .chat-bubble{max-width:78%; padding:9px 12px; border-radius:14px; font-size:13px; line-height:1.4;}
+  .chat-bubble.me{align-self:flex-end; background:var(--primary); color:#fff; border-bottom-right-radius:4px;}
+  .chat-bubble.them{align-self:flex-start; background:var(--line); color:var(--text); border-bottom-left-radius:4px;}
+  .chat-bubble .ts{display:block; font-size:9.5px; opacity:.65; margin-top:3px;}
+  .chat-input-row{display:flex; gap:8px; padding-top:8px; border-top:1px solid var(--line);}
+  .chat-input-row input{flex:1;}
+  .chat-input-row button{width:44px; flex:0 0 auto; padding:0;}
+  .voice-btn{position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-soft); cursor:pointer; width:28px; height:28px; display:flex; align-items:center; justify-content:center;}
+  .voice-btn.listening{color:var(--primary); animation:dropPulse 1s ease-in-out infinite;}
+  .field-voice-wrap{position:relative;}
+  .field-voice-wrap input{padding-right:36px;}
+
+  /* ---------- Ratings / stars ---------- */
+  .star-row{display:flex; gap:4px; justify-content:center; margin:8px 0;}
+  .star-row svg{cursor:pointer; width:30px; height:30px; color:var(--line); transition:color .12s;}
+  .star-row svg.filled{color:var(--gold);}
+  .rating-badge{display:inline-flex; align-items:center; gap:3px; font-size:11px; color:var(--gold); font-weight:700;}
+
+  /* ---------- Leaderboard ---------- */
+  .lb-row{display:flex; align-items:center; gap:12px;}
+  .lb-rank{width:28px; height:28px; border-radius:50%; background:var(--line); color:var(--text-soft); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12.5px; flex:0 0 auto;}
+  .lb-rank.top1{background:linear-gradient(150deg,#E7CE86,var(--gold)); color:#fff;}
+  .lb-rank.top2{background:linear-gradient(150deg,#DDD3C0,#B0A48D); color:#fff;}
+  .lb-rank.top3{background:linear-gradient(150deg,#CBA97C,#8A6C1F); color:#fff;}
+
+  /* ---------- Inventory ---------- */
+  .inv-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:8px;}
+  .inv-cell{background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:8px 4px; text-align:center;}
+  .inv-cell .bgv{font-size:11.5px; font-weight:800; color:var(--ink);}
+  .inv-cell .lvl{font-size:9.5px; margin-top:2px; font-weight:700;}
+  .inv-cell.low .lvl{color:var(--primary);}
+  .inv-cell.mid .lvl{color:var(--warning);}
+  .inv-cell.high .lvl{color:var(--success);}
+
+  /* ---------- Events ---------- */
+  .event-date-chip{width:48px; height:48px; border-radius:12px; background:linear-gradient(150deg,#F6E3E1,#EFD0CC); color:var(--primary); display:flex; flex-direction:column; align-items:center; justify-content:center; flex:0 0 auto;}
+  .event-date-chip .d{font-size:15px; font-weight:800; line-height:1;}
+  .event-date-chip .m{font-size:9px; font-weight:700; margin-top:1px;}
+
+  /* ---------- Referral ---------- */
+  .referral-code-box{display:flex; align-items:center; justify-content:space-between; background:var(--bg); border:1.5px dashed var(--gold); border-radius:12px; padding:12px 14px; margin:10px 0;}
+  .referral-code-box .code{font-family:'Inter'; font-weight:800; font-size:16px; letter-spacing:1px; color:var(--primary);}
+
+  /* ---------- Flags / admin risk ---------- */
+  .flag-badge{font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; background:#F6E3E1; color:var(--primary); margin-left:4px;}
+  .verify-doc-thumb{width:100%; max-width:220px; border-radius:10px; border:1px solid var(--line); margin-top:8px;}
+
+  /* ---------- SOS extra actions ---------- */
+  .sos-extra{display:flex; gap:8px; margin-top:4px;}
+
+  /* ---------- Onboarding ---------- */
+  .onb-slide{display:none; flex:1; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px 26px; gap:14px;}
+  .onb-slide.active{display:flex; animation:fadeIn .25s ease;}
+  .onb-ic{width:88px; height:88px; border-radius:26px; background:var(--gold-soft); display:flex; align-items:center; justify-content:center; margin-bottom:6px;}
+  .onb-slide h3{font-family:var(--font-bn-display); font-size:22px; font-weight:400; margin:0; color:var(--ink);}
+  .onb-slide p{font-size:13.5px; color:var(--text-soft); line-height:1.6; margin:0; max-width:300px;}
+  .onb-dots{display:flex; gap:6px; justify-content:center; padding:16px;}
+  .onb-dot{width:7px; height:7px; border-radius:50%; background:var(--line);}
+  .onb-dot.active{background:var(--primary); width:20px; border-radius:6px;}
+  .onb-footer{padding:14px 22px 26px;}
+  .onb-skip{text-align:center; font-size:12.5px; color:var(--text-soft); margin-top:10px; cursor:pointer;}
+
+  /* ---------- FAQ / Help ---------- */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{display:flex; align-items:center; justify-content:space-between; padding:14px 4px; cursor:pointer; font-weight:600; font-size:13.5px; color:var(--ink); gap:10px;}
+  .faq-a{display:none; padding:0 4px 14px; font-size:12.5px; color:var(--text-soft); line-height:1.6;}
+  .faq-item.open .faq-a{display:block;}
+  .faq-item.open .faq-chev{transform:rotate(180deg);}
+  .faq-chev{transition:transform .15s; flex:0 0 auto; color:var(--text-soft);}
+
+  /* ---------- Health questionnaire ---------- */
+  .hq-row{display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);}
+  .hq-row:last-child{border-bottom:none;}
+  .hq-row span{font-size:13px; color:var(--text); flex:1; padding-right:10px;}
+  .hq-toggle{display:flex; gap:6px; flex:0 0 auto;}
+  .hq-btn{padding:6px 14px; border-radius:8px; border:1.5px solid var(--line); background:var(--card); font-size:12px; font-weight:700; color:var(--text-soft); cursor:pointer;}
+  .hq-btn.sel-yes{background:#F6E3E1; border-color:var(--primary); color:var(--primary);}
+  .hq-btn.sel-no{background:#E2ECE5; border-color:var(--success); color:var(--success);}
+
+  /* ---------- Donor map view ---------- */
+  .map-toggle-row{display:flex; gap:8px; padding:0 18px 10px;}
+  .map-toggle-row .chip{flex:1; text-align:center;}
+  .map-embed-wrap{margin:0 18px 14px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow-sm);}
+  .map-embed-wrap iframe{width:100%; height:260px; border:0; display:block; filter:sepia(.08) saturate(.9);}
+
+  /* ---------- Masked contact ---------- */
+  .mask-reveal{color:var(--primary); font-weight:700; cursor:pointer; font-size:11px; margin-left:4px;}
+
+  /* ---------- Accessibility: font scale ---------- */
+  .fontsize-row{display:flex; align-items:center; gap:10px;}
+  .fontsize-btn{width:38px; height:38px; border-radius:10px; border:1.5px solid var(--line); background:var(--card); font-weight:800; cursor:pointer; color:var(--ink);}
+  html[data-fontscale="lg"]{font-size:107.5%;}
+  html[data-fontscale="xl"]{font-size:115%;}
+
+  /* ---------- Legal pages ---------- */
+  .legal-body{font-size:12.5px; line-height:1.8; color:var(--text-soft);}
+  .legal-body h4{color:var(--ink); font-size:14px; margin:16px 0 6px;}
+  .legal-body h4:first-child{margin-top:0;}
+
+  /* ---------- Hospital staff inventory editor ---------- */
+  .stock-edit-row{display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--line);}
+  .stock-edit-row:last-child{border-bottom:none;}
+  .stock-edit-row .bgl{width:36px; font-weight:800; color:var(--ink); font-size:13px;}
+  .stock-edit-row input{flex:1; padding:8px 10px;}
+
+  /* ---------- Retry / connection state ---------- */
+  .retry-btn{background:none; border:none; color:#8A6C1F; font-weight:700; text-decoration:underline; cursor:pointer; font-size:11.5px; margin-left:6px;}
 </style>
 </head>
 <body>
 <div id="app-shell">
 
-  <div class="offline-banner" id="offline-banner">📡 অফলাইন মোড — শেষ সংরক্ষিত তথ্য দেখানো হচ্ছে</div>
+  <div class="offline-banner" id="offline-banner">📡 অফলাইন মোড — শেষ সংরক্ষিত তথ্য দেখানো হচ্ছে<button class="retry-btn" onclick="retryConnection()">পুনরায় চেষ্টা</button></div>
+
+  <!-- ============ ONBOARDING ============ -->
+  <div class="screen" id="screen-onboarding">
+    <div class="onb-slide active" data-slide="1">
+      <div class="onb-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8E2430" stroke-width="1.8"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+      <h3 data-t="onb1Title">সেকেন্ডেই জরুরি রক্তদাতা</h3>
+      <p data-t="onb1Sub">এক ট্যাপে রিকোয়েস্ট পোস্ট করুন — আশেপাশের সামঞ্জস্যপূর্ণ ডোনাররা সাথে সাথে জানতে পারবেন।</p>
+    </div>
+    <div class="onb-slide" data-slide="2">
+      <div class="onb-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2F5D4E" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+      <h3 data-t="onb2Title">সময় হলে আপনিই ডোনার</h3>
+      <p data-t="onb2Sub">Availability চালু রাখুন, নিরাপদে আপনার এলিজিবিলিটি ট্র্যাক করুন এবং জীবন বাঁচানোর অংশ হোন।</p>
+    </div>
+    <div class="onb-slide" data-slide="3">
+      <div class="onb-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#AD8A3D" stroke-width="1.8"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/></svg></div>
+      <h3 data-t="onb3Title">যাচাইকৃত ও নিরাপদ</h3>
+      <p data-t="onb3Sub">ভেরিফিকেশন ব্যাজ, রেটিং ও রিপোর্ট সিস্টেম দিয়ে EBN কমিউনিটিকে বিশ্বস্ত রাখা হয়।</p>
+    </div>
+    <div class="onb-dots">
+      <div class="onb-dot active" data-dot="1"></div><div class="onb-dot" data-dot="2"></div><div class="onb-dot" data-dot="3"></div>
+    </div>
+    <div class="onb-footer">
+      <button class="btn btn-primary" id="onb-next-btn" onclick="onbNext()" data-t="onbNext">পরবর্তী</button>
+      <div class="onb-skip" onclick="finishOnboarding()" data-t="onbSkip">এড়িয়ে যান</div>
+    </div>
+  </div>
 
   <!-- ============ SPLASH ============ -->
   <div class="screen active" id="screen-splash">
-    <svg class="drop pulse" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#fff"/></svg>
+    <div class="seal"><svg class="drop pulse" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#AD8A3D"/></svg></div>
     <h2 data-t="appName">Emergency Blood Network</h2>
     <p data-t="tagline">রক্ত দিন, জীবন বাঁচান</p>
-    <svg class="pulse-line" viewBox="0 0 180 34" fill="none"><path d="M0 17 H50 L60 4 L72 30 L82 17 H100 L108 8 L116 26 L124 17 H180" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg class="pulse-line" viewBox="0 0 180 34" fill="none"><path d="M0 17 H50 L60 4 L72 30 L82 17 H100 L108 8 L116 26 L124 17 H180" stroke="#AD8A3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <button class="cta" id="splash-cta" data-t="start">শুরু করুন</button>
     <p style="margin-top:14px; font-size:11.5px; opacity:.6;" data-t="oneAccount">একটাই অ্যাকাউন্ট — ডোনার ও সিকার একসাথে</p>
     <div class="demo-flag" id="mode-flag">মোড লোড হচ্ছে…</div>
@@ -578,6 +738,10 @@
         <label data-t="addressLabel">বিস্তারিত ঠিকানা (গ্রাম/রোড/এলাকা)</label>
         <textarea id="reg-address" rows="2" placeholder="বাড়ি নং, রোড, এলাকার নাম"></textarea>
 
+        <label data-t="emergencyContact">ইমার্জেন্সি কন্টাক্ট নম্বর (ঐচ্ছিক)</label>
+        <input type="tel" id="reg-emergency-contact" placeholder="01XXXXXXXXX">
+        <p class="helper" data-t="emergencyContactHelper">SOS পাঠানোর সময় এই নম্বরেও জানানো হবে।</p>
+
         <label class="toggle-row" style="margin-top:16px;">
           <span style="font-size:13px; font-weight:600;" data-t="useGps">সঠিক দূরত্বের জন্য GPS লোকেশন ব্যবহার করুন</span>
           <span class="switch"><input type="checkbox" id="reg-gps-consent" checked><span class="slider"></span></span>
@@ -622,19 +786,19 @@
 
       <div class="home-actions">
         <button class="action-card need" onclick="go('request')">
-          <div class="icon-chip"><svg class="drop" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#C1121F"/></svg></div>
+          <div class="icon-chip"><svg class="drop" viewBox="0 0 100 130" fill="none"><path d="M50 4C50 4 12 56 12 86C12 108 29 126 50 126C71 126 88 108 88 86C88 56 50 4 50 4Z" fill="#8E2430"/></svg></div>
           <div class="txt"><h3 data-t="needBlood">আমার রক্ত প্রয়োজন</h3><p data-t="needBloodSub">জরুরি রিকোয়েস্ট ফর্ম — ১ মিনিটেই</p></div>
         </button>
         <button class="action-card give" onclick="go('profile')">
-          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#217A55" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F5D4E" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
           <div class="txt"><h3 data-t="wantDonate">আমি রক্ত দিতে চাই</h3><p data-t="wantDonateSub">Availability চালু/বন্ধ করুন</p></div>
         </button>
         <button class="action-card nearby" onclick="go('donors')">
-          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4F8C" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c1-3.6 3.6-5.5 6.5-5.5s5.5 1.9 6.5 5.5"/><circle cx="17" cy="7" r="2.4"/><path d="M15.5 14.2c2.4.2 4.3 2 5 5.3"/></svg></div>
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B5A3E" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c1-3.6 3.6-5.5 6.5-5.5s5.5 1.9 6.5 5.5"/><circle cx="17" cy="7" r="2.4"/><path d="M15.5 14.2c2.4.2 4.3 2 5 5.3"/></svg></div>
           <div class="txt"><h3 data-t="nearbyDonorsTitle">নিকটতম ডোনার</h3><p data-t="nearbyDonorsSub">আশেপাশের উপলব্ধ ডোনার দেখুন</p></div>
         </button>
         <button class="action-card banks" onclick="go('hospitals')">
-          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A5A0C" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
+          <div class="icon-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6C1F" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
           <div class="txt"><h3 data-t="bloodBanksTitle">ব্লাড ব্যাংক</h3><p data-t="bloodBanksSub">হাসপাতাল ও ব্লাড ব্যাংক খুঁজুন</p></div>
         </button>
       </div>
@@ -662,7 +826,10 @@
         </div>
 
         <label data-t="patientName">রোগীর নাম</label>
-        <input type="text" id="rq-patient" placeholder="রোগীর নাম">
+        <div class="field-voice-wrap">
+          <input type="text" id="rq-patient" placeholder="রোগীর নাম">
+          <button type="button" class="voice-btn" onclick="voiceInput('rq-patient', this)" title="Voice input">🎤</button>
+        </div>
 
         <div class="row2">
           <div>
@@ -680,7 +847,10 @@
         </div>
 
         <label data-t="hospitalName">হাসপাতালের নাম</label>
-        <input type="text" id="rq-hospital" placeholder="যেমনঃ ঢাকা মেডিকেল কলেজ হাসপাতাল">
+        <div class="field-voice-wrap">
+          <input type="text" id="rq-hospital" placeholder="যেমনঃ ঢাকা মেডিকেল কলেজ হাসপাতাল">
+          <button type="button" class="voice-btn" onclick="voiceInput('rq-hospital', this)" title="Voice input">🎤</button>
+        </div>
 
         <label data-t="divDist">বিভাগ / জেলা</label>
         <div class="row2">
@@ -702,6 +872,8 @@
 
         <div style="height:6px;"></div>
         <button class="btn btn-primary" id="rq-submit-btn" onclick="submitRequest()" data-t="postRequest">রিকোয়েস্ট পোস্ট করুন</button>
+        <button class="btn btn-outline" style="margin-top:8px;" onclick="sendRequestViaSms()" data-t="postViaSms">📱 ইন্টারনেট ছাড়া SMS দিয়ে পাঠান</button>
+        <p class="helper" style="text-align:center;" data-t="smsHelper">ইন্টারনেট না থাকলে SMS অ্যাপ খুলে দেবে — বেসিক ফোন থেকেও পাঠানো যাবে।</p>
       </div>
     </div>
   </div>
@@ -739,7 +911,12 @@
         </select>
       </div>
     </div>
+    <div class="map-toggle-row">
+      <div class="chip active" id="donor-view-list" onclick="setDonorView('list')" data-t="listView">📋 তালিকা</div>
+      <div class="chip" id="donor-view-map" onclick="setDonorView('map')" data-t="mapView">🗺️ মানচিত্র</div>
+    </div>
     <div class="scroll section-pad" id="donor-list"></div>
+    <div class="section-pad" id="donor-map-wrap" style="display:none;"></div>
   </div>
 
   <!-- ============ NOTIFICATIONS ============ -->
@@ -793,17 +970,38 @@
         <div class="stat-grid" style="margin-bottom:14px;">
           <div class="stat-box"><div class="n num" id="pf-stat-donations">0</div><div class="l" data-t="totalDonations">মোট দান</div></div>
           <div class="stat-box"><div class="n num" id="pf-stat-requests">0</div><div class="l" data-t="myRequestsLbl">আমার রিকোয়েস্ট</div></div>
+          <div class="stat-box"><div class="n num" id="pf-stat-rating">—</div><div class="l" data-t="avgRating">রেটিং</div></div>
           <div class="stat-box"><div class="n num" id="pf-stat-bg">—</div><div class="l" data-t="bloodGroupLbl">ব্লাড গ্রুপ</div></div>
         </div>
 
         <div class="badge-row" id="pf-badges"></div>
 
+        <div class="menu-eyebrow" data-t="menuAccount">অ্যাকাউন্ট</div>
         <div class="more-list">
           <div class="more-item" onclick="openEditProfile()">
             <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></div>
             <div class="lbl" data-t="editProfile">প্রোফাইল এডিট করুন</div>
             <div class="chev">›</div>
           </div>
+          <div class="more-item" onclick="openQrModal()">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/></svg></div>
+            <div class="lbl" data-t="myQr">আমার QR কোড</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="openModal('modal-verify-doc')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h4M15 12h4M5 20l4-4 3 3 3-4 4 5"/></svg></div>
+            <div class="lbl" id="verify-menu-lbl" data-t="uploadNid">পরিচয়পত্র আপলোড করুন</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="downloadCertificate()">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="lbl" data-t="certificate">ডোনেশন সার্টিফিকেট (PDF)</div>
+            <div class="chev">›</div>
+          </div>
+        </div>
+
+        <div class="menu-eyebrow" data-t="menuFind">খুঁজুন ও সংরক্ষণ</div>
+        <div class="more-list">
           <div class="more-item" onclick="go('hospitals')">
             <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
             <div class="lbl" data-t="hospitalsDirectory">হাসপাতাল ও ব্লাড ব্যাংক</div>
@@ -814,24 +1012,42 @@
             <div class="lbl" data-t="favoriteDonors">প্রিয় ডোনার</div>
             <div class="chev">›</div>
           </div>
-          <div class="more-item" onclick="go('stats')">
-            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-7"/></svg></div>
-            <div class="lbl" data-t="statistics">পরিসংখ্যান</div>
-            <div class="chev">›</div>
-          </div>
           <div class="more-item" onclick="go('compat')">
             <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a5 5 0 019-3 5 5 0 019 3c0 6.5-8 11-8 11z"/></svg></div>
             <div class="lbl" data-t="compatChecker">রক্ত সামঞ্জস্য চেকার</div>
             <div class="chev">›</div>
           </div>
-          <div class="more-item" onclick="openQrModal()">
-            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/></svg></div>
-            <div class="lbl" data-t="myQr">আমার QR কোড</div>
+        </div>
+
+        <div class="menu-eyebrow" data-t="menuCommunity">কমিউনিটি ও অর্জন</div>
+        <div class="more-list">
+          <div class="more-item" onclick="go('stats')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-7"/></svg></div>
+            <div class="lbl" data-t="statistics">পরিসংখ্যান</div>
             <div class="chev">›</div>
           </div>
-          <div class="more-item" onclick="downloadCertificate()">
-            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
-            <div class="lbl" data-t="certificate">ডোনেশন সার্টিফিকেট (PDF)</div>
+          <div class="more-item" onclick="go('leaderboard')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z"/><path d="M7 6H4a1 1 0 000 5M17 6h3a1 1 0 010 5"/></svg></div>
+            <div class="lbl" data-t="leaderboard">লিডারবোর্ড</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('events')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="lbl" data-t="events">ব্লাড ড্রাইভ ইভেন্ট</div>
+            <div class="chev">›</div>
+          </div>
+          <div class="more-item" onclick="go('referral')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M17 8l3 3-3 3M20 11h-7"/></svg></div>
+            <div class="lbl" data-t="referral">বন্ধুকে ইনভাইট করুন</div>
+            <div class="chev">›</div>
+          </div>
+        </div>
+
+        <div class="menu-eyebrow" data-t="menuSettings">সেটিংস ও নিরাপত্তা</div>
+        <div class="more-list">
+          <div class="more-item" id="inv-menu-item" style="display:none;" onclick="go('inventory-edit')">
+            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
+            <div class="lbl" data-t="updateStock">স্টক আপডেট করুন</div>
             <div class="chev">›</div>
           </div>
           <div class="more-item" onclick="go('settings')">
@@ -845,8 +1061,8 @@
             <div class="chev">›</div>
           </div>
           <div class="more-item" onclick="logoutUser()">
-            <div class="ic" style="background:#FDEBEB;color:#C62828;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></div>
-            <div class="lbl" style="color:#C62828;" data-t="logout">লগ আউট</div>
+            <div class="ic" style="background:#F1DAD6;color:#8E2430;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></div>
+            <div class="lbl" style="color:#8E2430;" data-t="logout">লগ আউট</div>
             <div class="chev">›</div>
           </div>
         </div>
@@ -935,6 +1151,14 @@
         </div>
       </div>
       <div class="card">
+        <div style="font-weight:600; font-size:14px; margin-bottom:10px;" data-t="textSize">লেখার আকার</div>
+        <div class="fontsize-row">
+          <button class="fontsize-btn" onclick="setFontScale('normal')">A</button>
+          <button class="fontsize-btn" onclick="setFontScale('lg')" style="font-size:16px;">A</button>
+          <button class="fontsize-btn" onclick="setFontScale('xl')" style="font-size:18px;">A</button>
+        </div>
+      </div>
+      <div class="card">
         <div style="font-weight:600; font-size:14px; margin-bottom:10px;" data-t="pushNotifs">পুশ নোটিফিকেশন</div>
         <button class="btn btn-outline" onclick="enablePushNotifications()" data-t="enablePush">নোটিফিকেশন চালু করুন</button>
       </div>
@@ -942,6 +1166,12 @@
         <div style="font-weight:600; font-size:14px; margin-bottom:6px;" data-t="safety">নিরাপত্তা</div>
         <button class="btn btn-soft" style="margin-bottom:8px;" onclick="openReportModal(null)" data-t="reportIssue">সমস্যা রিপোর্ট করুন</button>
         <button class="btn btn-outline" onclick="go('blocked')" data-t="blockedUsers">ব্লক করা ব্যবহারকারী</button>
+      </div>
+      <div class="card">
+        <div style="font-weight:600; font-size:14px; margin-bottom:6px;" data-t="aboutHelp">সাহায্য ও তথ্য</div>
+        <button class="btn btn-outline" style="margin-bottom:8px;" onclick="go('help')" data-t="helpFaq">সাহায্য / FAQ</button>
+        <button class="btn btn-outline" style="margin-bottom:8px;" onclick="openLegal('privacy')" data-t="privacyPolicy">প্রাইভেসি পলিসি</button>
+        <button class="btn btn-outline" onclick="openLegal('terms')" data-t="termsOfService">ব্যবহারের শর্তাবলী</button>
       </div>
       <div class="card" style="text-align:center;">
         <div class="helper" id="app-mode-label">—</div>
@@ -971,6 +1201,89 @@
       <div class="tab-btn" id="admin-tab-reports" onclick="switchAdminTab('reports')" data-t="reportsTab">রিপোর্ট</div>
     </div>
     <div class="scroll section-pad" id="admin-content"></div>
+  </div>
+
+  <!-- ============ LEADERBOARD ============ -->
+  <div class="screen" id="screen-leaderboard">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="leaderboard">লিডারবোর্ড</h1>
+    </div>
+    <div class="scroll section-pad" id="leaderboard-content"></div>
+  </div>
+
+  <!-- ============ BLOOD DRIVE EVENTS ============ -->
+  <div class="screen" id="screen-events">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="events">ব্লাড ড্রাইভ ইভেন্ট</h1>
+    </div>
+    <div class="scroll section-pad" id="events-content"></div>
+  </div>
+
+  <!-- ============ REFERRAL ============ -->
+  <div class="screen" id="screen-referral">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="referral">রেফারেল</h1>
+    </div>
+    <div class="scroll section-pad" id="referral-content"></div>
+  </div>
+
+  <!-- ============ CHAT ============ -->
+  <div class="screen" id="screen-chat">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('notifications')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 id="chat-title" data-t="chat">চ্যাট</h1>
+    </div>
+    <div class="section-pad chat-wrap">
+      <div class="chat-log" id="chat-log"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="বার্তা লিখুন…" onkeydown="if(event.key==='Enter')sendChatMessage()">
+        <button class="btn btn-primary" onclick="sendChatMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FAQ / HELP ============ -->
+  <div class="screen" id="screen-help">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('settings')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="helpFaq">সাহায্য / FAQ</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card" id="faq-list"></div>
+      <button class="btn btn-outline" onclick="openChat('support', currentLang==='bn'?'EBN সাপোর্ট':'EBN Support')" data-t="contactSupport">💬 সাপোর্টের সাথে চ্যাট করুন</button>
+    </div>
+  </div>
+
+  <!-- ============ LEGAL (privacy / terms) ============ -->
+  <div class="screen" id="screen-legal">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('settings')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 id="legal-title" data-t="privacyPolicy">প্রাইভেসি পলিসি</h1>
+    </div>
+    <div class="scroll section-pad">
+      <div class="card legal-body" id="legal-content"></div>
+    </div>
+  </div>
+
+  <!-- ============ HOSPITAL STAFF: INVENTORY EDITOR ============ -->
+  <div class="screen" id="screen-inventory-edit">
+    <div class="topbar">
+      <button class="icon-btn" onclick="go('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1 data-t="updateStock">স্টক আপডেট করুন</h1>
+    </div>
+    <div class="scroll section-pad">
+      <p class="helper" data-t="updateStockHelper">আপনার প্রতিষ্ঠানের বর্তমান রক্তের ব্যাগ সংখ্যা হালনাগাদ করুন — সবাই সাথে সাথে দেখতে পাবে।</p>
+      <div class="card">
+        <label style="margin-top:0;" data-t="selectFacility">প্রতিষ্ঠান নির্বাচন করুন</label>
+        <select id="inv-facility-select" onchange="renderStockEditor()"></select>
+        <div id="stock-editor-body"></div>
+        <div style="height:8px;"></div>
+        <button class="btn btn-primary" onclick="saveStockUpdate()" data-t="saveStock">স্টক সংরক্ষণ করুন</button>
+      </div>
+    </div>
   </div>
 
   <!-- ============ BOTTOM NAV ============ -->
@@ -1034,6 +1347,52 @@
         <p class="helper" data-t="qrHelper">এই QR স্ক্যান করে যে কেউ দ্রুত আপনার প্রোফাইল দেখতে পারবে।</p>
         <button class="btn btn-outline" onclick="shareProfile()" data-t="share">শেয়ার করুন</button>
       </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-rating">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="rateDonor">ডোনারকে রেটিং দিন</h3><button class="modal-close" onclick="closeModal('modal-rating')">✕</button></div>
+      <p class="helper" id="rating-target-name" style="text-align:center;"></p>
+      <div class="star-row" id="rating-stars"></div>
+      <label data-t="ratingComment">মন্তব্য (ঐচ্ছিক)</label>
+      <textarea id="rating-comment" rows="2" placeholder="অভিজ্ঞতা শেয়ার করুন…"></textarea>
+      <div style="height:8px;"></div>
+      <button class="btn btn-primary" onclick="submitRating()" data-t="submitRating">রেটিং জমা দিন</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-appointment">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="bookAppointment">অ্যাপয়েন্টমেন্ট বুক করুন</h3><button class="modal-close" onclick="closeModal('modal-appointment')">✕</button></div>
+      <p class="helper" id="appt-place-name"></p>
+      <label data-t="apptDate">তারিখ</label>
+      <input type="date" id="appt-date">
+      <label data-t="apptTime">সময়</label>
+      <input type="text" id="appt-time" placeholder="যেমনঃ সকাল ১০টা">
+      <div style="height:8px;"></div>
+      <button class="btn btn-primary" onclick="confirmAppointment()" data-t="confirmAppt">নিশ্চিত করুন</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-verify-doc">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="uploadNid">পরিচয়পত্র আপলোড করুন</h3><button class="modal-close" onclick="closeModal('modal-verify-doc')">✕</button></div>
+      <p class="helper" data-t="uploadNidHelper">ভেরিফাইড ব্যাজ পেতে আপনার NID/জন্মনিবন্ধনের ছবি আপলোড করুন। এটি শুধু অ্যাডমিন যাচাই করবে।</p>
+      <input type="file" id="verify-doc-input" accept="image/*" onchange="previewVerifyDoc(event)">
+      <img id="verify-doc-preview" class="verify-doc-thumb" style="display:none;">
+      <div style="height:8px;"></div>
+      <button class="btn btn-primary" onclick="submitVerifyDoc()" data-t="submitForReview">রিভিউয়ের জন্য পাঠান</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-health-check">
+    <div class="modal-sheet">
+      <div class="modal-head"><h3 data-t="healthCheck">দান-পূর্ব স্বাস্থ্য প্রশ্নপত্র</h3><button class="modal-close" onclick="closeModal('modal-health-check')">✕</button></div>
+      <p class="helper" data-t="healthCheckHelper">সঠিক তথ্য দিন — এটি আপনার ও গ্রহীতার নিরাপত্তার জন্য জরুরি। এটি চিকিৎসা পরামর্শের বিকল্প নয়।</p>
+      <div id="health-check-body"></div>
+      <div style="height:8px;"></div>
+      <button class="btn btn-primary" onclick="submitHealthCheck()" data-t="continueDonation">এগিয়ে যান</button>
     </div>
   </div>
 
@@ -1162,7 +1521,24 @@ const I18N = {
     editRequest:"রিকোয়েস্ট এডিট করুন", reportUser:"ব্যবহারকারী রিপোর্ট করুন", reportReason:"কারণ লিখুন",
     submitReport:"রিপোর্ট পাঠান", qrHelper:"এই QR স্ক্যান করে যে কেউ দ্রুত আপনার প্রোফাইল দেখতে পারবে।",
     share:"শেয়ার করুন", sosTitle:"SOS ইমার্জেন্সি", sosHelper:"এটি আপনার এলাকার সব সামঞ্জস্যপূর্ণ ডোনারদের কাছে একটি জরুরি এলার্ট হিসেবে পাঠানো হবে এবং শেয়ার করা যাবে।",
-    sendSOS:"🚨 SOS এলার্ট পাঠান", cancel:"বাতিল করুন", selectBg:"রক্তের গ্রুপ নির্বাচন করুন"
+    sendSOS:"🚨 SOS এলার্ট পাঠান", cancel:"বাতিল করুন", selectBg:"রক্তের গ্রুপ নির্বাচন করুন",
+    leaderboard:"লিডারবোর্ড", events:"ব্লাড ড্রাইভ ইভেন্ট", referral:"বন্ধুকে ইনভাইট করুন", chat:"চ্যাট",
+    postViaSms:"📱 ইন্টারনেট ছাড়া SMS দিয়ে পাঠান", smsHelper:"ইন্টারনেট না থাকলে SMS অ্যাপ খুলে দেবে — বেসিক ফোন থেকেও পাঠানো যাবে।",
+    emergencyContact:"ইমার্জেন্সি কন্টাক্ট নম্বর (ঐচ্ছিক)", emergencyContactHelper:"SOS পাঠানোর সময় এই নম্বরেও জানানো হবে।",
+    rateDonor:"ডোনারকে রেটিং দিন", ratingComment:"মন্তব্য (ঐচ্ছিক)", submitRating:"রেটিং জমা দিন", avgRating:"রেটিং",
+    bookAppointment:"অ্যাপয়েন্টমেন্ট বুক করুন", apptDate:"তারিখ", apptTime:"সময়", confirmAppt:"নিশ্চিত করুন",
+    uploadNid:"পরিচয়পত্র আপলোড করুন", uploadNidHelper:"ভেরিফাইড ব্যাজ পেতে আপনার NID/জন্মনিবন্ধনের ছবি আপলোড করুন। এটি শুধু অ্যাডমিন যাচাই করবে।", submitForReview:"রিভিউয়ের জন্য পাঠান",
+    menuAccount:"অ্যাকাউন্ট", menuFind:"খুঁজুন ও সংরক্ষণ", menuCommunity:"কমিউনিটি ও অর্জন",
+    menuSettings:"সেটিংস ও নিরাপত্তা",
+    onb1Title:"সেকেন্ডেই জরুরি রক্তদাতা", onb1Sub:"এক ট্যাপে রিকোয়েস্ট পোস্ট করুন — আশেপাশের সামঞ্জস্যপূর্ণ ডোনাররা সাথে সাথে জানতে পারবেন।",
+    onb2Title:"সময় হলে আপনিই ডোনার", onb2Sub:"Availability চালু রাখুন, নিরাপদে আপনার এলিজিবিলিটি ট্র্যাক করুন এবং জীবন বাঁচানোর অংশ হোন।",
+    onb3Title:"যাচাইকৃত ও নিরাপদ", onb3Sub:"ভেরিফিকেশন ব্যাজ, রেটিং ও রিপোর্ট সিস্টেম দিয়ে EBN কমিউনিটিকে বিশ্বস্ত রাখা হয়।",
+    onbNext:"পরবর্তী", onbSkip:"এড়িয়ে যান", onbStart:"শুরু করুন",
+    helpFaq:"সাহায্য / FAQ", contactSupport:"💬 সাপোর্টের সাথে চ্যাট করুন",
+    privacyPolicy:"প্রাইভেসি পলিসি", termsOfService:"ব্যবহারের শর্তাবলী", textSize:"লেখার আকার", aboutHelp:"সাহায্য ও তথ্য",
+    healthCheck:"দান-পূর্ব স্বাস্থ্য প্রশ্নপত্র", healthCheckHelper:"সঠিক তথ্য দিন — এটি আপনার ও গ্রহীতার নিরাপত্তার জন্য জরুরি। এটি চিকিৎসা পরামর্শের বিকল্প নয়।", continueDonation:"এগিয়ে যান",
+    updateStock:"স্টক আপডেট করুন", updateStockHelper:"আপনার প্রতিষ্ঠানের বর্তমান রক্তের ব্যাগ সংখ্যা হালনাগাদ করুন — সবাই সাথে সাথে দেখতে পাবে।", selectFacility:"প্রতিষ্ঠান নির্বাচন করুন", saveStock:"স্টক সংরক্ষণ করুন",
+    listView:"📋 তালিকা", mapView:"🗺️ মানচিত্র"
   },
   en:{ appName:"Emergency Blood Network", tagline:"Give blood, save a life", start:"Get Started",
     oneAccount:"One account — seeker & donor together", loginTitle:"Verify Mobile Number",
@@ -1197,7 +1573,23 @@ const I18N = {
     editRequest:"Edit Request", reportUser:"Report User", reportReason:"Reason",
     submitReport:"Submit Report", qrHelper:"Anyone can scan this QR to quickly view your profile.",
     share:"Share", sosTitle:"SOS Emergency", sosHelper:"This will be sent as an urgent alert to all compatible nearby donors and can be shared.",
-    sendSOS:"🚨 Send SOS Alert", cancel:"Cancel", selectBg:"Select Blood Group"
+    sendSOS:"🚨 Send SOS Alert", cancel:"Cancel", selectBg:"Select Blood Group",
+    leaderboard:"Leaderboard", events:"Blood Drive Events", referral:"Invite Friends", chat:"Chat",
+    postViaSms:"📱 Send via SMS (no internet)", smsHelper:"Opens your SMS app if you have no internet — works from basic phones too.",
+    emergencyContact:"Emergency Contact Number (optional)", emergencyContactHelper:"This number will also be notified when you send an SOS.",
+    rateDonor:"Rate the Donor", ratingComment:"Comment (optional)", submitRating:"Submit Rating", avgRating:"Rating",
+    bookAppointment:"Book Appointment", apptDate:"Date", apptTime:"Time", confirmAppt:"Confirm",
+    uploadNid:"Upload ID Document", uploadNidHelper:"Upload a photo of your NID/birth certificate to earn a verified badge. Only admins will review it.", submitForReview:"Submit for Review",
+    menuAccount:"Account", menuFind:"Find & Save", menuCommunity:"Community & Achievements", menuSettings:"Settings & Safety",
+    onb1Title:"Emergency Donors, in Seconds", onb1Sub:"Post a request in one tap — nearby compatible donors are notified instantly.",
+    onb2Title:"You Can Be the Donor Too", onb2Sub:"Keep availability on, track your eligibility safely, and be part of saving a life.",
+    onb3Title:"Verified & Safe", onb3Sub:"Verification badges, ratings, and reporting keep the EBN community trustworthy.",
+    onbNext:"Next", onbSkip:"Skip", onbStart:"Get Started",
+    helpFaq:"Help / FAQ", contactSupport:"💬 Chat with Support",
+    privacyPolicy:"Privacy Policy", termsOfService:"Terms of Service", textSize:"Text Size", aboutHelp:"Help & Info",
+    healthCheck:"Pre-Donation Health Questionnaire", healthCheckHelper:"Answer honestly — this matters for your safety and the recipient's. This is not a substitute for medical advice.", continueDonation:"Continue",
+    updateStock:"Update Stock", updateStockHelper:"Update your facility's current blood bag counts — everyone will see it instantly.", selectFacility:"Select Facility", saveStock:"Save Stock",
+    listView:"📋 List", mapView:"🗺️ Map"
   }
 };
 let currentLang = localStorage.getItem('ebn_lang') || 'bn';
@@ -1331,6 +1723,17 @@ function haversine(lat1,lon1,lat2,lon2){
 function daysAgo(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
 function fmtDate(iso){ if(!iso) return "—"; const d=new Date(iso); return d.toLocaleDateString(currentLang==='bn'?'bn-BD':'en-GB',{year:'numeric',month:'short',day:'numeric'}); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function maskPhone(p){ if(!p) return '—'; const s=String(p); return s.length<6 ? s : s.slice(0,3)+'••••'+s.slice(-3); }
+let revealedContacts = {};
+function toggleReveal(key){ revealedContacts[key] = !revealedContacts[key]; document.querySelectorAll('[data-reveal-key="'+key+'"]').forEach(refreshRevealEl); }
+function refreshRevealEl(el){
+  const real = el.dataset.real, key = el.dataset.revealKey;
+  el.textContent = revealedContacts[key] ? real : maskPhone(real);
+}
+function maskedPhoneHtml(phone, keyPrefix){
+  const key = keyPrefix+'-'+phone;
+  return `<span data-reveal-key="${key}" data-real="${esc(phone)}">${maskPhone(phone)}</span><span class="mask-reveal" onclick="toggleReveal('${key}')">${currentLang==='bn'?'দেখুন':'reveal'}</span>`;
+}
 function debounce(fn, ms){ let h; return (...a)=>{ clearTimeout(h); h=setTimeout(()=>fn(...a), ms); }; }
 
 /* ---------------------------------------------------------------------
@@ -1356,20 +1759,28 @@ let requests = [
   {id:"3", patient:"সজীব আহমেদ", bg:"A-", units:1, hospital:"স্কয়ার হাসপাতাল", division:"ঢাকা", district:"গাজীপুর", time:"এখনই", urgency:"normal", contact:"01911223366", createdAgoMin:200, status:"pending", requesterUid:"seed", expiresAt: Date.now()+1000*60*60*24}
 ];
 let nextReqId = 4;
+function randStock(){ const o={}; BLOOD_GROUPS.forEach(bg=>o[bg]=Math.floor(Math.random()*30)); return o; }
 const HOSPITALS = [
-  {name:"ঢাকা মেডিকেল কলেজ হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228613532", type:"hospital"},
-  {name:"স্কয়ার হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228159457", type:"hospital"},
-  {name:"চট্টগ্রাম মেডিকেল কলেজ হাসপাতাল", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"031619400", type:"hospital"},
-  {name:"রাজশাহী মেডিকেল কলেজ হাসপাতাল", division:"রাজশাহী", district:"রাজশাহী", phone:"0721772150", type:"hospital"},
-  {name:"সিলেট ওসমানী মেডিকেল কলেজ হাসপাতাল", division:"সিলেট", district:"সিলেট", phone:"0821713491", type:"hospital"},
-  {name:"খুলনা মেডিকেল কলেজ হাসপাতাল", division:"খুলনা", district:"খুলনা", phone:"041760073", type:"hospital"}
+  {name:"ঢাকা মেডিকেল কলেজ হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228613532", type:"hospital", stock:randStock()},
+  {name:"স্কয়ার হাসপাতাল", division:"ঢাকা", district:"ঢাকা", phone:"0228159457", type:"hospital", stock:randStock()},
+  {name:"চট্টগ্রাম মেডিকেল কলেজ হাসপাতাল", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"031619400", type:"hospital", stock:randStock()},
+  {name:"রাজশাহী মেডিকেল কলেজ হাসপাতাল", division:"রাজশাহী", district:"রাজশাহী", phone:"0721772150", type:"hospital", stock:randStock()},
+  {name:"সিলেট ওসমানী মেডিকেল কলেজ হাসপাতাল", division:"সিলেট", district:"সিলেট", phone:"0821713491", type:"hospital", stock:randStock()},
+  {name:"খুলনা মেডিকেল কলেজ হাসপাতাল", division:"খুলনা", district:"খুলনা", phone:"041760073", type:"hospital", stock:randStock()}
 ];
 const BLOODBANKS = [
-  {name:"সন্ধানী ব্লাড ব্যাংক — ঢাকা", division:"ঢাকা", district:"ঢাকা", phone:"01711223300", type:"bloodbank"},
-  {name:"রেড ক্রিসেন্ট ব্লাড ব্যাংক", division:"ঢাকা", district:"ঢাকা", phone:"01711223301", type:"bloodbank"},
-  {name:"কোয়ান্টাম ব্লাড ব্যাংক — চট্টগ্রাম", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"01711223302", type:"bloodbank"},
-  {name:"বাঁধন ব্লাড ব্যাংক — রাজশাহী", division:"রাজশাহী", district:"রাজশাহী", phone:"01711223303", type:"bloodbank"}
+  {name:"সন্ধানী ব্লাড ব্যাংক — ঢাকা", division:"ঢাকা", district:"ঢাকা", phone:"01711223300", type:"bloodbank", stock:randStock()},
+  {name:"রেড ক্রিসেন্ট ব্লাড ব্যাংক", division:"ঢাকা", district:"ঢাকা", phone:"01711223301", type:"bloodbank", stock:randStock()},
+  {name:"কোয়ান্টাম ব্লাড ব্যাংক — চট্টগ্রাম", division:"চট্টগ্রাম", district:"চট্টগ্রাম", phone:"01711223302", type:"bloodbank", stock:randStock()},
+  {name:"বাঁধন ব্লাড ব্যাংক — রাজশাহী", division:"রাজশাহী", district:"রাজশাহী", phone:"01711223303", type:"bloodbank", stock:randStock()}
 ];
+const BLOOD_DRIVE_EVENTS = [
+  {name:"ঢাকা বিশ্ববিদ্যালয় ব্লাড ড্রাইভ", date:daysAgo(-7), location:"টিএসসি, ঢাকা বিশ্ববিদ্যালয়", division:"ঢাকা"},
+  {name:"সন্ধানী রক্তদান ক্যাম্প", date:daysAgo(-14), location:"ধানমন্ডি, ঢাকা", division:"ঢাকা"},
+  {name:"চট্টগ্রাম কমিউনিটি ব্লাড ড্রাইভ", date:daysAgo(-21), location:"জিইসি মোড়, চট্টগ্রাম", division:"চট্টগ্রাম"},
+  {name:"রাজশাহী মেডিকেল ব্লাড ক্যাম্প", date:daysAgo(-30), location:"রাজশাহী মেডিকেল কলেজ ক্যাম্পাস", division:"রাজশাহী"}
+];
+let eventRsvps = [];
 
 let user = null;
 let myRequests = [];
@@ -1398,12 +1809,12 @@ let unsubscribers = [];
    5. Navigation
 --------------------------------------------------------------------- */
 function go(screen){
-  if(!['splash','login','register'].includes(screen) && !user){ screen = user ? screen : 'splash'; }
+  if(!['splash','login','register','onboarding'].includes(screen) && !user){ screen = user ? screen : 'splash'; }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const target = document.getElementById('screen-'+screen);
   if(!target) return;
   target.classList.add('active');
-  const showNav = !['splash','login','register'].includes(screen);
+  const showNav = !['splash','login','register','onboarding'].includes(screen);
   document.getElementById('bottom-nav').style.display = showNav ? 'flex' : 'none';
   document.querySelector('.sos-btn').style.display = showNav ? 'flex' : 'none';
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===screen));
@@ -1424,6 +1835,12 @@ function refreshCurrentScreen(){
   if(screen==='settings') renderSettings();
   if(screen==='blocked') renderBlocked();
   if(screen==='admin') renderAdmin();
+  if(screen==='leaderboard') renderLeaderboard();
+  if(screen==='events') renderEvents();
+  if(screen==='referral') renderReferral();
+  if(screen==='chat') renderChat();
+  if(screen==='help') renderFaq();
+  if(screen==='inventory-edit') renderInventoryEditScreen();
   if(screen==='request'){ selectedUrgency='normal'; editingRequestId=null; document.getElementById('screen-request').classList.remove('critical-mode'); refreshUrgencyUI(); populateDivisionSelect('rq'); document.getElementById('request-form-title').textContent=t('emergencyRequest'); document.getElementById('rq-submit-btn').textContent=t('postRequest'); }
   if(screen==='register'){ regShowStep(1); }
 }
@@ -1692,16 +2109,22 @@ function submitRegistration(){
       upazila: readUpazilaValue('reg'),
       address: document.getElementById('reg-address').value.trim(),
       lastDonation: document.getElementById('reg-lastdonation').value || null,
+      emergencyContact: document.getElementById('reg-emergency-contact').value.trim() || null,
       available: true,
       totalDonations: myDonations.length,
       verified: false,
+      verifyDocStatus: 'none',
       isAdmin: false,
       favorites: [],
       blockedUsers: [],
+      ratings: [],
+      referralCode: 'EBN'+Math.random().toString(36).slice(2,7).toUpperCase(),
+      referredCount: 0,
       geo: geo || null,
       createdAt: Date.now(),
       suspended: false,
-      reportCount: 0
+      reportCount: 0,
+      flagged: false
     });
     saveUserProfile(user);
     toast('✅ প্রোফাইল তৈরি হয়েছে');
@@ -1830,6 +2253,10 @@ function requestCardHtml(r){
       <a href="https://wa.me/88${r.contact}" target="_blank" class="btn btn-outline btn-sm" style="flex:1;">WhatsApp</a>
       <button class="btn btn-soft btn-sm" style="flex:1;" onclick="shareRequest('${r.id}')">↗ ${currentLang==='bn'?'শেয়ার':'Share'}</button>
     </div>
+    <div class="sos-extra">
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openChat('${r.id}','${esc(r.patient)}')">💬 ${currentLang==='bn'?'চ্যাট':'Chat'}</button>
+      <a href="tel:199" class="btn btn-outline btn-sm" style="flex:1;">🚑 ${currentLang==='bn'?'অ্যাম্বুলেন্স':'Ambulance'}</a>
+    </div>
   </div>`;
 }
 function shareRequest(id){
@@ -1892,9 +2319,11 @@ async function submitRequest(){
       time: time||'এখনই', urgency:selectedUrgency, contact,
       createdAgoMin:0, createdAt: Date.now(), status:'pending',
       requesterUid: user.uid, expiresAt: Date.now() + expiryHours*3600*1000,
-      lat: (userGeo && userGeo.lat) || null, lng: (userGeo && userGeo.lng) || null
+      lat: (userGeo && userGeo.lat) || null, lng: (userGeo && userGeo.lng) || null,
+      flagged: checkFakeRequestRisk(user.uid)
     };
     await persistNewRequest(r);
+    if(r.flagged) toast('⚠️ '+(currentLang==='bn'?'অতিরিক্ত রিকোয়েস্টের কারণে এটি রিভিউয়ের জন্য চিহ্নিত হয়েছে':'Flagged for review due to high request frequency'));
     toast('✅ রিকোয়েস্ট পোস্ট হয়েছে');
     notifyCompatibleDonors(r);
   }
@@ -1940,6 +2369,13 @@ async function setRequestStatus(id, status){
     myDonations.unshift({hospital:r.hospital, date:new Date().toISOString().slice(0,10), units:r.units});
     user.totalDonations = (user.totalDonations||0)+1;
     await saveUserProfile(user);
+    if(r.acceptedBy){
+      const donorObj = donors.find(d=>d.uid===r.acceptedBy);
+      if(donorObj){
+        donorObj.totalDonations = (donorObj.totalDonations||0)+1;
+        setTimeout(()=>openRatingModal(donorObj.uid, donorObj.name), 400);
+      }
+    }
   }
   await persistRequestUpdate(r);
   toast('✅ স্ট্যাটাস আপডেট হয়েছে');
@@ -1993,6 +2429,7 @@ function renderDonorsScreenInit(){
     dfSel.dataset.filled = "1";
   }
   renderDonors();
+  if(donorViewMode==='map') renderDonorMap();
 }
 const renderDonorsDebounced = debounce(renderDonors, 200);
 function renderDonors(){
@@ -2040,9 +2477,10 @@ function renderDonors(){
       <div class="donor-card">
         <div class="avatar">${d.photoURL?`<img src="${d.photoURL}">`:d.name.charAt(0)}</div>
         <div class="info">
-          <h5>${esc(d.name)} ${d.verified?'<svg class="verified-badge" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>':''}</h5>
+          <h5>${esc(d.name)} ${d.verified?'<svg class="verified-badge" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.6 3.5-.6.7 3.5 3.1 1.8-1.6 3.1 1.6 3.1-3.1 1.8-.7 3.5-3.5-.6L12 22l-2.4-2.6-3.5.6-.7-3.5-3.1-1.8 1.6-3.1-1.6-3.1 3.1-1.8.7-3.5 3.5.6z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>':''} ${avgRating(d)?`<span class="rating-badge">⭐ ${avgRating(d)}</span>`:''}</h5>
           <span>🩸 <b>${d.bg}</b> · ${esc(d.district)}, ${esc(d.division)} · 📍 ${d.distance.toFixed(1)} কিমি</span>
           <span>${d.available? (currentLang==='bn'?'উপলব্ধ':'Available') : (currentLang==='bn'?'অনুপলব্ধ':'Unavailable')} <span class="avail-dot ${d.available?'':'off'}"></span></span>
+          <span>📱 ${maskedPhoneHtml(d.phone,'donor')}</span>
         </div>
         <div class="donor-actions">
           <button class="icon-round fav ${favs.includes(d.uid)?'active':''}" title="Favorite" onclick="toggleFavorite('${d.uid}')">
@@ -2143,7 +2581,14 @@ function renderNotifications(){
       </div>`).join('');
   }
 }
-async function respondNotif(id, accepted){
+function respondNotif(id, accepted){
+  if(accepted){
+    openHealthCheck(()=>finalizeRespondNotif(id, true));
+    return;
+  }
+  finalizeRespondNotif(id, false);
+}
+async function finalizeRespondNotif(id, accepted){
   const r = requests.find(x=>x.id===id);
   notifHistory.unshift({text: accepted? `আপনি ${r?r.patient:''} এর জন্য রিকোয়েস্ট গ্রহণ করেছেন` : `আপনি একটি রিকোয়েস্ট প্রত্যাখ্যান করেছেন`, date: new Date().toISOString()});
   if(r && accepted){
@@ -2196,8 +2641,13 @@ function renderProfile(){
   document.getElementById('pf-avail-toggle').checked = !!user.available;
   document.getElementById('pf-stat-donations').textContent = user.totalDonations||0;
   document.getElementById('pf-stat-requests').textContent = myRequests.length;
+  const myAvg = avgRating(donors.find(d=>d.uid===user.uid) || user);
+  document.getElementById('pf-stat-rating').textContent = myAvg ? '⭐'+myAvg : '—';
   document.getElementById('pf-stat-bg').textContent = user.bg;
+  checkEligibilityReminder();
   document.getElementById('admin-menu-item').style.display = user.isAdmin ? 'flex' : 'none';
+  const invItem = document.getElementById('inv-menu-item');
+  if(invItem) invItem.style.display = user.isHospitalStaff ? 'flex' : 'none';
 
   const elig = getEligibility();
   const card = document.getElementById('pf-eligibility-card');
@@ -2278,6 +2728,8 @@ function openEditProfile(){
     <textarea id="ep-address" rows="2">${esc(user.address||'')}</textarea>
     <label>${currentLang==='bn'?'শেষ রক্তদানের তারিখ':'Last Donation Date'}</label>
     <input type="date" id="ep-lastdonation" value="${user.lastDonation||''}">
+    <label>${currentLang==='bn'?'ইমার্জেন্সি কন্টাক্ট নম্বর':'Emergency Contact Number'}</label>
+    <input type="tel" id="ep-emergency-contact" value="${esc(user.emergencyContact||'')}" placeholder="01XXXXXXXXX">
     <div style="height:8px;"></div>
     <button class="btn btn-primary" onclick="saveEditProfile()">${currentLang==='bn'?'সংরক্ষণ করুন':'Save'}</button>
   `;
@@ -2287,6 +2739,7 @@ async function saveEditProfile(){
   user.name = document.getElementById('ep-name').value.trim() || user.name;
   user.address = document.getElementById('ep-address').value.trim();
   user.lastDonation = document.getElementById('ep-lastdonation').value || null;
+  user.emergencyContact = document.getElementById('ep-emergency-contact').value.trim() || null;
   await saveUserProfile(user);
   toast('✅ প্রোফাইল আপডেট হয়েছে');
   closeModal('modal-edit-profile');
@@ -2295,20 +2748,26 @@ async function saveEditProfile(){
 async function uploadProfilePhoto(evt){
   const file = evt.target.files[0];
   if(!file) return;
-  if(file.size > 5*1024*1024){ toast('⚠️ ছবির সাইজ ৫MB এর কম হতে হবে'); return; }
+  if(file.size > 8*1024*1024){ toast('⚠️ ছবির সাইজ ৮MB এর কম হতে হবে'); return; }
+  toast('🗜️ '+(currentLang==='bn'?'ছবি প্রসেস হচ্ছে…':'Processing image…'));
+  let compressedDataUrl;
+  try{ compressedDataUrl = await compressImageFile(file, 480, 0.75); }
+  catch(e){ console.error(e); toast('⚠️ ছবি প্রসেস করা যায়নি'); return; }
   if(FIREBASE_ENABLED){
     try{
+      const blob = await (await fetch(compressedDataUrl)).blob();
       const r = fbFns.ref(fb.storage, `profile-photos/${user.uid}.jpg`);
-      await fbFns.uploadBytes(r, file);
+      await fbFns.uploadBytes(r, blob);
       user.photoURL = await fbFns.getDownloadURL(r);
       await saveUserProfile(user);
       toast('✅ ছবি আপলোড হয়েছে');
       renderProfile();
     }catch(e){ console.error(e); toast('⚠️ ছবি আপলোডে সমস্যা'); }
   } else {
-    const reader = new FileReader();
-    reader.onload = async ()=>{ user.photoURL = reader.result; await saveUserProfile(user); toast('✅ ছবি সংরক্ষিত হয়েছে (ডেমো)'); renderProfile(); };
-    reader.readAsDataURL(file);
+    user.photoURL = compressedDataUrl;
+    await saveUserProfile(user);
+    toast('✅ ছবি সংরক্ষিত হয়েছে (ডেমো)');
+    renderProfile();
   }
 }
 
@@ -2367,8 +2826,14 @@ function renderPlaces(){
   if(q) list = list.filter(p=>p.name.toLowerCase().includes(q) || p.district.toLowerCase().includes(q) || p.division.toLowerCase().includes(q));
   const box = document.getElementById('place-list');
   if(list.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কিছু পাওয়া যায়নি':'Nothing found'); return; }
-  box.innerHTML = list.map(p=>{
+  box.innerHTML = list.map((p,idx)=>{
     const [lat,lng] = DIV_COORDS[p.division]||DIV_COORDS["ঢাকা"];
+    const stock = p.stock||{};
+    const invHtml = BLOOD_GROUPS.map(bg=>{
+      const n = stock[bg]||0;
+      const cls = n<=5?'low':n<=15?'mid':'high';
+      return `<div class="inv-cell ${cls}"><div class="bgv">${bg}</div><div class="lvl">${n}${currentLang==='bn'?' ব্যাগ':' bags'}</div></div>`;
+    }).join('');
     return `<div class="card">
       <div class="place-card">
         <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"/></svg></div>
@@ -2377,10 +2842,12 @@ function renderPlaces(){
           <span>${esc(p.district)}, ${esc(p.division)}</span>
         </div>
       </div>
+      <div class="inv-grid">${invHtml}</div>
       <div class="place-actions">
         <a href="tel:${p.phone}" class="btn btn-success btn-sm" style="flex:1;">📞 ${currentLang==='bn'?'কল করুন':'Call'}</a>
         <a href="${mapsDirectionsUrl(lat,lng)}" target="_blank" class="btn btn-outline btn-sm" style="flex:1;">🗺️ Maps</a>
       </div>
+      <button class="btn btn-soft btn-sm" style="width:100%; margin-top:8px;" onclick='openAppointmentModal(${JSON.stringify(p.name)})'>📅 ${currentLang==='bn'?'অ্যাপয়েন্টমেন্ট বুক করুন':'Book Appointment'}</button>
     </div>`;
   }).join('');
 }
@@ -2528,12 +2995,24 @@ function renderAdmin(){
         <div class="card"><div class="big">${allReports.length}</div><div class="lbl">${currentLang==='bn'?'রিপোর্ট':'Reports'}</div></div>
       </div>`;
   } else if(adminTab==='users'){
-    box.innerHTML = donors.map(d=>`
+    const pendingVerify = donors.filter(d=>d.verifyDocStatus==='pending');
+    const pendingHtml = pendingVerify.length ? `<div class="section-title" style="padding:0 0 6px;"><h4>${currentLang==='bn'?'পরিচয়পত্র পর্যালোচনা':'NID Review Queue'}</h4></div>` +
+      pendingVerify.map(d=>`
+        <div class="card admin-row">
+          <div class="avatar">${d.name.charAt(0)}</div>
+          <div class="info"><h5>${esc(d.name)}</h5><span>${d.bg} · ${esc(d.district)}</span></div>
+          <div class="admin-actions">
+            <button class="btn btn-success btn-sm" onclick="adminApproveDoc('${d.uid}')">${currentLang==='bn'?'অনুমোদন':'Approve'}</button>
+            <button class="btn btn-outline btn-sm" onclick="adminRejectDoc('${d.uid}')">${currentLang==='bn'?'বাতিল':'Reject'}</button>
+          </div>
+        </div>`).join('') : '';
+    box.innerHTML = pendingHtml + donors.map(d=>`
       <div class="card admin-row">
         <div class="avatar">${d.name.charAt(0)}</div>
-        <div class="info"><h5>${esc(d.name)}</h5><span>${d.bg} · ${esc(d.district)} ${d.verified?'· ✅ Verified':''}</span></div>
+        <div class="info"><h5>${esc(d.name)}</h5><span>${d.bg} · ${esc(d.district)} ${d.verified?'· ✅ Verified':''} ${avgRating(d)?'· ⭐ '+avgRating(d):''}</span></div>
         <div class="admin-actions">
           <button class="btn btn-soft btn-sm" onclick="adminVerifyDonor('${d.uid}')">${currentLang==='bn'?'ভেরিফাই':'Verify'}</button>
+          <button class="btn btn-outline btn-sm" onclick="adminToggleStaff('${d.uid}')">${d.isHospitalStaff?(currentLang==='bn'?'স্টাফ বাতিল':'Unstaff'):(currentLang==='bn'?'হাসপাতাল স্টাফ':'Make Staff')}</button>
           <button class="btn btn-outline btn-sm" onclick="adminSuspendDonor('${d.uid}')">${currentLang==='bn'?'সাসপেন্ড':'Suspend'}</button>
         </div>
       </div>`).join('') || emptyStateHtml('—');
@@ -2541,7 +3020,7 @@ function renderAdmin(){
     box.innerHTML = requests.map(r=>`
       <div class="card admin-row">
         <div class="bg-badge">${r.bg}</div>
-        <div class="info"><h5>${esc(r.patient)} ${statusTagHtml(r.status||'pending')}</h5><span>${esc(r.hospital)} · ${esc(r.district)}</span></div>
+        <div class="info"><h5>${esc(r.patient)} ${statusTagHtml(r.status||'pending')}${r.flagged?`<span class="flag-badge">🚩 ${currentLang==='bn'?'ফ্ল্যাগড':'Flagged'}</span>`:''}</h5><span>${esc(r.hospital)} · ${esc(r.district)}</span></div>
         <div class="admin-actions">
           <button class="btn btn-outline btn-sm" onclick="deleteRequest('${r.id}'); renderAdmin();">${currentLang==='bn'?'মুছুন':'Remove'}</button>
         </div>
@@ -2567,6 +3046,26 @@ function adminSuspendDonor(uid){
   if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {suspended:true, available:false}).catch(console.error); }
   toast('🚫 সাসপেন্ড করা হয়েছে'); renderAdmin();
 }
+function adminToggleStaff(uid){
+  const d = donors.find(x=>x.uid===uid); if(!d) return;
+  d.isHospitalStaff = !d.isHospitalStaff;
+  if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {isHospitalStaff:d.isHospitalStaff}).catch(console.error); }
+  if(user.uid===uid){ user.isHospitalStaff = d.isHospitalStaff; }
+  toast(d.isHospitalStaff ? '✅ হাসপাতাল স্টাফ করা হয়েছে' : '❌ স্টাফ ভূমিকা বাতিল হয়েছে');
+  renderAdmin();
+}
+function adminApproveDoc(uid){
+  const d = donors.find(x=>x.uid===uid); if(!d) return;
+  d.verifyDocStatus = 'approved'; d.verified = true;
+  if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {verifyDocStatus:'approved', verified:true}).catch(console.error); }
+  toast('✅ পরিচয়পত্র অনুমোদিত হয়েছে'); renderAdmin();
+}
+function adminRejectDoc(uid){
+  const d = donors.find(x=>x.uid===uid); if(!d) return;
+  d.verifyDocStatus = 'rejected';
+  if(FIREBASE_ENABLED){ fbFns.updateDoc(fbFns.doc(fb.db,'users',uid), {verifyDocStatus:'rejected'}).catch(console.error); }
+  toast('❌ প্রত্যাখ্যাত হয়েছে'); renderAdmin();
+}
 
 /* ---------------------------------------------------------------------
    23. SOS
@@ -2584,6 +3083,7 @@ async function confirmSOS(){
   closeModal('modal-sos');
   toast('🚨 SOS এলার্ট পাঠানো হয়েছে');
   const text = `🚨 SOS: জরুরি রক্ত প্রয়োজন (${user.bg}) — ${user.district}, ${user.division}। যোগাযোগঃ ${r.contact}`;
+  notifyEmergencyContact(text);
   if(navigator.share){ navigator.share({title:'SOS — EBN', text}).catch(()=>{}); }
   go('home');
 }
@@ -2637,13 +3137,491 @@ window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 
 /* ---------------------------------------------------------------------
-   26. Boot sequence
+   27. In-app chat (per request thread, demo/local — live mode would
+       mirror this into a Firestore 'chats/{requestId}/messages' subcollection)
 --------------------------------------------------------------------- */
+let chatThreads = {}; // { requestId: [{from:'me'|'them', text, ts}] }
+let activeChatId = null;
+function openChat(requestId, otherName){
+  activeChatId = requestId;
+  document.getElementById('chat-title').textContent = (currentLang==='bn'?'চ্যাট — ':'Chat — ')+otherName;
+  if(!chatThreads[requestId]) chatThreads[requestId] = [];
+  go('chat');
+}
+function renderChat(){
+  const log = document.getElementById('chat-log');
+  const msgs = chatThreads[activeChatId]||[];
+  if(msgs.length===0){ log.innerHTML = `<div class="helper" style="text-align:center; margin-top:20px;">${currentLang==='bn'?'এখনো কোনো বার্তা নেই — কথা শুরু করুন':'No messages yet — say hello'}</div>`; return; }
+  log.innerHTML = msgs.map(m=>`<div class="chat-bubble ${m.from}">${esc(m.text)}<span class="ts">${new Date(m.ts).toLocaleTimeString(currentLang==='bn'?'bn-BD':'en-GB',{hour:'2-digit',minute:'2-digit'})}</span></div>`).join('');
+  log.scrollTop = log.scrollHeight;
+}
+function sendChatMessage(){
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text || !activeChatId) return;
+  chatThreads[activeChatId] = chatThreads[activeChatId]||[];
+  chatThreads[activeChatId].push({from:'me', text, ts:Date.now()});
+  input.value='';
+  renderChat();
+  // Demo auto-reply so the thread feels alive without a real backend
+  setTimeout(()=>{
+    chatThreads[activeChatId].push({from:'them', text: currentLang==='bn'?'ঠিক আছে, আমি যোগাযোগ করছি।':'Okay, I\'ll get in touch.', ts:Date.now()});
+    if(currentScreen==='chat') renderChat();
+  }, 1200);
+}
+
+/* ---------------------------------------------------------------------
+   28. Ratings / reviews (shown after a donation is marked completed)
+--------------------------------------------------------------------- */
+let ratingTargetUid = null, ratingValue = 0;
+function openRatingModal(targetUid, targetName){
+  ratingTargetUid = targetUid; ratingValue = 0;
+  document.getElementById('rating-target-name').textContent = targetName||'';
+  document.getElementById('rating-comment').value='';
+  renderStarPicker();
+  openModal('modal-rating');
+}
+function renderStarPicker(){
+  const box = document.getElementById('rating-stars');
+  box.innerHTML = [1,2,3,4,5].map(i=>`
+    <svg onclick="setRatingValue(${i})" class="${i<=ratingValue?'filled':''}" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1L12 2z"/></svg>
+  `).join('');
+}
+function setRatingValue(v){ ratingValue = v; renderStarPicker(); }
+async function submitRating(){
+  if(ratingValue===0){ toast('⚠️ স্টার সিলেক্ট করুন'); return; }
+  const donor = donors.find(d=>d.uid===ratingTargetUid);
+  const entry = {by:user.uid, stars:ratingValue, comment:document.getElementById('rating-comment').value.trim(), ts:Date.now()};
+  if(donor){
+    donor.ratings = donor.ratings||[];
+    donor.ratings.push(entry);
+    if(FIREBASE_ENABLED){ try{ await fbFns.updateDoc(fbFns.doc(fb.db,'users',donor.uid), {ratings:donor.ratings}); }catch(e){ console.error(e); } }
+  }
+  toast('✅ রেটিং জমা হয়েছে, ধন্যবাদ!');
+  closeModal('modal-rating');
+}
+function avgRating(d){
+  if(!d || !d.ratings || d.ratings.length===0) return null;
+  return (d.ratings.reduce((s,r)=>s+r.stars,0)/d.ratings.length).toFixed(1);
+}
+
+/* ---------------------------------------------------------------------
+   29. Donation eligibility reminder (auto local notification)
+--------------------------------------------------------------------- */
+function checkEligibilityReminder(){
+  if(!user || !user.lastDonation) return;
+  const elig = getEligibility();
+  if(!elig.eligible) return;
+  const already = localStorage.getItem('ebn_elig_notified_'+user.uid+'_'+user.lastDonation);
+  if(already) return;
+  localStorage.setItem('ebn_elig_notified_'+user.uid+'_'+user.lastDonation, '1');
+  const msg = currentLang==='bn' ? '🩸 আপনি এখন আবার রক্ত দেওয়ার জন্য উপযুক্ত!' : '🩸 You are now eligible to donate blood again!';
+  toast(msg);
+  if('Notification' in window && Notification.permission==='granted'){
+    try{ new Notification('EBN', {body: msg}); }catch(e){}
+  }
+}
+
+/* ---------------------------------------------------------------------
+   30. Appointment booking (with hospitals / blood banks)
+--------------------------------------------------------------------- */
+let apptTargetPlace = null;
+let myAppointments = [];
+function openAppointmentModal(placeName){
+  apptTargetPlace = placeName;
+  document.getElementById('appt-place-name').textContent = placeName;
+  document.getElementById('appt-date').value='';
+  document.getElementById('appt-time').value='';
+  openModal('modal-appointment');
+}
+function confirmAppointment(){
+  const date = document.getElementById('appt-date').value;
+  const time = document.getElementById('appt-time').value.trim();
+  if(!date || !time){ toast('⚠️ তারিখ ও সময় দিন'); return; }
+  myAppointments.push({place:apptTargetPlace, date, time, createdAt:Date.now()});
+  toast('✅ অ্যাপয়েন্টমেন্ট বুক হয়েছে');
+  closeModal('modal-appointment');
+}
+
+/* ---------------------------------------------------------------------
+   31. NID / verification document upload
+--------------------------------------------------------------------- */
+let verifyDocData = null;
+function previewVerifyDoc(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  compressImageFile(file, 1000, 0.8).then(dataUrl=>{
+    verifyDocData = dataUrl;
+    const img = document.getElementById('verify-doc-preview');
+    img.src = verifyDocData; img.style.display='block';
+  }).catch(e=>{ console.error(e); toast('⚠️ ছবি প্রসেস করা যায়নি'); });
+}
+async function submitVerifyDoc(){
+  if(!verifyDocData){ toast('⚠️ প্রথমে একটি ছবি নির্বাচন করুন'); return; }
+  user.verifyDocStatus = 'pending';
+  user.verifyDocURL = verifyDocData; // demo: stored as data URL; live mode should use Firebase Storage
+  await saveUserProfile(user);
+  toast('✅ রিভিউয়ের জন্য পাঠানো হয়েছে');
+  closeModal('modal-verify-doc');
+  const lbl = document.getElementById('verify-menu-lbl');
+  if(lbl) lbl.textContent = currentLang==='bn'?'পর্যালোচনাধীন…':'Pending review…';
+}
+
+/* ---------------------------------------------------------------------
+   32. Leaderboard
+--------------------------------------------------------------------- */
+function renderLeaderboard(){
+  const box = document.getElementById('leaderboard-content');
+  const ranked = [...donors].sort((a,b)=>(b.totalDonations||0)-(a.totalDonations||0)).slice(0,30);
+  if(ranked.length===0){ box.innerHTML = emptyStateHtml(currentLang==='bn'?'কোনো তথ্য নেই':'No data yet'); return; }
+  box.innerHTML = ranked.map((d,i)=>{
+    const rankCls = i===0?'top1':i===1?'top2':i===2?'top3':'';
+    return `<div class="card lb-row">
+      <div class="lb-rank ${rankCls}">${i+1}</div>
+      <div class="avatar">${d.photoURL?`<img src="${d.photoURL}">`:d.name.charAt(0)}</div>
+      <div class="info"><h5>${esc(d.name)}</h5><span>${d.bg} · ${esc(d.district)}</span></div>
+      <div style="text-align:right;">
+        <div style="font-weight:800; color:var(--ink);">${d.totalDonations||0}</div>
+        <div class="helper">${currentLang==='bn'?'দান':'donations'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------------------------------------------------------------------
+   33. Blood drive events calendar
+--------------------------------------------------------------------- */
+function renderEvents(){
+  const box = document.getElementById('events-content');
+  const upcoming = [...BLOOD_DRIVE_EVENTS].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const months = currentLang==='bn' ? ['জানু','ফেব্রু','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্ট','অক্টো','নভে','ডিসে'] : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  box.innerHTML = upcoming.map(e=>{
+    const d = new Date(e.date);
+    const rsvped = eventRsvps.includes(e.name);
+    return `<div class="card">
+      <div class="req-item">
+        <div class="event-date-chip"><div class="d">${d.getDate()}</div><div class="m">${months[d.getMonth()]}</div></div>
+        <div class="info">
+          <h5>${esc(e.name)}</h5>
+          <span>📍 ${esc(e.location)}, ${esc(e.division)}</span>
+        </div>
+      </div>
+      <button class="btn ${rsvped?'btn-success':'btn-primary'} btn-sm" style="width:100%; margin-top:10px;" onclick="toggleRsvp('${esc(e.name)}')">
+        ${rsvped? (currentLang==='bn'?'✅ যোগ দিচ্ছেন':"✅ You're going") : (currentLang==='bn'?'অংশগ্রহণ নিশ্চিত করুন':'RSVP')}
+      </button>
+    </div>`;
+  }).join('');
+}
+function toggleRsvp(name){
+  const idx = eventRsvps.indexOf(name);
+  if(idx>=0){ eventRsvps.splice(idx,1); toast('❌ RSVP বাতিল হয়েছে'); }
+  else{ eventRsvps.push(name); toast('✅ RSVP সম্পন্ন হয়েছে'); }
+  renderEvents();
+}
+
+/* ---------------------------------------------------------------------
+   34. Referral program
+--------------------------------------------------------------------- */
+function renderReferral(){
+  const box = document.getElementById('referral-content');
+  const code = user.referralCode || 'EBN00000';
+  const link = `https://ebn.app/join?ref=${code}`;
+  const count = user.referredCount||0;
+  const nextBadgeAt = count<3?3:count<10?10:25;
+  box.innerHTML = `
+    <div class="card" style="text-align:center;">
+      <p class="helper">${currentLang==='bn'?'আপনার রেফারেল কোড':'Your referral code'}</p>
+      <div class="referral-code-box"><span class="code">${code}</span><button class="btn btn-soft btn-sm" onclick="copyReferral()">${currentLang==='bn'?'কপি':'Copy'}</button></div>
+      <button class="btn btn-primary" onclick="shareReferral()">↗ ${currentLang==='bn'?'বন্ধুদের ইনভাইট করুন':'Invite Friends'}</button>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="n num">${count}</div><div class="l">${currentLang==='bn'?'ইনভাইট হয়েছে':'Invited'}</div></div>
+      <div class="stat-box"><div class="n num">${nextBadgeAt-count>0?nextBadgeAt-count:0}</div><div class="l">${currentLang==='bn'?'পরবর্তী ব্যাজ পর্যন্ত':'Until next badge'}</div></div>
+    </div>
+    <p class="helper" style="text-align:center; margin-top:10px;">${currentLang==='bn'?'প্রতিটি নতুন যাচাইকৃত ডোনার আপনাকে কমিউনিটি পয়েন্ট এনে দেবে।':'Every new verified donor you refer earns you community points.'}</p>
+  `;
+}
+function copyReferral(){
+  navigator.clipboard?.writeText(user.referralCode||'');
+  toast('🔗 কোড কপি হয়েছে');
+}
+function shareReferral(){
+  const link = `https://ebn.app/join?ref=${user.referralCode}`;
+  const text = `${currentLang==='bn'?'EBN-এ যোগ দিন এবং জীবন বাঁচাতে সাহায্য করুন':'Join EBN and help save lives'}: ${link}`;
+  if(navigator.share){ navigator.share({title:'EBN', text}).catch(()=>{}); }
+  else { navigator.clipboard?.writeText(text); toast('🔗 লিংক কপি হয়েছে'); }
+}
+
+/* ---------------------------------------------------------------------
+   35. Voice input (Web Speech API) for form fields
+--------------------------------------------------------------------- */
+function voiceInput(fieldId, btnEl){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('⚠️ এই ব্রাউজারে ভয়েস ইনপুট সমর্থিত নয়'); return; }
+  const rec = new SR();
+  rec.lang = currentLang==='bn' ? 'bn-BD' : 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  btnEl.classList.add('listening');
+  rec.onresult = (e)=>{ document.getElementById(fieldId).value = e.results[0][0].transcript; };
+  rec.onerror = ()=>{ toast('⚠️ ভয়েস শনাক্ত করা যায়নি'); };
+  rec.onend = ()=>{ btnEl.classList.remove('listening'); };
+  rec.start();
+}
+
+/* ---------------------------------------------------------------------
+   36. SMS fallback (no-internet request posting via native SMS app)
+--------------------------------------------------------------------- */
+function sendRequestViaSms(){
+  const patient = document.getElementById('rq-patient').value.trim();
+  const bg = document.getElementById('rq-bg').value;
+  const hospital = document.getElementById('rq-hospital').value.trim();
+  const contact = document.getElementById('rq-contact').value.trim();
+  if(!patient || !bg || !hospital || !contact){ toast('⚠️ ফর্মের প্রয়োজনীয় তথ্য পূরণ করুন'); return; }
+  const body = `EBN NEED ${bg} | ${patient} | ${hospital} | ${contact}`;
+  window.location.href = `sms:?body=${encodeURIComponent(body)}`;
+}
+
+/* ---------------------------------------------------------------------
+   37. Emergency contact notify on SOS
+--------------------------------------------------------------------- */
+function notifyEmergencyContact(sosText){
+  if(!user.emergencyContact) return;
+  // Opens SMS composer pre-addressed to the saved emergency contact.
+  const url = `sms:${user.emergencyContact}?body=${encodeURIComponent(sosText)}`;
+  window.open(url, '_blank');
+}
+
+/* ---------------------------------------------------------------------
+   39. Onboarding tutorial (first-run only)
+--------------------------------------------------------------------- */
+let onbStep = 1;
+function onbNext(){
+  if(onbStep>=3){ finishOnboarding(); return; }
+  onbStep++;
+  document.querySelectorAll('.onb-slide').forEach(s=>s.classList.toggle('active', +s.dataset.slide===onbStep));
+  document.querySelectorAll('.onb-dot').forEach(d=>d.classList.toggle('active', +d.dataset.dot===onbStep));
+  document.getElementById('onb-next-btn').textContent = onbStep===3 ? t('onbStart') : t('onbNext');
+}
+function finishOnboarding(){
+  localStorage.setItem('ebn_onboarded', '1');
+  go('splash');
+}
+
+/* ---------------------------------------------------------------------
+   40. FAQ / Help
+--------------------------------------------------------------------- */
+const FAQ_ITEMS = [
+  {q:{bn:'কীভাবে জরুরি রক্তের রিকোয়েস্ট পোস্ট করব?', en:'How do I post an emergency blood request?'},
+   a:{bn:'নিচের নেভিগেশনের মাঝের "রিকোয়েস্ট" বাটনে ট্যাপ করুন, ফর্মটি পূরণ করুন এবং পোস্ট করুন। ইন্টারনেট না থাকলে SMS দিয়েও পাঠাতে পারবেন।', en:'Tap the "Request" button in the center of the bottom navigation, fill the form, and post. If you have no internet, you can also send it via SMS.'}},
+  {q:{bn:'আমার ডোনার প্রোফাইল কীভাবে ভেরিফাই করব?', en:'How do I verify my donor profile?'},
+   a:{bn:'প্রোফাইল → অ্যাকাউন্ট → "পরিচয়পত্র আপলোড করুন" থেকে আপনার NID বা জন্মনিবন্ধনের ছবি দিন। অ্যাডমিন যাচাই করার পর ব্যাজ যুক্ত হবে।', en:'Go to Profile → Account → "Upload ID Document" and submit your NID or birth certificate photo. An admin will review it and add your verified badge.'}},
+  {q:{bn:'কত দিন পরপর রক্ত দেওয়া যায়?', en:'How often can I donate blood?'},
+   a:{bn:'সাধারণত পুরুষদের জন্য ৯০ দিন এবং নারীদের জন্য ১২০ দিন পরপর। আপনার প্রোফাইলে এলিজিবিলিটি স্বয়ংক্রিয়ভাবে দেখানো হয়।', en:'Generally every 90 days for men and 120 days for women. Your eligibility is shown automatically on your profile.'}},
+  {q:{bn:'আমার তথ্য কি নিরাপদ?', en:'Is my information safe?'},
+   a:{bn:'আপনার ফোন নম্বর ডিফল্টভাবে মাস্ক করা থাকে এবং শুধু আপনি "দেখুন" ট্যাপ করলে প্রকাশ পায়। রিপোর্ট ও ব্লক ফিচার দিয়ে অনিরাপদ ব্যবহারকারী এড়াতে পারবেন।', en:'Your phone number is masked by default and only shown when you tap "reveal". You can avoid unsafe users using the report and block features.'}},
+  {q:{bn:'SOS বাটন কী করে?', en:'What does the SOS button do?'},
+   a:{bn:'SOS চাপলে আপনার এলাকার সব সামঞ্জস্যপূর্ণ ডোনারকে একটি ক্রিটিকাল রিকোয়েস্ট হিসেবে জানানো হয় এবং আপনার সংরক্ষিত ইমার্জেন্সি কন্টাক্টকেও SMS পাঠানো হয়।', en:'Pressing SOS alerts all compatible donors in your area as a critical request, and also sends an SMS to your saved emergency contact.'}}
+];
+function renderFaq(){
+  const box = document.getElementById('faq-list');
+  box.innerHTML = FAQ_ITEMS.map((f,i)=>`
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})"><span>${f.q[currentLang]||f.q.bn}</span><span class="faq-chev">⌄</span></div>
+      <div class="faq-a">${f.a[currentLang]||f.a.bn}</div>
+    </div>`).join('');
+}
+function toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); }
+
+/* ---------------------------------------------------------------------
+   41. Legal pages (privacy policy / terms) — plain-language placeholders;
+       replace with reviewed legal text before real-world launch.
+--------------------------------------------------------------------- */
+const LEGAL_CONTENT = {
+  privacy:{
+    bn:`<h4>আমরা কী তথ্য সংগ্রহ করি</h4><p>নাম, ফোন নম্বর, রক্তের গ্রুপ, অবস্থান (ঐচ্ছিক GPS), এবং আপনি স্বেচ্ছায় দেওয়া ছবি/পরিচয়পত্র।</p>
+    <h4>আমরা কীভাবে ব্যবহার করি</h4><p>শুধুমাত্র রক্তদাতা-গ্রহীতা মিলিয়ে দেওয়া, ভেরিফিকেশন এবং নিরাপত্তার জন্য। বিজ্ঞাপনের জন্য বিক্রি করা হয় না।</p>
+    <h4>দৃশ্যমানতা</h4><p>আপনার ফোন নম্বর ডিফল্টভাবে মাস্ক করা থাকে। এলাকা/জেলা সবাইকে দেখানো হয়, নির্দিষ্ট ঠিকানা নয়।</p>
+    <h4>আপনার অধিকার</h4><p>যেকোনো সময় প্রোফাইল এডিট, ডিলিট বা ডেটা রপ্তানির অনুরোধ করতে পারবেন — সাপোর্টে যোগাযোগ করুন।</p>`,
+    en:`<h4>What we collect</h4><p>Name, phone number, blood group, location (optional GPS), and any photo/ID you voluntarily submit.</p>
+    <h4>How we use it</h4><p>Solely to match donors with recipients, for verification, and safety. We do not sell data for advertising.</p>
+    <h4>Visibility</h4><p>Your phone number is masked by default. Only your district/area is shown to others, not your exact address.</p>
+    <h4>Your rights</h4><p>You may edit, delete your profile, or request a data export at any time — contact support.</p>`
+  },
+  terms:{
+    bn:`<h4>সেবার প্রকৃতি</h4><p>EBN একটি সংযোগ প্ল্যাটফর্ম — এটি চিকিৎসা পরামর্শ বা রক্তদানের নিরাপত্তা নিশ্চিত করে না। সব চিকিৎসা সিদ্ধান্ত যোগ্য চিকিৎসকের সাথে নিন।</p>
+    <h4>ব্যবহারকারীর দায়িত্ব</h4><p>সঠিক তথ্য দেওয়া, সম্মানজনক আচরণ করা এবং প্রতারণামূলক রিকোয়েস্ট পোস্ট না করা।</p>
+    <h4>সীমাবদ্ধতা</h4><p>EBN কোনো ডোনারের স্বাস্থ্য বা কোনো অনুরোধের সত্যতার নিশ্চয়তা দেয় না।</p>`,
+    en:`<h4>Nature of service</h4><p>EBN is a connection platform — it does not provide medical advice or guarantee donation safety. Make all medical decisions with a qualified doctor.</p>
+    <h4>User responsibilities</h4><p>Provide accurate information, behave respectfully, and do not post fraudulent requests.</p>
+    <h4>Limitations</h4><p>EBN does not guarantee any donor's health status or the authenticity of any request.</p>`
+  }
+};
+function openLegal(kind){
+  document.getElementById('legal-title').textContent = kind==='privacy' ? t('privacyPolicy') : t('termsOfService');
+  document.getElementById('legal-content').innerHTML = LEGAL_CONTENT[kind][currentLang] || LEGAL_CONTENT[kind].bn;
+  go('legal');
+}
+
+/* ---------------------------------------------------------------------
+   42. Health questionnaire (shown before completing a donation or
+       sending an SOS-as-donor confirmation)
+--------------------------------------------------------------------- */
+const HEALTH_QUESTIONS = [
+  {key:'weight', bn:'আপনার ওজন কি ৫০ কেজি বা তার বেশি?', en:'Is your weight 50kg or more?'},
+  {key:'fever', bn:'গত ২ সপ্তাহে জ্বর/সংক্রমণ হয়নি তো?', en:'No fever/infection in the last 2 weeks?'},
+  {key:'meds', bn:'রক্ত পাতলাকারী বা অ্যান্টিবায়োটিক ওষুধ চলছে না তো?', en:'Not currently on blood-thinners or antibiotics?'},
+  {key:'lastdonation', bn:'সর্বশেষ দানের পর প্রয়োজনীয় সময় (৯০/১২০ দিন) পার হয়েছে?', en:'Has the required gap (90/120 days) passed since your last donation?'},
+  {key:'sleep', bn:'গতরাতে পর্যাপ্ত ঘুম ও খাবার হয়েছে?', en:'Had adequate sleep and food before donating?'}
+];
+let healthCheckAnswers = {};
+let healthCheckCallback = null;
+function openHealthCheck(onPass){
+  healthCheckCallback = onPass;
+  healthCheckAnswers = {};
+  const box = document.getElementById('health-check-body');
+  box.innerHTML = HEALTH_QUESTIONS.map(q=>`
+    <div class="hq-row">
+      <span>${q[currentLang]||q.bn}</span>
+      <div class="hq-toggle">
+        <button class="hq-btn" id="hq-${q.key}-yes" onclick="setHq('${q.key}',true)">${currentLang==='bn'?'হ্যাঁ':'Yes'}</button>
+        <button class="hq-btn" id="hq-${q.key}-no" onclick="setHq('${q.key}',false)">${currentLang==='bn'?'না':'No'}</button>
+      </div>
+    </div>`).join('');
+  openModal('modal-health-check');
+}
+function setHq(key, val){
+  healthCheckAnswers[key] = val;
+  document.getElementById('hq-'+key+'-yes').classList.toggle('sel-yes', val===true);
+  document.getElementById('hq-'+key+'-no').classList.toggle('sel-no', val===false);
+}
+function submitHealthCheck(){
+  if(Object.keys(healthCheckAnswers).length < HEALTH_QUESTIONS.length){ toast('⚠️ '+(currentLang==='bn'?'সব প্রশ্নের উত্তর দিন':'Please answer all questions')); return; }
+  const allGood = HEALTH_QUESTIONS.every(q=>healthCheckAnswers[q.key]===true);
+  closeModal('modal-health-check');
+  if(!allGood){
+    toast('⚠️ '+(currentLang==='bn'?'কিছু উত্তর অনুযায়ী এখন দান না করাই ভালো — একজন চিকিৎসকের সাথে কথা বলুন':'Based on your answers, it may be best not to donate now — please consult a doctor'));
+    return;
+  }
+  if(healthCheckCallback) healthCheckCallback();
+}
+
+/* ---------------------------------------------------------------------
+   43. Donor map view (OpenStreetMap embed — no API key required)
+--------------------------------------------------------------------- */
+let donorViewMode = 'list';
+function setDonorView(mode){
+  donorViewMode = mode;
+  document.getElementById('donor-view-list').classList.toggle('active', mode==='list');
+  document.getElementById('donor-view-map').classList.toggle('active', mode==='map');
+  document.getElementById('donor-list').style.display = mode==='list' ? '' : 'none';
+  document.getElementById('donor-map-wrap').style.display = mode==='map' ? '' : 'none';
+  if(mode==='map') renderDonorMap();
+}
+function renderDonorMap(){
+  const [lat,lng] = userGeo ? [userGeo.lat,userGeo.lng] : (DIV_COORDS[user.division]||DIV_COORDS["ঢাকা"]);
+  const d = 0.25;
+  const bbox = `${lng-d},${lat-d},${lng+d},${lat+d}`;
+  const wrap = document.getElementById('donor-map-wrap');
+  wrap.innerHTML = `<div class="map-embed-wrap"><iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&marker=${lat},${lng}" loading="lazy"></iframe></div>
+    <p class="helper" style="text-align:center;">${currentLang==='bn'?'মানচিত্রে আপনার এলাকা দেখানো হচ্ছে — তালিকা থেকে "রুট দেখুন" চাপলে নির্দিষ্ট ডোনারের দিকনির্দেশ পাবেন।':"Map centered on your area — use \"Directions\" in the list for a specific donor's route."}</p>`;
+}
+
+/* ---------------------------------------------------------------------
+   44. Client-side image compression before upload (profile photo / NID)
+--------------------------------------------------------------------- */
+function compressImageFile(file, maxDim=800, quality=0.75){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      img.onload = ()=>{
+        let {width, height} = img;
+        if(width>height && width>maxDim){ height = Math.round(height*maxDim/width); width = maxDim; }
+        else if(height>maxDim){ width = Math.round(width*maxDim/height); height = maxDim; }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------------------------------------------------------------------
+   45. Accessibility: text size scaling
+--------------------------------------------------------------------- */
+function setFontScale(scale){
+  document.documentElement.setAttribute('data-fontscale', scale==='normal' ? '' : scale);
+  localStorage.setItem('ebn_fontscale', scale);
+}
+function initFontScale(){
+  const saved = localStorage.getItem('ebn_fontscale');
+  if(saved && saved!=='normal') document.documentElement.setAttribute('data-fontscale', saved);
+}
+
+/* ---------------------------------------------------------------------
+   46. Hospital-staff role & stock editor
+--------------------------------------------------------------------- */
+function renderInventoryEditScreen(){
+  const sel = document.getElementById('inv-facility-select');
+  const all = [...HOSPITALS, ...BLOODBANKS];
+  sel.innerHTML = all.map((p,i)=>`<option value="${i}">${esc(p.name)}</option>`).join('');
+  renderStockEditor();
+}
+function renderStockEditor(){
+  const all = [...HOSPITALS, ...BLOODBANKS];
+  const idx = +document.getElementById('inv-facility-select').value || 0;
+  const p = all[idx];
+  const box = document.getElementById('stock-editor-body');
+  box.innerHTML = BLOOD_GROUPS.map(bg=>`
+    <div class="stock-edit-row">
+      <div class="bgl">${bg}</div>
+      <input type="number" min="0" id="stock-input-${bg}" value="${(p.stock&&p.stock[bg])||0}">
+      <span class="helper">${currentLang==='bn'?'ব্যাগ':'bags'}</span>
+    </div>`).join('');
+}
+function saveStockUpdate(){
+  const all = [...HOSPITALS, ...BLOODBANKS];
+  const idx = +document.getElementById('inv-facility-select').value || 0;
+  const p = all[idx];
+  p.stock = p.stock || {};
+  BLOOD_GROUPS.forEach(bg=>{ p.stock[bg] = parseInt(document.getElementById('stock-input-'+bg).value||'0',10); });
+  toast('✅ '+(currentLang==='bn'?'স্টক হালনাগাদ হয়েছে':'Stock updated'));
+}
+
+/* ---------------------------------------------------------------------
+   47. Retry state for offline/failed loads
+--------------------------------------------------------------------- */
+function retryConnection(){
+  toast('🔄 '+(currentLang==='bn'?'আবার চেষ্টা করা হচ্ছে…':'Retrying…'));
+  updateOnlineStatus();
+  if(user && FIREBASE_ENABLED) subscribeLiveData();
+  refreshCurrentScreen();
+}
+
+/* ---------------------------------------------------------------------
+   38. Fake / spam request detection (simple client-side rate flagging)
+--------------------------------------------------------------------- */
+function checkFakeRequestRisk(uid){
+  const recent = requests.filter(r=>r.requesterUid===uid && (Date.now()-(r.createdAt||0))<24*3600*1000);
+  return recent.length >= 4; // 4+ requests within 24h from same user looks abusive
+}
 async function boot(){
   initTheme();
+  initFontScale();
   applyTranslations();
   populateDivisionSelect('reg');
   updateOnlineStatus();
+
+  if(!localStorage.getItem('ebn_onboarded')){
+    document.getElementById('screen-splash').classList.remove('active');
+    document.getElementById('screen-onboarding').classList.add('active');
+  }
 
   const live = await initFirebase();
   document.getElementById('mode-flag').textContent = live ? '🟢 Live Mode' : '🧪 Demo Mode — connect Firebase in app.js to go live';
@@ -2664,6 +3642,13 @@ async function boot(){
     }
   }
   window.addEventListener('error', e=>console.error('Global error:', e.error||e.message));
+
+  // PWA: register service worker for offline caching + installability.
+  // Silently does nothing on file:// or sandboxed preview origins where
+  // service workers aren't permitted — safe to leave in for production.
+  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+    navigator.serviceWorker.register('sw.js').catch(()=>{ /* not servable here, ignore */ });
+  }
 }
 boot();
 
